@@ -943,6 +943,21 @@
             </div>
         </header>
 
+        <!-- ⏳ COMPTEUR DYNAMIQUE 'JOURS DEPUIS LE DÉBUT' -->
+        <div style="background: linear-gradient(135deg, #5C3B24 0%, #8D6648 100%); color: #FFF; border-radius: 16px; padding: 14px 22px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; box-shadow: var(--shadow-md); border: 1.5px solid #DFCA9D;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 26px;">⏳</span>
+                <div>
+                    <div style="font-size: 11px; font-weight: 800; color: #FFDF7D; letter-spacing: 1px; text-transform: uppercase;">Compteur du Parcours</div>
+                    <div style="font-family: Georgia, serif; font-size: 17px; font-weight: 800; color: #FFF;">Jours depuis le début du protocole (21 sept. 2026)</div>
+                </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 8px 18px; text-align: center;">
+                <div style="font-family: Georgia, serif; font-size: 26px; font-weight: 900; color: #FFDF7D; line-height: 1;" id="dynamic-day-counter">--</div>
+                <div style="font-size: 9.5px; font-weight: 800; color: #FFF; letter-spacing: 0.5px; margin-top: 2px;">JOURS ÉCOULÉS</div>
+            </div>
+        </div>
+
         <!-- Key Metrics Banner -->
         <section class="metrics-banner">
             <div class="metric-tile">
@@ -2183,7 +2198,20 @@
             }
 
             renderNotesFeed();
+            updateDayCounter();
         }
+
+        function updateDayCounter() {
+            const startDate = new Date('2026-09-21T00:00:00');
+            const today = new Date();
+            const diffTime = today - startDate;
+            const diffDays = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+            const counterEl = document.getElementById('dynamic-day-counter');
+            if (counterEl) {
+                counterEl.textContent = diffDays;
+            }
+        }
+
 
         // Interactive Calendar Date Filter Functions
         function filterMilestonesByDate(dateVal) {

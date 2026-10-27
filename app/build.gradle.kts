@@ -111,6 +111,7 @@ dependencies {
   // Uncomment to use Firestore:
   implementation(libs.firebase.firestore)
   implementation(libs.firebase.storage)
+  implementation(libs.androidx.work.runtime.ktx)
 
   // Uncomment ALL FOUR of the following dependencies together to use Firebase Auth and Google
   // Sign-In via Credential Manager:

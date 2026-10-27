@@ -326,10 +326,35 @@ fun HomeScreen(
                     color = MutedText,
                     lineHeight = 17.sp
                 )
+
+                Spacer(modifier = Modifier.height(6.dp))
+
+                val context = androidx.compose.ui.platform.LocalContext.`current`
+                Button(
+                    onClick = {
+                        com.example.util.PdfHelper.generateAndSharePdf(context, checklistItems)
+                    },
+                    colors = ButtonDefaults.buttonColors(containerColor = GoldPrimary),
+                    shape = RoundedCornerShape(10.dp),
+                    contentPadding = PaddingValues(horizontal = 14.dp, vertical = 8.dp)
+                ) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        Text(text = "📥", fontSize = 14.sp)
+                        Text(
+                            text = "Télécharger / Partager le Résumé PDF",
+                            fontSize = 11.5.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
+                }
             }
         }
 
-        // Cumulative Tracking & PGT Update & Days Counter Cards
+        // Cumulative Tracking & PGT Update with Canvas Donut Chart (Recharts equivalent)
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -340,16 +365,21 @@ fun HomeScreen(
                 Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Text(text = "🧬", fontSize = 18.sp)
                     Column {
-                        Text(text = "Mise à jour des résultats PGT aujourd'hui", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF5C3B24))
-                        Text(text = "5 des embryons sont revenus génétiquement normaux sur 8 testés (RMA NY)", fontSize = 11.sp, color = InkText)
+                        Text(text = "Suivi Cumulatif Global (Résultats PGT-A)", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = Color(0xFF5C3B24))
+                        Text(text = "Ratio d'embryons sains (euploïdes) par rapport aux anormaux (RMA NY)", fontSize = 11.sp, color = MutedText)
                     }
                 }
+                Divider(color = Color(0xFFE5D4C3))
+                EmbryoDonutChart(euploid = 5, abnormal = 3)
             }
         }
 
+        // Protocol & Pregnancy Dynamic Days Counter Widget
+        val startDate = java.time.LocalDate.of(2026, 9, 21)
+        val today = java.time.LocalDate.now()
+        val dynamicDaysElapsed = java.time.temporal.ChronoUnit.DAYS.between(startDate, today).coerceAtLeast(1)
+        val dynamicDaysRemaining = (280 - dynamicDaysElapsed).coerceAtLeast(0)
 
-
-        // Protocol & Pregnancy Days Counter Widget
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -362,19 +392,19 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(text = "⏳ Compteur Protocole & Grossesse", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = GoldPrimary)
+                    Text(text = "⏳ Compteur Dynamique Protocole", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = GoldPrimary)
                     Text(text = "Début protocole : 21 sept. 2026 · Terme estimé : Juin 2027", fontSize = 10.5.sp, color = MutedText)
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     Surface(shape = RoundedCornerShape(10.dp), color = Color.White, border = BorderStroke(1.dp, BorderLine)) {
                         Column(modifier = Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = "36", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = GoldPrimary)
+                            Text(text = "$dynamicDaysElapsed", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = GoldPrimary)
                             Text(text = "JOURS ÉCOULÉS", fontSize = 8.sp, color = MutedText)
                         }
                     }
                     Surface(shape = RoundedCornerShape(10.dp), color = Color(0xFFEAF4ED), border = BorderStroke(1.dp, Color(0xFFBFE0CB))) {
                         Column(modifier = Modifier.padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                            Text(text = "238", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = SuccessGreen)
+                            Text(text = "$dynamicDaysRemaining", fontSize = 16.sp, fontWeight = FontWeight.Bold, color = SuccessGreen)
                             Text(text = "JOURS RESTANTS", fontSize = 8.sp, color = SuccessGreen)
                         }
                     }
@@ -382,13 +412,20 @@ fun HomeScreen(
             }
         }
 
-        // Section Milestones with Tab Switching: "Septembre (Stimulation & Ponction)" vs "Octobre/Novembre (Grossesse)"
+        // Graduation Countdown & Continued Support Meds
+        GraduationCountdownCard()
+        ContinuedSupportMedsSection()
+
+        // Section Milestones with Tab Switching & Interactive Date Filter above Milestones
         Card(
             modifier = Modifier.fillMaxWidth(),
             shape = RoundedCornerShape(18.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
         ) {
+            var selectedDateFilter by remember { mutableStateOf("Tous") }
+            val dateFilters = listOf("Tous", "19 sept.", "21 sept.", "29 sept.", "1 oct.", "27 oct.", "31 oct.")
+
             Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(12.dp)) {
                 // Header with Tab Switcher
                 Row(
@@ -467,13 +504,62 @@ fun HomeScreen(
                     }
                 }
 
+                // Interactive Calendar Date Filter above Milestones List
+                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Text(
+                        text = "📅 Filtrer les jalons par date :",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF5C3B24)
+                    )
+                    androidx.compose.foundation.lazy.LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(6.dp)
+                    ) {
+                        items(dateFilters.size) { index ->
+                            val filter = dateFilters[index]
+                            val isSelected = selectedDateFilter == filter
+                            Surface(
+                                modifier = Modifier
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .clickable { selectedDateFilter = filter },
+                                color = if (isSelected) GoldPrimary else Color(0xFFF7EEE4),
+                                border = BorderStroke(1.dp, if (isSelected) GoldPrimary else Color(0xFFEAD4BC)),
+                                shape = RoundedCornerShape(8.dp)
+                            ) {
+                                Text(
+                                    text = filter,
+                                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                                    fontSize = 10.5.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = if (isSelected) Color.White else Color(0xFF5C3B24)
+                                )
+                            }
+                        }
+                    }
+                }
+
                 Divider(color = BorderLine)
 
-                // Render Selected Milestones
+                // Render Filtered Milestones
                 val activeList = if (selectedTimelineTab == "september") septemberMilestones else upcomingMilestones
+                val filteredActiveList = if (selectedDateFilter == "Tous") {
+                    activeList
+                } else {
+                    activeList.filter { it.dateText.contains(selectedDateFilter, ignoreCase = true) }
+                }
+
                 Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    activeList.forEach { item ->
-                        DetailedMilestoneRow(item = item)
+                    if (filteredActiveList.isEmpty()) {
+                        Text(
+                            text = "Aucun jalon pour la date sélectionnée ($selectedDateFilter).",
+                            fontSize = 11.5.sp,
+                            color = MutedText,
+                            modifier = Modifier.padding(vertical = 8.dp)
+                        )
+                    } else {
+                        filteredActiveList.forEach { item ->
+                            DetailedMilestoneRow(item = item)
+                        }
                     }
                 }
             }
@@ -532,14 +618,14 @@ fun HomeScreen(
             }
         }
 
-        // Immediate Priorities Preview
+        // Immediate Priorities Preview (Ultra-compact layout to fit perfectly)
         Card(
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
-            Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -547,34 +633,36 @@ fun HomeScreen(
                 ) {
                     Text(
                         text = "✓ Vos prochaines actions",
-                        fontSize = 16.sp,
+                        fontSize = 12.sp,
                         fontFamily = FontFamily.Serif,
-                        fontWeight = FontWeight.Medium,
-                        color = Color(0xFF5C3B24)
+                        fontWeight = FontWeight.Bold,
+                        color = Color(0xFF5C3B24),
+                        maxLines = 1
                     )
                     Surface(
-                        shape = RoundedCornerShape(20.dp),
+                        shape = RoundedCornerShape(8.dp),
                         color = Color(0xFFEBDCCF)
                     ) {
                         Text(
                             text = "OCTOBRE 2026",
-                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
-                            fontSize = 9.5.sp,
+                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 1.5.dp),
+                            fontSize = 7.5.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color(0xFF543722)
                         )
                     }
                 }
 
-                Divider(color = BorderLine)
+                Divider(color = BorderLine, thickness = 0.5.dp)
 
                 checklistItems.take(3).forEach { item ->
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable { onToggleCheck(item.id) },
+                            .clickable { onToggleCheck(item.id) }
+                            .padding(vertical = 1.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
                     ) {
                         Checkbox(
                             checked = item.isCompleted,
@@ -582,19 +670,22 @@ fun HomeScreen(
                             colors = CheckboxDefaults.colors(
                                 checkedColor = SuccessGreen,
                                 uncheckedColor = GoldPrimary
-                            )
+                            ),
+                            modifier = Modifier.size(24.dp)
                         )
                         Column(modifier = Modifier.weight(1f)) {
                             Text(
                                 text = item.title,
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = InkText
+                                fontSize = 10.5.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = InkText,
+                                maxLines = 1
                             )
                             Text(
                                 text = item.dateText,
-                                fontSize = 10.5.sp,
-                                color = MutedText
+                                fontSize = 8.5.sp,
+                                color = MutedText,
+                                maxLines = 1
                             )
                         }
                     }
@@ -602,16 +693,19 @@ fun HomeScreen(
 
                 OutlinedButton(
                     onClick = { onNavigateTab("checklist") },
-                    modifier = Modifier.fillMaxWidth(),
-                    shape = RoundedCornerShape(10.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(26.dp),
+                    shape = RoundedCornerShape(6.dp),
+                    contentPadding = PaddingValues(horizontal = 8.dp, vertical = 1.dp),
                     colors = ButtonDefaults.outlinedButtonColors(
                         contentColor = GoldPrimary
                     ),
                     border = BorderStroke(1.dp, GoldPrimary)
                 ) {
                     Text(
-                        text = "Voir toute la liste de contrôle",
-                        fontSize = 12.sp,
+                        text = "Voir toute la liste",
+                        fontSize = 10.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -791,6 +885,49 @@ fun StatCard(icon: String, number: String, label: String, modifier: Modifier = M
                 color = MutedText,
                 maxLines = 1
             )
+        }
+    }
+}
+
+@Composable
+fun EmbryoDonutChart(euploid: Int, abnormal: Int) {
+    val total = euploid + abnormal
+    val euploidAngle = if (total > 0) (euploid.toFloat() / total) * 360f else 0f
+    val abnormalAngle = if (total > 0) (abnormal.toFloat() / total) * 360f else 0f
+
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        androidx.compose.foundation.Canvas(modifier = Modifier.size(76.dp)) {
+            var startAngle = -90f
+            drawArc(
+                color = SuccessGreen,
+                startAngle = startAngle,
+                sweepAngle = euploidAngle,
+                useCenter = false,
+                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 18f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+            )
+            startAngle += euploidAngle
+            drawArc(
+                color = Color(0xFFD97706),
+                startAngle = startAngle,
+                sweepAngle = abnormalAngle,
+                useCenter = false,
+                style = androidx.compose.ui.graphics.drawscope.Stroke(width = 18f, cap = androidx.compose.ui.graphics.StrokeCap.Round)
+            )
+        }
+        Column(verticalArrangement = Arrangement.spacedBy(3.dp)) {
+            Text(text = "Rapport génétique PGT-A (8 Blastocystes)", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = Color(0xFF5C3B24))
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(SuccessGreen))
+                Text(text = "Sains (Euploïdes) : $euploid (62.5%)", fontSize = 11.sp, color = InkText)
+            }
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                Box(modifier = Modifier.size(8.dp).clip(CircleShape).background(Color(0xFFD97706)))
+                Text(text = "Anormaux : $abnormal (37.5%)", fontSize = 11.sp, color = InkText)
+            }
         }
     }
 }

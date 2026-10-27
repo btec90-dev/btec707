@@ -36,7 +36,6 @@ class MainActivity : ComponentActivity() {
                 val currentTab by viewModel.currentTab.collectAsState()
                 val checklistItems by viewModel.checklistItems.collectAsState()
                 val journalNotes by viewModel.journalNotes.collectAsState()
-                val labResults by viewModel.labResults.collectAsState()
 
                 var isUnlocked by remember { mutableStateOf(false) }
                 var isGoldTheme by remember { mutableStateOf(false) }
@@ -156,10 +155,11 @@ class MainActivity : ComponentActivity() {
                             ) {
                                 val items = listOf(
                                     Triple("home", "Accueil", "⌂"),
-                                    Triple("calendar", "Calendrier", "▦"),
+                                    Triple("calendar", "Agenda", "▦"),
                                     Triple("lab", "Labo", "🧪"),
-                                    Triple("checklist", "Checklist", "☑"),
-                                    Triple("journal", "Journal", "✍")
+                                    Triple("checklist", "Actions", "☑"),
+                                    Triple("journal", "Notes", "✍"),
+                                    Triple("obstetric", "Bébé", "👶")
                                 )
 
                                 items.forEach { (tabId, label, symbol) ->
@@ -170,15 +170,16 @@ class MainActivity : ComponentActivity() {
                                         icon = {
                                             Text(
                                                 text = symbol,
-                                                fontSize = 18.sp,
+                                                fontSize = 17.sp,
                                                 color = if (selected) (if (isGoldTheme) Color(0xFF947230) else Color(0xFF5C3B24)) else Color(0xFF7E7169)
                                             )
                                         },
                                         label = {
                                             Text(
                                                 text = label,
-                                                fontSize = 10.5.sp,
+                                                fontSize = 9.sp,
                                                 fontWeight = FontWeight.Bold,
+                                                maxLines = 1,
                                                 color = if (selected) (if (isGoldTheme) Color(0xFF947230) else Color(0xFF5C3B24)) else Color(0xFF7E7169)
                                             )
                                         },
@@ -195,33 +196,34 @@ class MainActivity : ComponentActivity() {
                                 .fillMaxSize()
                                 .padding(innerPadding)
                         ) {
-                            when (currentTab) {
-                                "home" -> HomeScreen(
-                                    checklistItems = checklistItems,
-                                    onToggleCheck = { id -> viewModel.toggleChecklistItem(id) },
-                                    onNavigateTab = { tab -> viewModel.setTab(tab) }
-                                )
-                                "calendar" -> CalendarScreen(
-                                    sisCompleted = sisCompleted,
-                                    onToggleSis = { viewModel.toggleChecklistItem("chk-sis") },
-                                    hysteroCompleted = hysteroCompleted,
-                                    onToggleHystero = { viewModel.toggleChecklistItem("chk-hystero") }
-                                )
-                                "lab" -> LabScreen(
-                                    labResults = labResults,
-                                    onAddLabResult = { date, name, value, unit -> viewModel.addLabResult(date, name, value, unit) },
-                                    onDeleteLabResult = { id -> viewModel.deleteLabResult(id) }
-                                )
-                                "checklist" -> ChecklistScreen(
-                                    items = checklistItems,
-                                    onToggleCheck = { id -> viewModel.toggleChecklistItem(id) }
-                                )
-                                "journal" -> JournalScreen(
-                                    notes = journalNotes,
-                                    onAddNote = { title, date, cat, content -> viewModel.addNote(title, date, cat, content) },
-                                    onUpdateNote = { id, title, date, cat, content -> viewModel.updateNote(id, title, date, cat, content) },
-                                    onDeleteNote = { id -> viewModel.deleteNote(id) }
-                                )
+                            androidx.compose.foundation.text.selection.SelectionContainer {
+                                Box(modifier = Modifier.fillMaxSize()) {
+                                    when (currentTab) {
+                                        "home" -> HomeScreen(
+                                            checklistItems = checklistItems,
+                                            onToggleCheck = { id -> viewModel.toggleChecklistItem(id) },
+                                            onNavigateTab = { tab -> viewModel.setTab(tab) }
+                                        )
+                                        "calendar" -> CalendarScreen(
+                                            sisCompleted = sisCompleted,
+                                            onToggleSis = { viewModel.toggleChecklistItem("chk-sis") },
+                                            hysteroCompleted = hysteroCompleted,
+                                            onToggleHystero = { viewModel.toggleChecklistItem("chk-hystero") }
+                                        )
+                                        "lab" -> LabScreen()
+                                        "checklist" -> ChecklistScreen(
+                                            items = checklistItems,
+                                            onToggleCheck = { id -> viewModel.toggleChecklistItem(id) }
+                                        )
+                                        "journal" -> JournalScreen(
+                                            notes = journalNotes,
+                                            onAddNote = { title, date, cat, content -> viewModel.addNote(title, date, cat, content) },
+                                            onUpdateNote = { id, title, date, cat, content -> viewModel.updateNote(id, title, date, cat, content) },
+                                            onDeleteNote = { id -> viewModel.deleteNote(id) }
+                                        )
+                                        "obstetric" -> ObstetricJourneyScreen()
+                                    }
+                                }
                             }
                         }
                     }

@@ -3,7 +3,6 @@ package com.example.ui.viewmodel
 import androidx.lifecycle.ViewModel
 import com.example.data.ChecklistItem
 import com.example.data.JournalNote
-import com.example.data.LabResult
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -152,31 +151,4 @@ class FivViewModel : ViewModel() {
         _journalNotes.update { list -> list.filter { it.id != id } }
     }
 
-    // Lab results state
-    private val _labResults = MutableStateFlow(
-        listOf(
-            LabResult("lab-1", "23 sept.", "Estradiol (E2)", 480f, "pg/mL"),
-            LabResult("lab-2", "23 sept.", "Follicules", 18f, "unités"),
-            LabResult("lab-3", "27 sept.", "Estradiol (E2)", 1450f, "pg/mL"),
-            LabResult("lab-4", "27 sept.", "Follicules", 32f, "unités"),
-            LabResult("lab-5", "1 oct.", "Estradiol (E2)", 3200f, "pg/mL"),
-            LabResult("lab-6", "1 oct.", "Follicules prélevés", 42f, "unités")
-        )
-    )
-    val labResults: StateFlow<List<LabResult>> = _labResults.asStateFlow()
-
-    fun addLabResult(date: String, testName: String, value: Float, unit: String) {
-        val res = LabResult(
-            id = "lab-" + System.currentTimeMillis(),
-            date = date,
-            testName = testName,
-            value = value,
-            unit = unit
-        )
-        _labResults.update { listOf(res) + it }
-    }
-
-    fun deleteLabResult(id: String) {
-        _labResults.update { list -> list.filter { it.id != id } }
-    }
 }

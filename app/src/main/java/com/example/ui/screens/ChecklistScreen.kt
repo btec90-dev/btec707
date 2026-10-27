@@ -57,11 +57,11 @@ fun ChecklistScreen(
 
         Card(
             modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(10.dp),
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+            elevation = CardDefaults.cardElevation(defaultElevation = 1.dp)
         ) {
-            Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(14.dp)) {
+            Column(modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
@@ -69,28 +69,29 @@ fun ChecklistScreen(
                 ) {
                     Text(
                         text = "✓ Vos prochaines actions",
-                        fontSize = 17.sp,
+                        fontSize = 12.5.sp,
                         fontFamily = FontFamily.Serif,
                         fontWeight = FontWeight.Bold,
-                        color = Color(0xFF5C3B24)
+                        color = Color(0xFF5C3B24),
+                        maxLines = 1
                     )
                     Surface(
-                        shape = RoundedCornerShape(20.dp),
+                        shape = RoundedCornerShape(8.dp),
                         color = Color(0xFFEBDCCF)
                     ) {
                         Text(
                             text = "OCTOBRE 2026",
-                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 3.dp),
-                            fontSize = 10.sp,
+                            modifier = Modifier.padding(horizontal = 5.dp, vertical = 1.5.dp),
+                            fontSize = 7.5.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color(0xFF543722)
                         )
                     }
                 }
 
-                Divider(color = BorderLine)
+                Divider(color = BorderLine, thickness = 0.5.dp)
 
-                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     items.forEach { item ->
                         ChecklistRow(item = item, onToggle = { onToggleCheck(item.id) })
                     }

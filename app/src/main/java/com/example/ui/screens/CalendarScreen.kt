@@ -12,6 +12,8 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import android.widget.Toast
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -21,6 +23,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ui.theme.*
+import com.example.util.MedicationReminderScheduler
 
 data class CalendarEventDetail(
     val day: Int,
@@ -40,6 +43,10 @@ fun CalendarScreen(
     hysteroCompleted: Boolean,
     onToggleHystero: () -> Unit
 ) {
+    val context = LocalContext.current
+    var eventForReminder by remember { mutableStateOf<CalendarEventDetail?>(null) }
+    var remindersRefreshKey by remember { mutableStateOf(0) }
+
     // Month navigation state: 9 = Sept, 10 = Oct, 11 = Nov
     var currentMonth by remember { mutableStateOf(9) } // Default to September 2026 as requested by user
     var selectedDay by remember { mutableStateOf(21) }
@@ -365,6 +372,14 @@ fun CalendarScreen(
             .padding(14.dp),
         verticalArrangement = Arrangement.spacedBy(14.dp)
     ) {
+        if (eventForReminder != null) {
+            ScheduleReminderModal(
+                event = eventForReminder!!,
+                onDismiss = { eventForReminder = null },
+                onReminderScheduled = { remindersRefreshKey++ }
+            )
+        }
+
         // Screen Header
         Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
             Text(
@@ -717,6 +732,60 @@ fun CalendarScreen(
                                     Text("Étape réalisée et consignée au dossier médical", fontSize = 11.sp, color = SuccessGreen, fontWeight = FontWeight.Medium)
                                 }
                             }
+
+                            val eventId = "evt_${selectedEvent.month}_${selectedEvent.day}_${selectedEvent.time.filter { it.isDigit() }}"
+                            val isEventScheduled = remember(selectedEvent, remindersRefreshKey) {
+                                MedicationReminderScheduler.isReminderScheduled(context, eventId)
+                            }
+
+                            Surface(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable {
+                                        if (isEventScheduled) {
+                                            MedicationReminderScheduler.cancelReminder(context, eventId)
+                                            Toast.makeText(context, "Rappel annulé", Toast.LENGTH_SHORT).show()
+                                            remindersRefreshKey++
+                                        } else {
+                                            eventForReminder = selectedEvent
+                                        }
+                                    },
+                                shape = RoundedCornerShape(10.dp),
+                                color = if (isEventScheduled) Color(0xFFFBF4EB) else Color(0xFFFAF7F2),
+                                border = BorderStroke(1.dp, if (isEventScheduled) GoldPrimary else Color(0xFFDFCFBE))
+                            ) {
+                                Row(
+                                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        Text(text = "🔔", fontSize = 14.sp)
+                                        Column {
+                                            Text(
+                                                text = if (isEventScheduled) "Rappel WorkManager Actif" else "Programmer un rappel d'injection",
+                                                fontSize = 11.5.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = if (isEventScheduled) GoldPrimary else InkText
+                                            )
+                                            Text(
+                                                text = if (isEventScheduled) "Notification programmée en arrière-plan (cliquer pour annuler)" else "Définir une alerte locale (15m, 1h ou à l'heure)",
+                                                fontSize = 10.sp,
+                                                color = MutedText
+                                            )
+                                        }
+                                    }
+                                    Text(
+                                        text = if (isEventScheduled) "✓ Actif" else "+ Définir",
+                                        fontSize = 11.sp,
+                                        fontWeight = FontWeight.Bold,
+                                        color = if (isEventScheduled) SuccessGreen else GoldPrimary
+                                    )
+                                }
+                            }
                         }
                     }
                 } else {
@@ -736,6 +805,12 @@ fun CalendarScreen(
                 }
             }
         }
+
+        // ACTIVE WORKMANAGER REMINDERS SECTION
+        ActiveRemindersSection(
+            modifier = Modifier.fillMaxWidth(),
+            onRemindersUpdated = { remindersRefreshKey++ }
+        )
 
         // FULL SEPTEMBER CHRONOLOGY SECTION (Direct access to all September steps with date, time, and details)
         if (currentMonth == 9) {
@@ -786,7 +861,9 @@ fun CalendarScreen(
                             SeptemberStepItem(
                                 event = ev,
                                 isSelected = (ev.day == selectedDay),
-                                onSelect = { selectedDay = ev.day }
+                                onSelect = { selectedDay = ev.day },
+                                onOpenReminder = { eventForReminder = ev },
+                                refreshKey = remindersRefreshKey
                             )
                         }
                     }
@@ -822,10 +899,15 @@ fun CalendarScreen(
 fun SeptemberStepItem(
     event: CalendarEventDetail,
     isSelected: Boolean,
-    onSelect: () -> Unit
+    onSelect: () -> Unit,
+    onOpenReminder: () -> Unit,
+    refreshKey: Int
 ) {
-    var hasReminder by remember { mutableStateOf(false) }
-    var showToast by remember { mutableStateOf(false) }
+    val context = LocalContext.current
+    val eventId = remember(event) { "evt_${event.month}_${event.day}_${event.time.filter { it.isDigit() }}" }
+    val hasReminder = remember(event, refreshKey) {
+        MedicationReminderScheduler.isReminderScheduled(context, eventId)
+    }
 
     Surface(
         modifier = Modifier
@@ -864,11 +946,15 @@ fun SeptemberStepItem(
                 }
 
                 Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
-                    // Reminder Button
+                    // WorkManager Reminder Button
                     Surface(
                         modifier = Modifier.clickable { 
-                            hasReminder = !hasReminder
-                            showToast = true
+                            if (hasReminder) {
+                                MedicationReminderScheduler.cancelReminder(context, eventId)
+                                Toast.makeText(context, "Rappel annulé pour le ${event.day} sept.", Toast.LENGTH_SHORT).show()
+                            } else {
+                                onOpenReminder()
+                            }
                         },
                         shape = RoundedCornerShape(10.dp),
                         color = if (hasReminder) Color(0xFF5C3B24) else Color(0xFFF4EBD8),
@@ -922,7 +1008,10 @@ fun SeptemberStepItem(
                 lineHeight = 15.sp
             )
 
-            if (showToast) {
+            if (hasReminder) {
+                val reminderInfo = remember(event, refreshKey) {
+                    MedicationReminderScheduler.getReminderDetails(context, eventId)
+                }
                 Surface(
                     modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
                     shape = RoundedCornerShape(8.dp),
@@ -930,7 +1019,7 @@ fun SeptemberStepItem(
                     border = BorderStroke(1.dp, Color(0xFFE6CA8D))
                 ) {
                     Text(
-                        text = if (hasReminder) "✓ Alarme locale et notification programmée (1h avant le RDV)." else "✕ Rappel désactivé.",
+                        text = "✓ Alerte WorkManager programmée : ${reminderInfo?.timeLabel ?: "Rappel actif"}.",
                         modifier = Modifier.padding(8.dp),
                         fontSize = 10.sp,
                         fontWeight = FontWeight.Bold,
