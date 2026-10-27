@@ -613,8 +613,8 @@ fun HomeScreen(
                 StatCard("◉", "34", "Ovocytes matures", Modifier.weight(1f))
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                StatCard("✧", "11", "Fécondés ICSI", Modifier.weight(1f))
-                StatCard("❄", "8", "Blastocystes", Modifier.weight(1f))
+                StatCard("❄", "8", "Blastocystes biopsiés", Modifier.weight(1f))
+                StatCard("🧬", "5", "Embryons normaux (euploïdes) · PGT-A ✓", Modifier.weight(1f))
             }
         }
 

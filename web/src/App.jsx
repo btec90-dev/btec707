@@ -278,14 +278,14 @@ export default function App() {
                   <p className="text-xs font-semibold text-[#6E6058] mt-1">Ovocytes matures</p>
                 </div>
                 <div className="bg-white border border-[#E2D3C4] p-4 rounded-2xl shadow-sm text-center">
-                  <span className="text-2xl">✧</span>
-                  <p className="text-3xl font-serif font-bold text-[#5C3B24] mt-2">11</p>
-                  <p className="text-xs font-semibold text-[#6E6058] mt-1">Fécondés ICSI</p>
-                </div>
-                <div className="bg-white border border-[#E2D3C4] p-4 rounded-2xl shadow-sm text-center">
                   <span className="text-2xl">❄</span>
                   <p className="text-3xl font-serif font-bold text-[#5C3B24] mt-2">8</p>
-                  <p className="text-xs font-semibold text-[#6E6058] mt-1">Blastocystes vitrifiés</p>
+                  <p className="text-xs font-semibold text-[#6E6058] mt-1">Blastocystes biopsiés</p>
+                </div>
+                <div className="bg-white border border-[#E2D3C4] p-4 rounded-2xl shadow-sm text-center">
+                  <span className="text-2xl">🧬</span>
+                  <p className="text-3xl font-serif font-bold text-[#5C3B24] mt-2">5</p>
+                  <p className="text-xs font-semibold text-[#6E6058] mt-1">Embryons normaux (euploïdes) · PGT-A ✓</p>
                 </div>
               </div>
             </div>
