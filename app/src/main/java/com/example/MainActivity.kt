@@ -139,7 +139,8 @@ class MainActivity : ComponentActivity() {
                                 Triple("lab", "Labo", "🧪"),
                                 Triple("checklist", "Actions", "☑"),
                                 Triple("journal", "Notes", "✍"),
-                                Triple("obstetric", "Bébé", "👶")
+                                Triple("obstetric", "Bébé", "👶"),
+                                Triple("webview", "Web", "🌐")
                             )
 
                             items.forEach { (tabId, label, symbol) ->

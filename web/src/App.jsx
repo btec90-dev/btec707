@@ -293,19 +293,24 @@ export default function App() {
 
           {/* TAB 4: CHECKLIST */}
           {currentTab === 'checklist' && (
-            <div className="space-y-6">
-              <h2 className="text-2xl font-serif font-bold text-[#5C3B24]">Liste de Contrôle Complète</h2>
-              <div className="space-y-3">
+            <div className="space-y-4">
+              <div>
+                <span className="text-[10px] font-extrabold text-[#6E6058] tracking-wider uppercase">Priorités du moment</span>
+                <h2 className="text-base sm:text-lg font-serif font-bold text-[#5C3B24]">Liste de contrôle d’exécution immédiate</h2>
+                <p className="text-xs text-[#6E6058]">Cochez les tâches au fur et à mesure pour synchroniser votre avancement.</p>
+              </div>
+              <div className="space-y-2">
                 {checklist.map(item => (
-                  <div key={item.id} onClick={() => toggleCheck(item.id)} className="bg-white border border-[#E2D3C4] p-4 rounded-2xl shadow-sm flex items-start gap-4 cursor-pointer hover:bg-[#FAF6F0] transition">
-                    <input type="checkbox" checked={item.isCompleted} onChange={() => {}} className="w-6 h-6 accent-[#2B7853] mt-1 cursor-pointer" />
-                    <div className="flex-1">
-                      <div className="flex justify-between items-center mb-1">
-                        <span className="text-xs font-bold text-[#5C3B24]">{item.dateText}</span>
-                        <span className="text-xs font-bold px-3 py-0.5 rounded-full bg-[#EAF4ED] text-[#2B7853]">{item.badgeText}</span>
+                  <div key={item.id} onClick={() => toggleCheck(item.id)} className="bg-white border border-[#E2D3C4] p-3 rounded-xl shadow-sm flex items-start gap-2.5 cursor-pointer hover:bg-[#FAF6F0] transition">
+                    <input type="checkbox" checked={item.isCompleted} onChange={() => {}} className="w-4 h-4 accent-[#2B7853] mt-1 cursor-pointer" />
+                    <span className="text-base">{item.symbol}</span>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex justify-between items-center mb-0.5 gap-2">
+                        <span className="text-[10px] font-bold text-[#5C3B24] uppercase truncate">{item.dateText}</span>
+                        <span className="text-[9px] font-bold px-2 py-0.5 rounded-full bg-[#EAF4ED] text-[#2B7853] shrink-0">{item.badgeText}</span>
                       </div>
-                      <h4 className={`text-base font-semibold ${item.isCompleted ? 'line-through text-[#6E6058]' : 'text-[#2B2320]'}`}>{item.title}</h4>
-                      <p className="text-sm text-[#6E6058] mt-1">{item.description}</p>
+                      <h4 className={`text-xs sm:text-sm font-semibold ${item.isCompleted ? 'line-through text-[#6E6058]' : 'text-[#2B2320]'}`}>{item.title}</h4>
+                      <p className="text-[11px] text-[#6E6058] mt-0.5 leading-snug">{item.description}</p>
                     </div>
                   </div>
                 ))}
