@@ -1,0 +1,985 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8"><meta content="width=device-width,initial-scale=1,viewport-fit=cover" name="viewport"><title>Mon Parcours FIV — Fatou</title>
+<style>
+:root{--gold:#6f4e37;--gold2:#a88164;--cream:#f8f4ef;--paper:#fffefe;--ink:#2b2320;--muted:#6e6460;--line:#e3d7cb;--green:#357a61;--rose:#b85e6f;--purple:#7a6396}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--cream);color:var(--ink);font:14.5px/1.5 Inter,system-ui,-apple-system,sans-serif;padding-top:68px;padding-bottom:30px}
+.shell{display:block;min-height:100vh}
+.side{display:none}
+
+/* Navigation fixe en haut */
+#mobile-nav{
+  position:fixed!important;
+  top:0!important;
+  left:0!important;
+  right:0!important;
+  width:100%!important;
+  z-index:9999!important;
+  backdrop-filter:blur(16px)!important;
+  -webkit-backdrop-filter:blur(16px)!important;
+  background:rgba(248,244,239,0.98)!important;
+  box-shadow:0 2px 10px rgba(43,35,32,0.1)!important;
+  border-bottom:1px solid #e3d7cb!important;
+  display:flex!important;
+  justify-content:space-around!important;
+  align-items:center!important;
+  padding:8px 4px!important;
+  box-sizing:border-box!important;
+}
+.mobile-nav-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  color:#7e7169;
+  text-decoration:none;
+  font-size:10.5px;
+  font-weight:600;
+  padding:4px 8px;
+  border-radius:10px;
+  transition:all .18s ease;
+  min-width:54px;
+}
+.mobile-nav-item span.icon{font-size:17px;line-height:1.1;margin-bottom:2px}
+.mobile-nav-item.active,.mobile-nav-item:hover{color:#5c3b24;background:#f0e2d4}
+
+main{padding:14px 14px 40px;max-width:760px;margin:0 auto}
+
+/* Mobile brand header */
+.mobile-top-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:12px 16px;
+  margin-bottom:14px;
+  box-shadow:0 3px 12px rgba(93,71,32,0.05);
+}
+.mobile-brand{display:flex;align-items:center;gap:10px}
+.mobile-brand .heart{font-size:24px;color:var(--gold);line-height:1}
+.mobile-brand h2{font:600 17px Georgia,serif;margin:0;color:var(--ink)}
+.mobile-brand small{font-size:11px;color:var(--gold);font-style:italic;font-weight:600}
+.privacy-badge{
+  font-size:11px;
+  font-weight:700;
+  padding:4px 10px;
+  border-radius:20px;
+  background:#f4ebd8;
+  color:#5c3b24;
+  border:1px solid #e3d7cb;
+  display:inline-flex;
+  align-items:center;
+  gap:4px;
+}
+
+/* Hero & Clinic profile */
+.hero{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:20px}
+.banner{
+  border:1px solid #d9c8b7;
+  border-radius:20px;
+  padding:22px 18px;
+  background:linear-gradient(110deg,#ecdccf,#fcf9f5 65%,#e5d2c2);
+  position:relative;
+  overflow:hidden;
+}
+.banner:after{content:'♡';position:absolute;right:14px;bottom:-35px;font:130px Georgia;color:rgba(111,78,55,0.08);pointer-events:none}
+.kicker{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;font-weight:800;color:#5c3b24}
+.banner h1{font:500 24px/1.22 Georgia,serif;margin:8px 0;color:#2b2320;position:relative;z-index:1}
+.banner p{color:#5c524c;font-size:12.5px;line-height:1.5;margin:0;position:relative;z-index:1}
+
+.profile{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:16px;
+  padding:15px;
+  box-shadow:0 4px 16px rgba(93,71,32,0.05);
+}
+.profile h3{margin:0 0 10px;font:20px Georgia,serif;color:#5c3b24}
+.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.profile-item{background:#fdfaf6;border:1px solid #ebdccb;border-radius:10px;padding:9px 10px}
+.profile-item span{display:block;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.4px;font-weight:700}
+.profile-item b{font-size:12.5px;color:var(--ink);display:block;margin-top:2px}
+
+.section{margin-top:22px}
+.heading{margin-bottom:12px}
+.heading h2{font:500 22px Georgia,serif;margin:4px 0 2px;color:#2b2320}
+.heading p{color:var(--muted);font-size:12px;margin:0}
+
+/* Stats */
+.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.stat{
+  background:var(--paper);
+  border:1px solid var(--line);
+  border-radius:15px;
+  padding:14px;
+  box-shadow:0 3px 12px rgba(93,71,32,0.05);
+}
+.stat .icon{font-size:22px}
+.stat strong{display:block;font:30px Georgia,serif;color:#5c3b24;margin-top:4px;line-height:1.1}
+.stat span{font-size:11.5px;color:var(--muted);font-weight:600}
+
+/* Checklist */
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;box-shadow:0 4px 16px rgba(93,71,32,0.05)}
+.panelhead{
+  padding:12px 16px;
+  background:linear-gradient(90deg,#f0e4d7,#fdf8f4);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.panelhead h3{font:500 17px Georgia,serif;color:#5c3b24;margin:0}
+.badge{background:#ebdccf;color:#543722;border-radius:30px;padding:3px 9px;font-size:10px;font-weight:800}
+
+.checks{padding:4px 14px}
+.check{
+  display:flex;
+  gap:11px;
+  padding:12px 0;
+  border-bottom:1px solid #f1e7db;
+  align-items:flex-start;
+  cursor:pointer;
+}
+.check:last-child{border:0}
+.check input{accent-color:var(--gold);margin-top:3px;transform:scale(1.15);cursor:pointer}
+.check .sym{font-size:18px;line-height:1.2}
+.check strong{font-size:13px;display:block;color:#2b2320}
+.check small{display:block;color:#5c3b24;font-size:10px;text-transform:uppercase;font-weight:800;letter-spacing:.4px;margin-bottom:2px}
+.check p{font-size:11.5px;color:var(--muted);margin:3px 0 0;line-height:1.45}
+.check.completed strong{text-decoration:line-through;color:var(--muted)}
+.check.completed p{opacity:0.65}
+.check-badge{display:inline-block;border-radius:12px;padding:2px 7px;font-size:9px;font-weight:700;margin-left:5px;vertical-align:middle}
+.check-badge.updated{background:#fde8cf;color:#a05d15}
+.check-badge.done{background:#e3f1e8;color:#287454}
+.check-badge.pending{background:#e6eff8;color:#284b5e}
+
+.countdown-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:3px;
+  padding:2px 7px;
+  border-radius:999px;
+  font-size:0.72rem;
+  font-weight:750;
+  white-space:nowrap;
+  vertical-align:middle;
+}
+.cd-past{background:#e9f3ec;color:#1f644b;border:1px solid #b7dfce}
+.cd-today{background:#f6ecdf;color:#5c3a21;border:1px solid #dcc2a8;font-weight:800}
+.cd-imminent{background:#fce8eb;color:#94253a;border:1px solid #f3b5c1;font-weight:800}
+.cd-future{background:#eaf1f7;color:#1c5286;border:1px solid #bdd7f2;font-weight:700}
+.cd-pending{background:#f5ede4;color:#614631;border:1px solid #e0d0c1;font-weight:600}
+
+/* Calendrier */
+.calendar{padding:14px}
+.calhead{display:flex;justify-content:space-between;align-items:center}
+.calhead h3{font:19px Georgia,serif;color:#5c3b24;margin:0}
+.calhead button{background:white;border:1px solid var(--line);color:var(--gold);border-radius:8px;padding:5px 12px;cursor:pointer;font-weight:700}
+.week,.days{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px}
+.week span{text-align:center;font-size:10.5px;color:var(--muted);font-weight:600}
+.day{
+  border:1px solid transparent;
+  background:transparent;
+  border-radius:8px;
+  min-height:34px;
+  position:relative;
+  font-size:11.5px;
+  color:var(--ink);
+  cursor:pointer;
+  padding:0;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.day.event{background:#f7eee4;border-color:#e5d4c3;font-weight:800}
+.day.done{background:#eaf4ed;border-color:#d4e7d9}
+.day.sel{background:var(--gold)!important;color:white!important}
+.day i{position:absolute;bottom:3px;left:calc(50% - 2px);width:4px;height:4px;border-radius:50%;background:var(--gold)}
+.day.done i{background:var(--green)}
+.cal-detail-card{margin-top:12px;padding:12px;background:#fcf9f5;border:1px solid var(--line);border-radius:10px}
+.detail{font-size:12px;color:var(--ink);margin:0;line-height:1.45}
+.detail-action{margin-top:10px;display:flex;align-items:center;gap:8px}
+.detail-btn{background:white;border:1px solid var(--gold);color:var(--gold);border-radius:8px;padding:6px 12px;font-size:11.5px;font-weight:700;cursor:pointer}
+.detail-btn.is-done{background:#e8f4ed;border-color:var(--green);color:var(--green)}
+.legend{display:flex;gap:12px;flex-wrap:wrap;font-size:10.5px;color:var(--muted);margin-top:10px}
+.legend span{display:flex;align-items:center;gap:5px}
+.legend i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--gold)}
+
+/* Notice */
+.notice{margin-top:14px;border:1px solid #dfcfbe;background:#fbf6f0;color:#523f33;border-radius:12px;padding:12px;font-size:11.5px;line-height:1.45}
+
+/* Phases */
+.phasegrid{display:grid;grid-template-columns:1fr;gap:10px}
+.phase{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:14px;box-shadow:0 3px 12px rgba(93,71,32,0.05)}
+.phase-header{display:flex;align-items:center;justify-content:space-between}
+.phase .num{background:linear-gradient(135deg,#5c3b24,#9d7759);color:white;border-radius:50%;display:inline-grid;place-items:center;width:30px;height:30px;font-weight:800;font-size:13px}
+.phase .pic{font-size:22px}
+.phase h3{font-size:14.5px;margin:10px 0 4px;color:#2b2320}
+.phase p{font-size:11.5px;color:var(--muted);margin:0}
+.status{display:inline-block;border-radius:20px;padding:3px 8px;font-size:10px;font-weight:800;margin-top:8px;background:#e3f1e8;color:#287454}
+.status.active{background:#f4e9dd;color:#5c3b24}
+.status.future{background:#edf0f2;color:#67747c}
+
+/* Timelines */
+.timelinegrid{display:grid;grid-template-columns:1fr;gap:12px}
+.timeline{background:var(--paper);border:1px solid var(--line);border-radius:15px;overflow:hidden;box-shadow:0 3px 12px rgba(93,71,32,0.05)}
+.t-head{padding:10px 14px;background:#eee1d3;color:#543722;font-size:11px;font-weight:800;letter-spacing:.3px}
+.t-head.green{background:#e8f2e9;color:#347a5c}
+.t-head.gray{background:#f0f0ee;color:#67747c}
+.items{padding:8px 12px}
+.item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 0;border-bottom:1px solid #f1e8dc;font-size:11px}
+.item:last-child{border:0}
+.item time{font-weight:800;color:#5c3b24;min-width:70px}
+.item p{margin:0;color:#49545a;flex:1}
+.item.interactive-item{cursor:pointer;border-radius:6px;padding:7px 5px}
+.item.is-completed{background:#eef7f1!important}
+.t-toggle-btn{background:#fff8ee;border:1px solid #e1cfaf;color:#8e6b29;font-size:9.5px;font-weight:700;border-radius:8px;padding:3px 7px;cursor:pointer}
+.t-toggle-btn.done{background:#e3f1e8;border-color:#b4dec3;color:#287454}
+
+/* Journal */
+.journal-layout{display:grid;grid-template-columns:1fr;gap:14px}
+.journal-card{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 4px 16px rgba(93,71,32,0.05)}
+.journal-form-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid var(--line);padding-bottom:10px}
+.journal-form-header h3{font:500 17px Georgia,serif;color:#5c3b24;margin:0}
+.journal-mode-badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:700;background:#f4e9dd;color:#5c3b24}
+.journal-field{margin-bottom:11px}
+.journal-field label{display:block;font-size:10.5px;font-weight:700;color:#67747c;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.journal-input,.journal-select,.journal-textarea{
+  width:100%;
+  border:1px solid var(--line);
+  background:#fffefb;
+  border-radius:9px;
+  padding:9px 11px;
+  font-size:13px;
+  color:var(--ink);
+  font-family:inherit;
+  outline:none;
+}
+.journal-textarea{resize:vertical;min-height:90px;line-height:1.45}
+.journal-row{display:grid;grid-template-columns:1fr;gap:10px}
+.journal-actions{display:flex;gap:8px;margin-top:12px}
+.btn-journal-save{
+  background:linear-gradient(100deg,#6f4e37,#8d6648);
+  color:white;
+  border:none;
+  padding:10px 16px;
+  border-radius:9px;
+  font-size:12.5px;
+  font-weight:700;
+  cursor:pointer;
+  flex:1;
+}
+.btn-journal-cancel{background:white;border:1px solid var(--line);color:var(--muted);padding:10px 14px;border-radius:9px;font-size:12px;cursor:pointer}
+.entries-container{display:grid;gap:12px}
+.entry-card{background:var(--paper);border:1px solid var(--line);border-radius:15px;padding:15px;box-shadow:0 3px 12px rgba(93,71,32,0.05)}
+.entry-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px}
+.entry-cat{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px}
+.cat-emotion{background:#fdebf0;color:#aa4b64}
+.cat-medical{background:#e7f0f8;color:#2c5b7c}
+.cat-milestone{background:#e5f4ec;color:#287454}
+.entry-date{font-size:11px;color:var(--muted)}
+.entry-card h4{font:500 16px Georgia,serif;color:#34414b;margin:0 0 5px}
+.entry-text{font-size:12px;color:#526068;line-height:1.5;margin:0}
+.entry-footer{display:flex;justify-content:flex-end;gap:8px;margin-top:10px;padding-top:8px;border-top:1px dashed #efe4d3}
+.entry-btn{background:white;border:1px solid #ebdcc5;font-size:10.5px;padding:4px 9px;border-radius:7px;color:#6d7981;cursor:pointer}
+
+/* Footer */
+.footer{
+  border-top:1px solid var(--line);
+  margin-top:30px;
+  padding-top:18px;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  align-items:center;
+  text-align:center;
+  color:var(--muted);
+  font-size:11.5px;
+}
+.footer em{font:italic 18px Georgia,serif;color:#6f4e37}
+.footer button{border:1px solid var(--line);border-radius:30px;background:#fbf6f0;color:#543722;padding:8px 16px;cursor:pointer;font-weight:600}
+</style></head>
+<body style="margin: 0px; background: var(--cream); color: var(--ink); font: 14.5px / 1.5 Inter, system-ui, -apple-system, sans-serif; padding-top: 64px; padding-bottom: 30px; transform: none !important; filter: none !important; perspective: none !important;">
+<!-- Navigation mobile toujours visible fixée en haut -->
+<nav aria-label="Navigation mobile" id="mobile-nav" style="will-change: transform; position: fixed !important; top: 0px !important; left: 0px !important; right: 0px !important; width: 100% !important; max-width: 100% !important; z-index: 999999 !important; background: rgba(248, 245, 240, 0.96) !important; backdrop-filter: blur(12px) !important; transform: none !important; box-shadow: rgba(43, 35, 32, 0.08) 0px 2px 10px !important; display: flex !important; justify-content: space-around !important; align-items: center !important; padding: 8px 4px !important; box-sizing: border-box !important;">
+<a class="mobile-nav-item active" href="#accueil" onclick="setActiveTab(this)"><span class="icon">⌂</span><span class="">Accueil</span></a>
+<a class="mobile-nav-item" href="#calendrier" onclick="setActiveTab(this)"><span class="icon">▦</span><span class="">Calendrier</span></a>
+<a class="mobile-nav-item" href="#actions" onclick="setActiveTab(this)"><span class="icon">☑</span><span class="">Checklist</span></a>
+<a class="mobile-nav-item" href="#phases" onclick="setActiveTab(this)"><span class="icon">♙</span><span class="">Parcours</span></a>
+<a class="mobile-nav-item" href="#journal" onclick="setActiveTab(this)"><span class="icon">✍</span><span class="">Journal</span></a>
+</nav>
+<div class="shell" id="protected-content">
+<main>
+<!-- En-tête mobile de l'application -->
+<header class="mobile-top-bar">
+<div class="mobile-brand">
+<div class="heart">♡</div>
+<div>
+<h2 class="">Mon Parcours FIV</h2>
+<small>Fatou ♥ · RMA East Side</small>
+</div>
+</div>
+<span class="privacy-badge">🔒 Protégé · 1998</span>
+</header>
+<!-- Bannière d'accueil -->
+<section class="hero" id="accueil">
+<div class="banner">
+<div class="kicker">Votre parcours FIV</div>
+<h1 class="">De la première injection<br>au premier battement de cœur</h1>
+<p class="">Chaque étape vous rapproche de votre rêve. Votre tableau de bord doux et clair pour vos rendez-vous, les résultats du laboratoire et les prochaines actions.</p>
+</div>
+<!-- Profil de soins & clinique -->
+<aside class="profile">
+<h3 class="">✧ Votre équipe de soins</h3>
+<div class="profile-grid">
+<div class="profile-item">
+<span class="">Patiente</span>
+<b>Fatou</b>
+</div>
+<div class="profile-item">
+<span class="">Clinique</span>
+<b>RMA NY (East Side)</b>
+</div>
+<div class="profile-item">
+<span class="">Embryologiste</span>
+<b>Alex</b>
+</div>
+</div>
+</aside>
+</section>
+<!-- Les chiffres du laboratoire -->
+<section class="section">
+<div class="heading">
+<div class="kicker">Votre dossier en bref</div>
+<h2 class="">Les chiffres du laboratoire</h2>
+<p class="">Bilan complet issu de la ponction et fécondation ICSI.</p>
+</div>
+<div class="stats">
+<article class="stat">
+<div class="icon">🥚</div>
+<strong>42</strong>
+<span class="">Ovocytes prélevés</span>
+</article>
+<article class="stat">
+<div class="icon">◉</div>
+<strong>34</strong>
+<span class="">Ovocytes matures</span>
+</article>
+<article class="stat">
+<div class="icon">✧</div>
+<strong>11</strong>
+<span class="">Fécondés par ICSI</span>
+</article>
+<article class="stat">
+<div class="icon">❄</div>
+<strong>8</strong>
+<span class="">Blastocystes vitrifiés</span>
+</article>
+</div>
+</section>
+<!-- Checklist des priorités -->
+<section class="section" id="actions">
+<div class="heading">
+<div class="kicker">Priorités du moment</div>
+<h2 class="">Liste de contrôle d’exécution immédiate</h2>
+<p class="">Cochez les tâches au fur et à mesure.</p>
+</div>
+<div class="panel">
+<div class="panelhead">
+<h3 class="">✓ Vos prochaines actions</h3>
+<span class="badge">OCTOBRE 2026</span>
+</div>
+<div class="checks">
+<label class="check completed" id="chk-defrost">
+<input checked="" type="checkbox">
+<span class="sym">🧊</span>
+<span class="">
+<small>13 octobre · soumis <span class="countdown-badge cd-past">✓ Validé</span></small>
+<strong>Plan de décongélation terminé</strong>
+<p class="">Formulaire indiquant une préférence pour un garçon (« Male »). Sous réserve des résultats PGT-A.</p>
+</span>
+</label>
+<label class="check" id="chk-nortrel">
+<input type="checkbox">
+<span class="sym">💊</span>
+<span class="">
+<small>Chaque jour · selon prescription <span class="countdown-badge cd-today">⏱️ En cours</span></small>
+<strong>Maintien de la médication quotidienne</strong>
+<p class="">Continuer le Nortrel selon les instructions actuelles de l’équipe RMA.</p>
+</span>
+</label>
+<label class="check" id="chk-sis">
+<input id="checkbox-sis" type="checkbox">
+<span class="sym">🏥</span>
+<span class="">
+<small>28 octobre · 08 h 00 — Date cible <span class="countdown-badge cd-today">⏳ AUJOURD'HUI</span> <span class="check-badge updated" id="badge-sis-status">À FAIRE</span></small>
+<strong>Hystérosonographie par perfusion de sérum physiologique (SIS)</strong>
+<p class="">RMA East Side. Examen pour évaluer la cavité utérine et l'endomètre.</p>
+</span>
+</label>
+<label class="check" id="chk-hystero">
+<input id="checkbox-hystero" type="checkbox">
+<span class="sym">🔬</span>
+<span class="">
+<small>30 octobre · Intervention chirurgicale <span class="countdown-badge cd-imminent">⏳ J-2 jours</span> <span class="check-badge pending" id="badge-hystero-status">À CONFIRMER</span></small>
+<strong>Hystéroscopie opératoire (retrait de débris)</strong>
+<p class="">Gramercy Surgery Center. Intervention pour préparer une cavité utérine optimale avant le FET.</p>
+</span>
+</label>
+<label class="check" id="chk-pgta">
+<input type="checkbox">
+<span class="sym">🧬</span>
+<span class="">
+<small>23–28 octobre · fenêtre estimée <span class="countdown-badge cd-today">⏳ En cours</span></small>
+<strong>Surveiller les résultats PGT-A</strong>
+<p class="">Vérifier les messages du portail patient ; contacter RMA dès notification.</p>
+</span>
+</label>
+<label class="check" id="chk-call">
+<input type="checkbox">
+<span class="sym">☎️</span>
+<span class="">
+<small>Début novembre · après chirurgie <span class="countdown-badge cd-future">⏳ Prochainement</span></small>
+<strong>Planifier l’appel de protocole FET</strong>
+<p class="">Confirmer la date définitive du transfert d’embryon avec l'équipe médicale.</p>
+</span>
+</label>
+</div>
+</div>
+</section>
+<!-- Calendrier interactif Octobre 2026 -->
+<section class="section" id="calendrier">
+<div class="heading">
+<div class="kicker">Planning médical</div>
+<h2 class="">Calendrier interactif</h2>
+<p class="">Sélectionnez les jours avec pastille pour consulter le détail.</p>
+</div>
+<div class="panel">
+<div class="panelhead">
+<h3 class="">▦ Calendrier du cycle</h3>
+<span class="badge">2026</span>
+</div>
+<div class="calendar">
+<div class="calhead">
+<h3 id="monthTitle" class="">Octobre 2026</h3>
+<div><button id="prev" type="button" class="">‹</button> <button id="next" type="button" class="">›</button></div>
+</div>
+<div class="week"><span class="">Lun</span><span class="">Mar</span><span class="">Mer</span><span class="">Jeu</span><span class="">Ven</span><span class="">Sam</span><span class="">Dim</span></div>
+<div class="days" id="days"><div class="day"></div><div class="day"></div><div class="day"></div><button class="day event done" type="button" title="Ponction : 42 ovocytes">1<i></i></button><button class="day event done" type="button" title="ICSI : 34 matures, 11 fécondés">2<i></i></button><button class="day" type="button" disabled="">3</button><button class="day" type="button" disabled="">4</button><button class="day" type="button" disabled="">5</button><button class="day event done" type="button" title="Début culture et biopsie (6–8 oct.)">6<i></i></button><button class="day" type="button" disabled="">7</button><button class="day" type="button" disabled="">8</button><button class="day event done" type="button" title="8 blastocystes vitrifiés">9<i></i></button><button class="day" type="button" disabled="">10</button><button class="day event done" type="button" title="Bilan de base FET · 09 h 15">11<i></i></button><button class="day" type="button" disabled="">12</button><button class="day event done" type="button" title="Plan de décongélation soumis">13<i></i></button><button class="day" type="button" disabled="">14</button><button class="day" type="button" disabled="">15</button><button class="day" type="button" disabled="">16</button><button class="day" type="button" disabled="">17</button><button class="day" type="button" disabled="">18</button><button class="day" type="button" disabled="">19</button><button class="day" type="button" disabled="">20</button><button class="day" type="button" disabled="">21</button><button class="day" type="button" disabled="">22</button><button class="day event" type="button" title="Début de fenêtre PGT-A">23<i></i></button><button class="day" type="button" disabled="">24</button><button class="day" type="button" disabled="">25</button><button class="day" type="button" disabled="">26</button><button class="day" type="button" disabled="">27</button><button class="day event sel" type="button" title="Hystérosonographie (SIS) · 08 h 00 (RMA East Side)">28<i></i></button><button class="day" type="button" disabled="">29</button><button class="day event" type="button" title="Hystéroscopie opératoire — Gramercy Surgery Center">30<i></i></button><button class="day event" type="button" title="FET envisagé, date non confirmée">31<i></i></button></div>
+<div class="legend">
+<span class=""><i></i>Étape prévue</span>
+<span class=""><i style="background:#357a61"></i>Terminée</span>
+<span class=""><i style="background:#6f4e37"></i>Sélectionnée</span>
+</div>
+<div class="cal-detail-card">
+<p class="detail" id="detail"><strong>28 Octobre · 08 h 00 :</strong> Hystérosonographie (SIS) à RMA East Side + Fin fenêtre PGT-A <span style="color:var(--gold);font-weight:700;" class="">(À réaliser)</span></p>
+<div class="detail-action" id="detailAction" style="display: flex;">
+<button class="detail-btn" id="toggleDayBtn" type="button">Marquer comme réalisé ✓</button>
+</div>
+</div>
+</div>
+</div>
+<div class="notice">⚠️ <b>Suivi médical :</b> Le calendrier est adapté à votre protocole chez RMA of New York. Le transfert d'embryon dépend de la cicatrisation post-opératoire et de l'accord des médecins.</div>
+</section>
+<!-- Les 4 phases du parcours -->
+<section class="section" id="phases">
+<div class="heading">
+<div class="kicker">Vue d’ensemble</div>
+<h2 class="">Les 4 phases de votre parcours</h2>
+<p class="">Un chemin balisé avec amour et rigueur clinique.</p>
+</div>
+<div class="phasegrid">
+<article class="phase">
+<div class="phase-header">
+<span class="num">1</span>
+<span class="pic">💉</span>
+</div>
+<h3 class="">Stimulation et ponction</h3>
+<p class="">19 sept. – 1 oct. 2026<br>Stimulation, contrôles et ponction réussie de 42 ovocytes.</p>
+<div style="display:flex;align-items:center;gap:6px;margin-top:10px;">
+<span class="status">✓ Terminée</span>
+<span class="countdown-badge cd-past">✓ J+27 jours</span>
+</div>
+</article>
+<article class="phase">
+<div class="phase-header">
+<span class="num">2</span>
+<span class="pic">🧫</span>
+</div>
+<h3 class="">Embryologie, Hystéroscopie &amp; FET</h3>
+<p class="">2 oct. – début nov. 2026<br>8 blastocystes vitrifiés, examen SIS, chirurgie Gramercy et FET.</p>
+<div style="display:flex;align-items:center;gap:6px;margin-top:10px;">
+<span class="status active">● En cours</span>
+<span class="countdown-badge cd-today">⏳ Phase active</span>
+</div>
+</article>
+<article class="phase">
+<div class="phase-header">
+<span class="num">3</span>
+<span class="pic">♡</span>
+</div>
+<h3 class="">Suivi de début de grossesse</h3>
+<p class="">Après le transfert<br>Dosages bêta-hCG et premières échographies précoces chez RMA.</p>
+<div style="display:flex;align-items:center;gap:6px;margin-top:10px;">
+<span class="status future">À venir</span>
+<span class="countdown-badge cd-future">⏳ Post-transfert</span>
+</div>
+</article>
+<article class="phase">
+<div class="phase-header">
+<span class="num">4</span>
+<span class="pic">♧</span>
+</div>
+<h3 class="">Étapes obstétricales</h3>
+<p class="">Semaines 6–41<br>Dépistages, morphologie fœtale et accueil de votre bébé.</p>
+<div style="display:flex;align-items:center;gap:6px;margin-top:10px;">
+<span class="status future">À venir</span>
+<span class="countdown-badge cd-pending">⏳ 2027</span>
+</div>
+</article>
+</div>
+</section>
+<!-- Timeline détaillée -->
+<section class="section">
+<div class="heading">
+<div class="kicker">Historique et étapes</div>
+<h2 class="">Chronologie médicale</h2>
+</div>
+<div class="timelinegrid">
+<div class="timeline">
+<div class="t-head green">PHASE 1 · STIMULATION &amp; PONCTION (TERMINÉE)</div>
+<div class="items">
+<div class="item"><time>19 sept.</time><p class="">Suppression ovarienne (Nortrel)</p><span class="countdown-badge cd-past">✓ Fait</span></div>
+<div class="item"><time>21 sept.</time><p class="">Stimulation (Gonal-F + Menopur)</p><span class="countdown-badge cd-past">✓ Fait</span></div>
+<div class="item"><time>29 sept.</time><p class="">Déclenchement ovocytaire · 23 h</p><span class="countdown-badge cd-past">✓ Fait</span></div>
+<div class="item"><time>1 oct.</time><p class="">Ponction : 42 ovocytes recueillis</p><span class="countdown-badge cd-past">✓ Fait</span></div>
+</div>
+</div>
+<div class="timeline">
+<div class="t-head">PHASE 2 · EMBRYOLOGIE &amp; FET (EN COURS)</div>
+<div class="items">
+<div class="item"><time>2 oct.</time><p class="">ICSI : 34 matures, 11 fécondés</p><span class="countdown-badge cd-past">✓ Fait</span></div>
+<div class="item"><time>9 oct.</time><p class="">8 blastocystes vitrifiés</p><span class="countdown-badge cd-past">✓ Fait</span></div>
+<div class="item"><time>13 oct.</time><p class="">Plan de décongélation soumis</p><span class="countdown-badge cd-past">✓ Fait</span></div>
+<div class="item interactive-item" id="timeline-sis">
+<time>28 oct.</time>
+<p class="">Hystérosonographie SIS (RMA East)</p>
+<button class="t-toggle-btn" id="btn-toggle-timeline-sis" type="button">○ À faire</button>
+</div>
+<div class="item interactive-item" id="timeline-hystero">
+<time>30 oct.</time>
+<p class="">Hystéroscopie opératoire (Gramercy)</p>
+<button class="t-toggle-btn" id="btn-toggle-timeline-hystero" type="button">○ À faire</button>
+</div>
+<div class="item"><time>Nov. 2026</time><p class="">Transfert embryonnaire (FET envisagé)</p><span class="countdown-badge cd-future">⏳ À venir</span></div>
+</div>
+</div>
+</div>
+</section>
+<!-- Journal & Mémos -->
+<section class="section" id="journal">
+<div class="heading">
+<div class="kicker">Espace personnel &amp; suivi doux</div>
+<h2 class="">Journal de parcours &amp; Mémos</h2>
+<p class="">Vos ressentis, mémos de consultation et étapes clés.</p>
+</div>
+<div class="journal-layout">
+<div class="journal-card" id="note-editor-card">
+<div class="journal-form-header">
+<h3 id="form-heading" class=""><span class="">✍</span> Nouvelle note</h3>
+<span class="journal-mode-badge" id="form-mode-badge" style="display:none">Mode édition</span>
+</div>
+<form id="journal-form" onsubmit="event.preventDefault(); saveNote();">
+<div class="journal-field">
+<label for="note-title" class="">Titre du mémo</label>
+<input class="journal-input" id="note-title" placeholder="ex. Questions RMA pour l'hystéroscopie..." required="" type="text">
+</div>
+<div class="journal-row">
+<div class="journal-field">
+<label for="note-date" class="">Date</label>
+<input class="journal-input" id="note-date" required="" type="date">
+</div>
+<div class="journal-field">
+<label for="note-cat" class="">Catégorie</label>
+<select class="journal-select" id="note-cat">
+<option value="Émotion &amp; Pensée">Émotion &amp; Pensée</option>
+<option value="Médical / Questions">Médical / Questions</option>
+<option value="Jalon important">Jalon important</option>
+</select>
+</div>
+</div>
+<div class="journal-field">
+<label for="note-content" class="">Notes &amp; ressentis</label>
+<textarea class="journal-textarea" id="note-content" placeholder="Écrivez ce que vous avez sur le cœur..." required=""></textarea>
+</div>
+<div class="journal-actions">
+<button class="btn-journal-save" id="btn-save-note" type="submit">💾 <span id="btn-save-label" class="">Enregistrer le mémo</span></button>
+<button class="btn-journal-cancel" onclick="resetNoteForm()" type="button">Effacer</button>
+</div>
+</form>
+</div>
+<div class="entries-container" id="entries-list">
+    <article class="entry-card" id="card-memo-3">
+      <div class="entry-head">
+        <span class="entry-cat cat-emotion">Émotion &amp; Pensée</span>
+        <span class="entry-date">2026-10-26</span>
+      </div>
+      <h4 class="">En attente douce des résultats PGT-A</h4>
+      <p class="entry-text">Chaque jour nous rapproche. Rester sereine, respirer profondément, et faire confiance au travail remarquable du laboratoire.</p>
+      <div class="entry-footer">
+        <button type="button" class="entry-btn edit" onclick="editNote('memo-3')">✏️ Modifier</button>
+        <button type="button" class="entry-btn delete" onclick="deleteNote('memo-3')">🗑 Supprimer</button>
+      </div>
+    </article>
+  
+    <article class="entry-card" id="card-memo-2">
+      <div class="entry-head">
+        <span class="entry-cat cat-medical">Médical / Questions</span>
+        <span class="entry-date">2026-10-24</span>
+      </div>
+      <h4 class="">Préparation SIS du 28 octobre &amp; questions Gramercy</h4>
+      <p class="entry-text">Rendez-vous confirmé à 08h00 à RMA East Side pour l'hystérosonographie. Vérifier les consignes de jeûne pour l'intervention chirurgicale à Gramercy.</p>
+      <div class="entry-footer">
+        <button type="button" class="entry-btn edit" onclick="editNote('memo-2')">✏️ Modifier</button>
+        <button type="button" class="entry-btn delete" onclick="deleteNote('memo-2')">🗑 Supprimer</button>
+      </div>
+    </article>
+  
+    <article class="entry-card" id="card-memo-1">
+      <div class="entry-head">
+        <span class="entry-cat cat-milestone">Jalon important</span>
+        <span class="entry-date">2026-10-01</span>
+      </div>
+      <h4 class="">Après la ponction : 42 ovocytes !</h4>
+      <p class="entry-text">Étape majeure franchie. 42 ovocytes prélevés, 34 matures et 8 magnifiques blastocystes vitrifiés. Très fière du chemin parcouru ♡</p>
+      <div class="entry-footer">
+        <button type="button" class="entry-btn edit" onclick="editNote('memo-1')">✏️ Modifier</button>
+        <button type="button" class="entry-btn delete" onclick="deleteNote('memo-1')">🗑 Supprimer</button>
+      </div>
+    </article>
+  </div>
+</div>
+</section>
+<!-- Pied de page -->
+<footer class="footer">
+<div class=""><em>Ensemble, vers votre bébé ♡</em><br>Mon Parcours FIV · Fatou</div>
+<span class="">Teinte crème moka &amp; or doux · RMA of New York</span>
+<button onclick="window.print()" type="button" class="">⤓ Imprimer le tableau de bord</button>
+</footer>
+</main>
+</div>
+<script>
+// ==========================================
+// CALENDRIER ET ACTIONS
+// ==========================================
+const data={
+  "2026-09":[
+    [19,"Suppression ovarienne (Nortrel)",1],
+    [21,"Stimulation (Gonal-F + Menopur)",1],
+    [23,"Contrôle 1 · 07 h",1],
+    [25,"Ajout Cetrotide",1],
+    [27,"Contrôle 2 · 07 h 30",1],
+    [29,"Déclenchement · 23 h",1],
+    [30,"Contrôle biologique · 08 h 45",1]
+  ],
+  "2026-10":[
+    [1,"Ponction : 42 ovocytes",1],
+    [2,"ICSI : 34 matures, 11 fécondés",1],
+    [6,"Début culture et biopsie (6–8 oct.)",1],
+    [9,"8 blastocystes vitrifiés",1],
+    [11,"Bilan de base FET · 09 h 15",1],
+    [13,"Plan de décongélation soumis",1],
+    [23,"Début de fenêtre PGT-A",0],
+    [28,"Hystérosonographie (SIS) · 08 h 00 (RMA East Side)",0],
+    [30,"Hystéroscopie opératoire — Gramercy Surgery Center",0],
+    [31,"FET envisagé, date non confirmée",0]
+  ],
+  "2026-11":[
+    [1,"FET envisagé si validé post-chirurgie par RMA",0],
+    [8,"Fenêtre bêta-hCG estimée",0]
+  ]
+};
+const names=["Janvier","Février","Mars","Avril","Mai","Juin","Juillet","Août","Septembre","Octobre","Novembre","Décembre"];
+let y=2026, m=9, selected=28;
+let sisCompleted = false;
+let hysteroCompleted = false;
+
+function setSisCompleted(val) {
+  sisCompleted = val;
+  const chk = document.getElementById("checkbox-sis");
+  const chkLabel = document.getElementById("chk-sis");
+  const badgeStatus = document.getElementById("badge-sis-status");
+  if (chk) chk.checked = sisCompleted;
+  if (chkLabel) {
+    if (sisCompleted) chkLabel.classList.add("completed");
+    else chkLabel.classList.remove("completed");
+  }
+  if (badgeStatus) {
+    badgeStatus.textContent = sisCompleted ? "✓ RÉALISÉ" : "À FAIRE";
+    badgeStatus.className = "check-badge " + (sisCompleted ? "done" : "updated");
+  }
+  const tBtn = document.getElementById("btn-toggle-timeline-sis");
+  const tItem = document.getElementById("timeline-sis");
+  if (tBtn && tItem) {
+    if (sisCompleted) {
+      tItem.classList.add("is-completed");
+      tBtn.textContent = "✓ Complété";
+      tBtn.classList.add("done");
+    } else {
+      tItem.classList.remove("is-completed");
+      tBtn.textContent = "○ À faire";
+      tBtn.classList.remove("done");
+    }
+  }
+  render();
+}
+
+function setHysteroCompleted(val) {
+  hysteroCompleted = val;
+  const chk = document.getElementById("checkbox-hystero");
+  const chkLabel = document.getElementById("chk-hystero");
+  const badgeStatus = document.getElementById("badge-hystero-status");
+  if (chk) chk.checked = hysteroCompleted;
+  if (chkLabel) {
+    if (hysteroCompleted) chkLabel.classList.add("completed");
+    else chkLabel.classList.remove("completed");
+  }
+  if (badgeStatus) {
+    badgeStatus.textContent = hysteroCompleted ? "✓ RÉALISÉ" : "À CONFIRMER";
+    badgeStatus.className = "check-badge " + (hysteroCompleted ? "done" : "pending");
+  }
+  const tBtn = document.getElementById("btn-toggle-timeline-hystero");
+  const tItem = document.getElementById("timeline-hystero");
+  if (tBtn && tItem) {
+    if (hysteroCompleted) {
+      tItem.classList.add("is-completed");
+      tBtn.textContent = "✓ Complété";
+      tBtn.classList.add("done");
+    } else {
+      tItem.classList.remove("is-completed");
+      tBtn.textContent = "○ À faire";
+      tBtn.classList.remove("done");
+    }
+  }
+  render();
+}
+
+function render(){
+  let key=y+"-"+String(m+1).padStart(2,"0");
+  const titleEl = document.getElementById("monthTitle");
+  if (titleEl) titleEl.textContent=names[m]+" "+y;
+  let grid=document.getElementById("days");
+  if (!grid) return;
+  grid.innerHTML="";
+  let offset=(new Date(y,m,1).getDay()+6)%7,nd=new Date(y,m+1,0).getDate(),evs=data[key]||[];
+  
+  for(let i=0;i<offset;i++){
+    let x=document.createElement("div");
+    x.className="day";
+    grid.appendChild(x);
+  }
+  
+  for(let n=1;n<=nd;n++){
+    let ev=evs.find(a=>a[0]===n),b=document.createElement("button");
+    let isDone = ev && (ev[2] || (n===28 && sisCompleted) || (n===30 && hysteroCompleted));
+    b.className="day"+(ev?" event":"")+(isDone?" done":"")+(n===selected&&m===9?" sel":"");
+    b.textContent=n;
+    b.type="button";
+    if(!ev) {
+      b.disabled=true;
+    } else {
+      let dot=document.createElement("i");
+      b.appendChild(dot);
+      b.title=ev[1];
+      b.addEventListener("click",()=>{
+        selected=n;
+        updateDetail(n, ev);
+        render();
+      });
+    }
+    grid.appendChild(b);
+  }
+  const currentEv = evs.find(a => a[0] === selected);
+  if (currentEv && m === 9) {
+    updateDetail(selected, currentEv);
+  }
+}
+
+function updateDetail(day, ev) {
+  const detailEl = document.getElementById("detail");
+  const detailAction = document.getElementById("detailAction");
+  const toggleDayBtn = document.getElementById("toggleDayBtn");
+  if (!detailEl) return;
+  if (day === 28 && m === 9) {
+    detailEl.innerHTML = "<strong>28 Octobre · 08 h 00 :</strong> Hystérosonographie (SIS) à RMA East Side + Fin fenêtre PGT-A" + (sisCompleted ? " <span style='color:var(--green);font-weight:700;'>(Complété ✓)</span>" : " <span style='color:var(--gold);font-weight:700;'>(À réaliser)</span>");
+    if (detailAction) detailAction.style.display = "flex";
+    if (toggleDayBtn) {
+      toggleDayBtn.textContent = sisCompleted ? "Marquer comme à faire ↺" : "Marquer comme réalisé ✓";
+      toggleDayBtn.className = "detail-btn" + (sisCompleted ? " is-done" : "");
+      toggleDayBtn.onclick = () => setSisCompleted(!sisCompleted);
+    }
+  } else if (day === 30 && m === 9) {
+    detailEl.innerHTML = "<strong>30 Octobre :</strong> Hystéroscopie opératoire — Gramercy Surgery Center" + (hysteroCompleted ? " <span style='color:var(--green);font-weight:700;'>(Complété ✓)</span>" : " <span style='color:#284b5e;font-weight:700;'>(À venir)</span>");
+    if (detailAction) detailAction.style.display = "flex";
+    if (toggleDayBtn) {
+      toggleDayBtn.textContent = hysteroCompleted ? "Marquer comme à faire ↺" : "Marquer comme réalisé ✓";
+      toggleDayBtn.className = "detail-btn" + (hysteroCompleted ? " is-done" : "");
+      toggleDayBtn.onclick = () => setHysteroCompleted(!hysteroCompleted);
+    }
+  } else {
+    detailEl.textContent = names[m]+" "+day+" : "+ev[1] + (ev[2] ? " (Complété)" : "");
+    if (detailAction) detailAction.style.display = "none";
+  }
+}
+
+// Écouteurs pour checkboxes
+const sCheck = document.getElementById("checkbox-sis");
+if (sCheck) sCheck.addEventListener("change", (e) => setSisCompleted(e.target.checked));
+const hCheck = document.getElementById("checkbox-hystero");
+if (hCheck) hCheck.addEventListener("change", (e) => setHysteroCompleted(e.target.checked));
+
+const tSisBtn = document.getElementById("btn-toggle-timeline-sis");
+if (tSisBtn) tSisBtn.addEventListener("click", () => setSisCompleted(!sisCompleted));
+const tHystBtn = document.getElementById("btn-toggle-timeline-hystero");
+if (tHystBtn) tHystBtn.addEventListener("click", () => setHysteroCompleted(!hysteroCompleted));
+
+const pBtn = document.getElementById("prev");
+if (pBtn) pBtn.onclick=()=>{if(--m<0){m=11;y--}render()};
+const nBtn = document.getElementById("next");
+if (nBtn) nBtn.onclick=()=>{if(++m>11){m=0;y++}render()};
+
+// ==========================================
+// GESTION DU JOURNAL
+// ==========================================
+let editingNoteId = null;
+const initialNotes = [
+  {
+    id: "memo-3",
+    title: "En attente douce des résultats PGT-A",
+    date: "2026-10-26",
+    category: "Émotion & Pensée",
+    content: "Chaque jour nous rapproche. Rester sereine, respirer profondément, et faire confiance au travail remarquable du laboratoire."
+  },
+  {
+    id: "memo-2",
+    title: "Préparation SIS du 28 octobre & questions Gramercy",
+    date: "2026-10-24",
+    category: "Médical / Questions",
+    content: "Rendez-vous confirmé à 08h00 à RMA East Side pour l'hystérosonographie. Vérifier les consignes de jeûne pour l'intervention chirurgicale à Gramercy."
+  },
+  {
+    id: "memo-1",
+    title: "Après la ponction : 42 ovocytes !",
+    date: "2026-10-01",
+    category: "Jalon important",
+    content: "Étape majeure franchie. 42 ovocytes prélevés, 34 matures et 8 magnifiques blastocystes vitrifiés. Très fière du chemin parcouru ♡"
+  }
+];
+
+function loadNotes() {
+  try {
+    const s = localStorage.getItem("fatou_fiv_notes_v2");
+    if (s) return JSON.parse(s);
+  } catch(e){}
+  return initialNotes;
+}
+
+let journalNotes = loadNotes();
+
+function saveNotesToStorage() {
+  try {
+    localStorage.setItem("fatou_fiv_notes_v2", JSON.stringify(journalNotes));
+  } catch(e){}
+}
+
+function getCategoryClass(cat) {
+  if (cat.includes("Émotion")) return "cat-emotion";
+  if (cat.includes("Médical")) return "cat-medical";
+  return "cat-milestone";
+}
+
+function renderJournalEntries() {
+  const container = document.getElementById("entries-list");
+  if (!container) return;
+  container.innerHTML = journalNotes.map(note => `
+    <article class="entry-card" id="card-${note.id}">
+      <div class="entry-head">
+        <span class="entry-cat ${getCategoryClass(note.category)}">${note.category}</span>
+        <span class="entry-date">${note.date}</span>
+      </div>
+      <h4>${note.title}</h4>
+      <p class="entry-text">${note.content}</p>
+      <div class="entry-footer">
+        <button type="button" class="entry-btn edit" onclick="editNote('${note.id}')">✏️ Modifier</button>
+        <button type="button" class="entry-btn delete" onclick="deleteNote('${note.id}')">🗑 Supprimer</button>
+      </div>
+    </article>
+  `).join("");
+}
+
+function saveNote() {
+  const title = document.getElementById("note-title").value.trim();
+  const date = document.getElementById("note-date").value;
+  const category = document.getElementById("note-cat").value;
+  const content = document.getElementById("note-content").value.trim();
+  if (!title || !content) return;
+
+  if (editingNoteId) {
+    const idx = journalNotes.findIndex(n => n.id === editingNoteId);
+    if (idx !== -1) journalNotes[idx] = { id: editingNoteId, title, date, category, content };
+  } else {
+    journalNotes.unshift({ id: "note-" + Date.now(), title, date, category, content });
+  }
+  saveNotesToStorage();
+  renderJournalEntries();
+  resetNoteForm();
+}
+
+function editNote(id) {
+  const n = journalNotes.find(item => item.id === id);
+  if (!n) return;
+  editingNoteId = id;
+  document.getElementById("note-title").value = n.title;
+  document.getElementById("note-date").value = n.date;
+  document.getElementById("note-cat").value = n.category;
+  document.getElementById("note-content").value = n.content;
+  document.getElementById("form-heading").innerHTML = "<span>✏️</span> Modifier le mémo";
+  document.getElementById("btn-save-label").textContent = "Mettre à jour";
+  document.getElementById("form-mode-badge").style.display = "inline-block";
+}
+
+function deleteNote(id) {
+  if (confirm("Supprimer cette note ?")) {
+    journalNotes = journalNotes.filter(n => n.id !== id);
+    if (editingNoteId === id) resetNoteForm();
+    saveNotesToStorage();
+    renderJournalEntries();
+  }
+}
+
+function resetNoteForm() {
+  editingNoteId = null;
+  const f = document.getElementById("journal-form");
+  if (f) f.reset();
+  const dInput = document.getElementById("note-date");
+  if (dInput) dInput.value = "2026-10-28";
+  document.getElementById("form-heading").innerHTML = "<span>✍</span> Nouvelle note";
+  document.getElementById("btn-save-label").textContent = "Enregistrer le mémo";
+  document.getElementById("form-mode-badge").style.display = "none";
+}
+
+function setActiveTab(el) {
+  document.querySelectorAll('.mobile-nav-item').forEach(i => i.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// Initialisations
+render();
+resetNoteForm();
+renderJournalEntries();
+</script>
+
+
+</body></html>

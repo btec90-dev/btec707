@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="trBg" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#3A2417" />
+      <stop offset="60%" stop-color="#22120A" />
+      <stop offset="100%" stop-color="#0F0603" />
+    </radialGradient>
+    <radialGradient id="sparkle" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="40%" stop-color="#FFE58F" />
+      <stop offset="80%" stop-color="#FA8C16" />
+      <stop offset="100%" stop-color="#873800" stop-opacity="0" />
+    </radialGradient>
+    <linearGradient id="goldHand" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE1C2" />
+      <stop offset="50%" stop-color="#D9A066" />
+      <stop offset="100%" stop-color="#8C532E" />
+    </linearGradient>
+    <linearGradient id="goldStroke3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EAD59A" />
+      <stop offset="50%" stop-color="#C89B3C" />
+      <stop offset="100%" stop-color="#7B541C" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fond -->
+  <rect width="400" height="400" rx="24" fill="url(#trBg)" />
+  <rect width="396" height="396" x="2" y="2" rx="22" fill="none" stroke="url(#goldStroke3)" stroke-width="1.5" stroke-opacity="0.4" />
+
+  <!-- Étoiles et poussière d'or de l'espoir -->
+  <circle cx="100" cy="80" r="1.5" fill="#FFE8A3" opacity="0.6" />
+  <circle cx="290" cy="95" r="2" fill="#FFE8A3" opacity="0.5" />
+  <circle cx="75" cy="220" r="1.5" fill="#FFE8A3" opacity="0.4" />
+  <circle cx="330" cy="230" r="2" fill="#FFE8A3" opacity="0.6" />
+  <circle cx="200" cy="50" r="1.5" fill="#FFE8A3" opacity="0.5" />
+
+  <!-- Mains protectrices stylisées berçant la vie -->
+  <!-- Main gauche -->
+  <path d="M110,270 C125,230 150,215 175,215 C185,215 190,225 180,235 C160,245 135,260 125,285 Z" fill="url(#goldHand)" opacity="0.8" />
+  <!-- Main droite -->
+  <path d="M290,270 C275,230 250,215 225,215 C215,215 210,225 220,235 C240,245 265,260 275,285 Z" fill="url(#goldHand)" opacity="0.8" />
+
+  <!-- Nid de chaleur délicat -->
+  <ellipse cx="200" cy="225" rx="55" ry="18" fill="#542913" opacity="0.6" />
+
+  <!-- Halo d'implantation -->
+  <circle cx="200" cy="170" r="50" fill="#FFBB33" opacity="0.18" />
+  <circle cx="200" cy="170" r="30" fill="#FFA940" opacity="0.3" />
+
+  <!-- Goutte de vie d'implantation / Éclat embryon -->
+  <circle cx="200" cy="170" r="18" fill="url(#sparkle)" />
+  <circle cx="200" cy="170" r="7" fill="#FFFFFF" />
+
+  <!-- Rayons d'amour et d'accueil -->
+  <line x1="200" y1="135" x2="200" y2="148" stroke="#FFE7BA" stroke-width="2" stroke-linecap="round" />
+  <line x1="200" y1="192" x2="200" y2="205" stroke="#FFE7BA" stroke-width="2" stroke-linecap="round" />
+  <line x1="165" y1="170" x2="178" y2="170" stroke="#FFE7BA" stroke-width="2" stroke-linecap="round" />
+  <line x1="222" y1="170" x2="235" y2="170" stroke="#FFE7BA" stroke-width="2" stroke-linecap="round" />
+  <line x1="175" y1="145" x2="184" y2="154" stroke="#FFE7BA" stroke-width="1.5" stroke-linecap="round" />
+  <line x1="225" y1="145" x2="216" y2="154" stroke="#FFE7BA" stroke-width="1.5" stroke-linecap="round" />
+  <line x1="175" y1="195" x2="184" y2="186" stroke="#FFE7BA" stroke-width="1.5" stroke-linecap="round" />
+  <line x1="225" y1="195" x2="216" y2="186" stroke="#FFE7BA" stroke-width="1.5" stroke-linecap="round" />
+
+  <!-- Cœur miniature délicat flottant au-dessus -->
+  <path d="M200,105 C196,96 185,96 182,103 C178,112 200,125 200,125 C200,125 222,112 218,103 C215,96 204,96 200,105 Z" 
+        fill="#FF7875" opacity="0.9" />
+
+  <!-- Cartouche / Badge du bas -->
+  <rect x="50" y="325" width="300" height="44" rx="14" fill="#201008" stroke="#C89B3C" stroke-width="1.2" stroke-opacity="0.6" />
+  <text x="200" y="344" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#FFE6A3" letter-spacing="1">JOUR DU TRANSFERT · FET</text>
+  <text x="200" y="358" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="500" fill="#D8BE9B">L'étincelle de vie trouve son cocon</text>
+</svg>

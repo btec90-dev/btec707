@@ -1,0 +1,1435 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="fr" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Simulation Vidéo 3D Fœtale — Évolution Bébé Semaine par Semaine</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                cream: '#FAF7F2',
+                sand: '#F3ECE1',
+                ivory: '#FFFDF9',
+                mocha: '#4A3B32',
+                'mocha-light': '#7D6A5D',
+                bronze: '#C08A3E',
+                'bronze-light': '#D4A360',
+                'bronze-dark': '#8F5C1B',
+                champagne: '#EFE3D3',
+                rose: '#E8D3C9',
+                softblue: '#D2DDE6'
+            },
+            fontFamily: {
+                serif: ['"Playfair Display"', 'Georgia', 'serif'],
+                sans: ['"Plus Jakarta Sans"', 'sans-serif']
+            },
+            animation: {
+                'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                'heartbeat': 'heartbeat 1.1s ease-in-out infinite',
+                'float': 'float 6s ease-in-out infinite',
+                'wave': 'wave 1.2s ease-in-out infinite alternate',
+                'fetal-breath': 'fetalBreath 4.5s ease-in-out infinite alternate',
+                'amniotic-wave': 'amnioticWave 8s ease-in-out infinite alternate'
+            },
+            keyframes: {
+                heartbeat: {
+                    '0%, 100%': { transform: 'scale(1)' },
+                    '15%': { transform: 'scale(1.15)' },
+                    '30%': { transform: 'scale(1.02)' },
+                    '45%': { transform: 'scale(1.12)' },
+                    '60%': { transform: 'scale(1)' }
+                },
+                float: {
+                    '0%, 100%': { transform: 'translateY(0px)' },
+                    '50%': { transform: 'translateY(-8px)' }
+                },
+                fetalBreath: {
+                    '0%': { transform: 'scale(1)' },
+                    '100%': { transform: 'scale(1.028)' }
+                },
+                amnioticWave: {
+                    '0%': { filter: 'brightness(1.02) contrast(1.02) hue-rotate(0deg)' },
+                    '50%': { filter: 'brightness(1.07) contrast(1.05) hue-rotate(2deg)' },
+                    '100%': { filter: 'brightness(1.02) contrast(1.02) hue-rotate(0deg)' }
+                },
+                wave: {
+                    '0%': { height: '4px' },
+                    '100%': { height: '16px' }
+                }
+            }
+        }
+    }
+}
+</script>
+<style>
+.custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+.custom-scrollbar::-webkit-scrollbar-track { background: #F3ECE1; border-radius: 9999px; }
+.custom-scrollbar::-webkit-scrollbar-thumb { background: #C08A3E; border-radius: 9999px; }
+.womb-glow { box-shadow: inset 0 0 90px rgba(192, 138, 62, 0.4), 0 0 50px rgba(212, 163, 96, 0.25); }
+.fetal-screen-img { transition: opacity 800ms cubic-bezier(0.4, 0, 0.2, 1), transform 800ms cubic-bezier(0.4, 0, 0.2, 1); }
+</style>
+</head>
+<body class="bg-cream text-mocha font-sans antialiased selection:bg-bronze selection:text-white relative min-h-screen py-6 px-3 sm:px-6 flex flex-col justify-between">
+
+<!-- NOTIFICATION TOAST AUDIO MOBILE / IOS SAFARI & ANDROID CHROME -->
+<div class="fixed top-4 left-1/2 -translate-x-1/2 z-50 max-w-md w-11/12 bg-mocha/95 text-ivory backdrop-blur-md px-4 py-3 rounded-2xl border border-bronze/40 shadow-2xl flex items-start gap-3 transition-all duration-300 transform opacity-100 translate-y-0" id="audioToast">
+  <span class="material-symbols-outlined text-amber-400 text-xl flex-shrink-0 mt-0.5" id="toastIcon">volume_up</span>
+  <div class="text-xs space-y-1">
+    <p class="font-bold text-amber-200" id="toastTitle">Test Doppler &amp; Voix Réussi 💓</p>
+    <p class="text-ivory/80 leading-snug" id="toastMsg">Battement fœtal et transcription vocale déclenchés !</p>
+    <p class="text-[10px] text-amber-300/90 font-medium">💡 <strong>Android &amp; iPhone :</strong> Synthèse vocale calibrée pour Chrome Android, Safari &amp; navigateurs mobiles.</p>
+  </div>
+  <button class="text-ivory/60 hover:text-white ml-auto min-w-[32px] min-h-[32px] flex items-center justify-center" onclick="dismissAudioToast()">
+    <span class="material-symbols-outlined text-sm">close</span>
+  </button>
+</div>
+
+<main class="max-w-5xl mx-auto w-full">
+  <!-- EN-TÊTE ÉPURÉ DU LECTEUR VIDÉO -->
+  <div class="text-center max-w-3xl mx-auto mb-5">
+    <div class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-bronze/10 text-bronze text-xs font-semibold uppercase tracking-wider border border-bronze/20 mb-2">
+      <span class="material-symbols-outlined text-sm">videocam</span>
+      Lecteur Médical 3D Fœtal &amp; Voix-Off Continue S1 - S40
+    </div>
+    <h1 class="font-serif text-2xl sm:text-4xl font-bold text-mocha">
+      Bébé dans le ventre — Évolution Complète Semaine par Semaine
+    </h1>
+    <p class="text-mocha-light text-xs sm:text-sm mt-1.5 font-light max-w-2xl mx-auto">
+      Simulation fœtale continue du blastocyste J5 à la naissance (Semaine 40) avec transitions 3D, battements Doppler interactifs et narration vocale sans coupure.
+    </p>
+  </div>
+
+  <!-- SÉLECTEUR DE MODE VIDÉO / MORPHOLOGIE 3D CONTINUE -->
+  <div class="flex items-center justify-center gap-2 mb-4">
+    <button class="min-h-[40px] px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 bg-bronze text-white shadow-sm touch-manipulation" id="modeBtnMorph" onclick="switchDisplayMode('morph')">
+      <span class="material-symbols-outlined text-sm">biotech</span>
+      Rendu 3D Médical Évolutif (Semaine 1 à 40)
+    </button>
+    <button class="min-h-[40px] px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 bg-sand/80 text-mocha hover:bg-sand touch-manipulation" id="modeBtnVideo" onclick="switchDisplayMode('video')">
+      <span class="material-symbols-outlined text-sm">movie</span>
+      Vue Utérine Documentaire Continue
+    </button>
+  </div>
+
+  <!-- CONTENEUR DU LECTEUR CINÉMATIQUE -->
+  <div class="bg-mocha text-ivory rounded-3xl overflow-hidden shadow-2xl border border-sand/40 mb-6 relative group" id="cinemaWrapper" style="contain: layout style; min-height: 520px;">
+    <div class="relative w-full aspect-video min-h-[440px] max-h-[560px] bg-gradient-to-br from-[#1a0f0a] via-[#331c12] to-[#120904] flex items-center justify-center overflow-hidden womb-glow select-none" id="videoViewport">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(212,163,96,0.25)_0%,_transparent_75%)] pointer-events-none z-10"></div>
+      
+      <!-- CALQUE 1 : MORPHOLOGIE 3D MULTI-STADES S1-S40 CROSSFADE FLUIDE -->
+      <div class="absolute inset-0 w-full h-full flex items-center justify-center z-5 opacity-100 transition-opacity duration-500" id="morphologyLayer">
+        <div class="relative w-full h-full flex items-center justify-center overflow-hidden">
+          <img alt="Évolution fœtale stade 3D A" class="fetal-screen-img absolute inset-0 w-full h-full object-cover object-center animate-fetal-breath filter brightness-105 contrast-105 select-none pointer-events-none opacity-100 scale-100" id="fetalImageA" src="https://lh3.googleusercontent.com/aida/AEtjO1VSjIOhjSZupuzDXEayV9oxt6ej4BnzRSzsyPSQ8KQp4oomNJOSAA_MW25pv5xYu1Gi2JFdlO3tn9jgglIKxZ2NMQu3WiXMHwIdJcjCyMKyahIptjnVIxBkXE0x015KuiqE6b0rI17ppmMdPcY3HEVsWIce-0hR5Jk2Y62IrzstC7MnKXO8foOA4WzZ99QVXcB6PdyEBhfMWtU4vKuZbU3LT6e_bL0C6RS5tHGTJ_HVRA">
+          <img alt="Évolution fœtale stade 3D B" class="fetal-screen-img absolute inset-0 w-full h-full object-cover object-center animate-fetal-breath filter brightness-105 contrast-105 select-none pointer-events-none opacity-0 scale-95" id="fetalImageB" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNvkb4qjNOZbtbLnBMOlGbIC9sc9BBAFrc186byo8wJgLYeRrZKfQuq3wU_7pCiYT6Vt1hf5XxNjZJdzjPHjr787g4Lt2T0aNUf93u8P8t9FBBSVilWhcf2ZFipFphVCxt10jeSSYnDo1w9Jx7sLUyVbfdht-TKdyUQMLnGSzeVn9_yIlknjDwnxYey0mK3oKRHpo3QHjbEvTBpFYPLH-DP89Ph-xcWzwO-ZP989E1">
+          <!-- Effet de liquide amniotique et de lueur utérine -->
+          <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/50 pointer-events-none animate-amniotic-wave"></div>
+        </div>
+      </div>
+
+      <!-- CALQUE 2 : VUE UTÉRINE COMPLÉMENTAIRE DOCUMENTAIRE 3D -->
+      <div class="absolute inset-0 w-full h-full flex items-center justify-center z-0 opacity-0 pointer-events-none transition-opacity duration-500" id="html5VideoLayer">
+        <img alt="Vue utérine globale in utero" class="w-full h-full object-cover animate-fetal-breath filter brightness-105 contrast-105 select-none" id="fetalGlobalImage" src="https://lh3.googleusercontent.com/aida/AEtjO1VXUOvvp8BM7IRdhzgjMENYhwP7fz-ngz9mRvOHq6JvnGzer1_f1rIga4axHubLUwbSUj807UmUfnB3Mk3Dshr8_mM3n9fnHKTfM4xl_LLkBvLcHKjwikFzUaR-vauH3o7dzjxoeiY924HM_gOz1UBkAM7nL8X-OUBGwhsJdiHGjTnz5du9vsYu8Z6iTBii80n0sKe8m2xMy0w2_f4QkvSBzppNKBIT-MofE4oX-bDi">
+        <div class="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-black/45 pointer-events-none"></div>
+      </div>
+
+      <!-- BOUTON CENTRAL GÉANT DE LECTURE TACTILE MOBILE / PLAY-PAUSE OVERLAY -->
+      <div aria-label="Lancer ou mettre en pause la vidéo" class="absolute inset-0 z-30 flex items-center justify-center cursor-pointer pointer-events-auto" id="viewportCenterPlay" onclick="handleViewportPlayTap(event)" role="button">
+        <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-mocha/80 border-2 border-amber-300/80 shadow-[0_0_35px_rgba(212,163,96,0.5)] backdrop-blur-md flex items-center justify-center text-amber-200 hover:scale-105 active:scale-95 transition transform duration-200 opacity-90 hover:opacity-100" id="centerPlayIconWrapper">
+          <span class="material-symbols-outlined text-4xl sm:text-5xl ml-1 text-amber-300" id="centerPlayIcon">play_arrow</span>
+        </div>
+      </div>
+
+      <!-- Superposition d'informations & Sous-titres cinématiques -->
+      <div class="absolute bottom-4 left-4 right-4 z-25 flex flex-col items-center pointer-events-none">
+        <div class="flex items-center justify-between w-full max-w-3xl mb-2 px-2">
+          <div class="flex items-center gap-2 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-amber-400/30">
+            <span class="w-2 h-2 rounded-full bg-rose-500 animate-heartbeat"></span>
+            <span class="text-[11px] sm:text-xs font-mono font-semibold text-amber-200 tracking-wider" id="screenStageLabel">🔬 Stade : Fécondation &amp; Segmentation</span>
+          </div>
+          <span class="text-[11px] font-mono text-cream/90 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full border border-white/10" id="fruitCompareBadge">Taille : Graine de pavot</span>
+        </div>
+
+        <div class="inline-flex items-center gap-2 bg-black/60 backdrop-blur-md px-4 py-1 rounded-full border border-amber-500/40 mb-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span class="text-xs sm:text-sm font-semibold tracking-wider text-amber-200 uppercase" id="screenWeekLabel">Semaine 1 • 00:00:01</span>
+        </div>
+
+        <!-- Sous-titre cinématique affiché en direct avec indicateur d'élocution vocale -->
+        <div class="max-w-2xl w-full min-h-[58px] px-4 py-2 bg-black/75 backdrop-blur-md rounded-2xl border border-white/15 text-center flex items-center justify-center overflow-hidden shadow-lg">
+          <p class="text-xs sm:text-sm text-cream font-light leading-relaxed italic" id="screenTranscriptSnippet">"Après la fécondation, la cellule œuf entame ses premières divisions cellulaires successives en route vers l'utérus."</p>
+        </div>
+      </div>
+
+      <!-- Métriques Télémétriques In-Utero -->
+      <div class="absolute top-3 left-3 z-20 flex flex-col gap-1 bg-black/60 backdrop-blur-md p-2.5 rounded-2xl border border-white/15 text-left pointer-events-none">
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-rose-400 text-xs sm:text-sm animate-heartbeat">favorite</span>
+          <span class="text-[10px] sm:text-[11px] uppercase tracking-wider text-gray-300">Cœur fœtal :</span>
+          <span class="text-xs font-mono font-bold text-rose-300" id="screenBpmValue">N/A</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-amber-300 text-xs sm:text-sm">straighten</span>
+          <span class="text-[10px] sm:text-[11px] uppercase tracking-wider text-gray-300">Taille :</span>
+          <span class="text-xs font-mono font-bold text-amber-200" id="screenSizeValue">0.1 mm</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="material-symbols-outlined text-softblue text-xs sm:text-sm">scale</span>
+          <span class="text-[10px] sm:text-[11px] uppercase tracking-wider text-gray-300">Poids :</span>
+          <span class="text-xs font-mono font-bold text-softblue" id="screenWeightValue">&lt; 1 g</span>
+        </div>
+      </div>
+
+      <!-- Indicateurs audio & temps en haut à droite -->
+      <div class="absolute top-3 right-3 z-20 flex items-center gap-2 pointer-events-none">
+        <div class="bg-black/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/15 text-xs font-mono flex items-center gap-2" id="audioLiveIndicator">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span class="text-emerald-300 text-[11px] font-medium hidden sm:inline" id="audioStateText">Doppler &amp; Voix Prêts</span>
+          <div class="flex items-center gap-0.5 h-3 transition-opacity" id="voiceSpeakingWave">
+            <div class="w-1 bg-amber-400 rounded-full animate-wave" style="animation-delay: 0.1s;"></div>
+            <div class="w-1 bg-amber-300 rounded-full animate-wave" style="animation-delay: 0.3s;"></div>
+            <div class="w-1 bg-amber-400 rounded-full animate-wave" style="animation-delay: 0.2s;"></div>
+          </div>
+        </div>
+        <div class="bg-black/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/10 text-xs font-mono text-amber-300 flex items-center gap-1">
+          <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+          <span id="currentTimeDisplay" class="">00:00:01</span> / <span class="">00:14:22</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BARRE DE CONTRÔLE INTERACTIVE -->
+    <div class="p-4 sm:p-5 bg-[#251b15] border-t border-white/10">
+      <!-- Scrubbing Slider -->
+      <div class="flex items-center gap-3 mb-3">
+        <span class="text-xs font-mono text-gray-400 min-w-[55px]" id="scrubTime">00:00:01</span>
+        <div class="relative flex-1 group py-2">
+          <input class="w-full h-2.5 bg-mocha rounded-lg appearance-none cursor-pointer accent-bronze focus:outline-none touch-manipulation" id="timeSlider" max="862" min="1" oninput="seekToSeconds(parseInt(this.value))" step="1" type="range" value="1">
+        </div>
+        <span class="text-xs font-mono text-gray-400 min-w-[55px] text-right">00:14:22</span>
+      </div>
+
+      <!-- Boutons de commande tactiles mobile minimum 44px de hauteur -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div class="flex flex-wrap items-center gap-2">
+          <button class="min-w-[44px] min-h-[44px] p-2.5 rounded-full bg-white/5 hover:bg-white/15 active:bg-white/20 text-white flex items-center justify-center transition active:scale-95 touch-manipulation" onclick="prevStep()" title="Étape précédente">
+            <span class="material-symbols-outlined text-lg">skip_previous</span>
+          </button>
+          <button class="min-h-[44px] px-5 py-2.5 rounded-full bg-bronze hover:bg-bronze-light text-white font-bold flex items-center gap-2 shadow-lg transition duration-200 active:scale-95 touch-manipulation cursor-pointer" id="playBtn" onclick="togglePlay(event);">
+            <span class="material-symbols-outlined text-xl" id="playIcon">play_arrow</span>
+            <span class="text-xs sm:text-sm" id="playLabel">Lecture Simulation</span>
+          </button>
+          <button class="min-w-[44px] min-h-[44px] p-2.5 rounded-full bg-white/5 hover:bg-white/15 active:bg-white/20 text-white flex items-center justify-center transition active:scale-95 touch-manipulation" onclick="nextStep()" title="Étape suivante">
+            <span class="material-symbols-outlined text-lg">skip_next</span>
+          </button>
+
+          <!-- BOUTON TEST DIRECT DE VOIX PARLÉE -->
+          
+
+          <!-- BOUTON TEST SPÉCIFIQUE ANDROID / MOBILE CHROME -->
+          
+
+          <!-- BOUTON SON DOPPLER MIN 44PX -->
+          <button class="min-h-[44px] px-3.5 py-2 rounded-full border border-emerald-500/50 bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 font-semibold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 touch-manipulation" id="soundToggle" onclick="toggleAudioPulse(event);">
+            <span class="material-symbols-outlined text-base" id="soundIcon">volume_up</span>
+            <span id="soundLabel" class="">🔊 Son fœtal actif</span>
+          </button>
+
+          <!-- BOUTON TRANSCRIPTION VOIX-OFF NARRATION MIN 44PX -->
+          <button class="min-h-[44px] px-3.5 py-2 rounded-full border border-amber-500/50 bg-amber-950/60 hover:bg-amber-900/80 text-amber-200 font-semibold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 touch-manipulation" id="speechToggle" onclick="toggleSpeech(event);">
+            <span class="material-symbols-outlined text-base text-amber-300" id="speechIcon">record_voice_over</span>
+            <span id="speechLabel" class="">🗣️ Voix-off : Activée</span>
+          </button>
+        </div>
+
+        <!-- Filtres Trimestres -->
+        <div class="flex items-center gap-1 bg-black/30 p-1 rounded-2xl border border-white/10 text-xs">
+          <button class="min-h-[38px] px-3 py-1.5 rounded-xl font-medium transition bg-bronze text-white touch-manipulation" id="trimBtn1" onclick="jumpToTrimester(1)">
+            T1 (S1-S13)
+          </button>
+          <button class="min-h-[38px] px-3 py-1.5 rounded-xl font-medium transition text-gray-300 hover:text-white hover:bg-white/10 touch-manipulation" id="trimBtn2" onclick="jumpToTrimester(2)">
+            T2 (S14-S27)
+          </button>
+          <button class="min-h-[38px] px-3 py-1.5 rounded-xl font-medium transition text-gray-300 hover:text-white hover:bg-white/10 touch-manipulation" id="trimBtn3" onclick="jumpToTrimester(3)">
+            T3 (S28-S40)
+          </button>
+        </div>
+      </div>
+
+      <!-- ASTUCE MOBILE IOS / ANDROID & DÉVERROUILLAGE VOCAL FIABLE -->
+      <div class="mt-3 pt-2.5 border-t border-white/10 flex flex-wrap items-center justify-between gap-2 text-[11px] text-gray-300 font-light">
+        <div class="flex items-center gap-1.5">
+          <span class="material-symbols-outlined text-xs text-amber-400">phonelink_ring</span>
+          
+        </div>
+        <div class="flex items-center gap-3">
+          
+          
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JALONS CLÉS ET TRANSCRIPT DE LA VIDÉO -->
+  <div class="bg-ivory border border-sand rounded-3xl p-5 sm:p-6 shadow-sm">
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between pb-3.5 border-b border-sand gap-2">
+      <div>
+        <h2 class="font-serif text-lg sm:text-xl font-bold text-mocha flex items-center gap-2">
+          <span class="material-symbols-outlined text-bronze">timeline</span>
+          45 Jalons Clés de l'Évolution Intra-Utérine (S1 à S40)
+        </h2>
+        <p class="text-xs text-mocha-light mt-0.5">Touchez n'importe quel stade : le visuel 3D médical s'actualise avec crossfade fluide et la voix prononce l'intégralité du texte sans coupure.</p>
+      </div>
+      <span class="text-xs text-bronze-dark font-medium bg-sand/60 px-3 py-1 rounded-full whitespace-nowrap self-start sm:self-auto">
+        Synchronisé de la Semaine 1 au Terme Complet
+      </span>
+    </div>
+    <div class="mt-4 max-h-[380px] overflow-y-auto space-y-2 custom-scrollbar pr-2" id="transcriptFeed"><div id="row-0" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation bg-bronze/20 border-bronze">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:00:01</span>
+                <span class="font-bold text-mocha">Semaine 1</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🔬 Stade : Fécondation &amp; Segmentation</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">N/A</span>
+                <span class="text-[11px] text-mocha-light">Graine de pavot</span>
+            </div>
+        </div><div id="row-1" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:00:10</span>
+                <span class="font-bold text-mocha">Semaine 2</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🔬 Stade : Blastocyste J5 &amp; Nidation</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">N/A</span>
+                <span class="text-[11px] text-mocha-light">Graine de sésame</span>
+            </div>
+        </div><div id="row-2" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:00:18</span>
+                <span class="font-bold text-mocha">Semaine 3</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🔬 Stade : Disque embryonnaire trilaminaire</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">N/A</span>
+                <span class="text-[11px] text-mocha-light">Pépin de pomme</span>
+            </div>
+        </div><div id="row-3" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:00:26</span>
+                <span class="font-bold text-mocha">Semaine 4</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Tube neural &amp; Ébauche cardiaque</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">105 BPM</span>
+                <span class="text-[11px] text-mocha-light">Graine de lentille</span>
+            </div>
+        </div><div id="row-4" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:00:36</span>
+                <span class="font-bold text-mocha">Semaine 5</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Vésicule vitelline &amp; Sac gestationnel</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">110 BPM</span>
+                <span class="text-[11px] text-mocha-light">Pépin d'orange</span>
+            </div>
+        </div><div id="row-5" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:00:46</span>
+                <span class="font-bold text-mocha">Semaine 6</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Arc branchial &amp; Bourgeons</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">120 BPM</span>
+                <span class="text-[11px] text-mocha-light">Pois chiche</span>
+            </div>
+        </div><div id="row-6" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:00:58</span>
+                <span class="font-bold text-mocha">Semaine 7</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Cavités cérébrales</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">130 BPM</span>
+                <span class="text-[11px] text-mocha-light">Myrtille</span>
+            </div>
+        </div><div id="row-7" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:01:15</span>
+                <span class="font-bold text-mocha">Semaine 8</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Doigts, orteils &amp; Yeux primitifs</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">145 BPM</span>
+                <span class="text-[11px] text-mocha-light">Haricot rouge</span>
+            </div>
+        </div><div id="row-8" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:01:35</span>
+                <span class="font-bold text-mocha">Semaine 9</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Cartilage et ossature</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">155 BPM</span>
+                <span class="text-[11px] text-mocha-light">Olive verte</span>
+            </div>
+        </div><div id="row-9" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:01:55</span>
+                <span class="font-bold text-mocha">Semaine 10</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Organogenèse achevée</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">160 BPM</span>
+                <span class="text-[11px] text-mocha-light">Prune</span>
+            </div>
+        </div><div id="row-10" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:02:18</span>
+                <span class="font-bold text-mocha">Semaine 11</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Paupières closes &amp; Déglutition</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">160 BPM</span>
+                <span class="text-[11px] text-mocha-light">Figue</span>
+            </div>
+        </div><div id="row-11" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:02:40</span>
+                <span class="font-bold text-mocha">Semaine 12</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">🌱 Stade : Fin embryon / Fin Premier Trimestre</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">150 BPM</span>
+                <span class="text-[11px] text-mocha-light">Fruit de la passion</span>
+            </div>
+        </div><div id="row-12" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:03:05</span>
+                <span class="font-bold text-mocha">Semaine 13</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Transition Second Trimestre</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">150 BPM</span>
+                <span class="text-[11px] text-mocha-light">Pêche</span>
+            </div>
+        </div><div id="row-13" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:03:30</span>
+                <span class="font-bold text-mocha">Semaine 14</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Fœtus T2 dans sa sphère amniotique</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">148 BPM</span>
+                <span class="text-[11px] text-mocha-light">Poire</span>
+            </div>
+        </div><div id="row-14" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:04:00</span>
+                <span class="font-bold text-mocha">Semaine 15</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Sensibilité à la lumière</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">146 BPM</span>
+                <span class="text-[11px] text-mocha-light">Pomme</span>
+            </div>
+        </div><div id="row-15" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:04:30</span>
+                <span class="font-bold text-mocha">Semaine 16</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Expressions faciales &amp; Réflexe de préhension</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">145 BPM</span>
+                <span class="text-[11px] text-mocha-light">Avocat</span>
+            </div>
+        </div><div id="row-16" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:05:00</span>
+                <span class="font-bold text-mocha">Semaine 17</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Tissu adipeux brun</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">145 BPM</span>
+                <span class="text-[11px] text-mocha-light">Navet doux</span>
+            </div>
+        </div><div id="row-17" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:05:30</span>
+                <span class="font-bold text-mocha">Semaine 18</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Myélinisation des nerfs</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">145 BPM</span>
+                <span class="text-[11px] text-mocha-light">Poivron doux</span>
+            </div>
+        </div><div id="row-18" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:06:00</span>
+                <span class="font-bold text-mocha">Semaine 19</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Vernix caseosa protecteur</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">145 BPM</span>
+                <span class="text-[11px] text-mocha-light">Mangue</span>
+            </div>
+        </div><div id="row-19" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:06:30</span>
+                <span class="font-bold text-mocha">Semaine 20</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Garçon 💙 &amp; Succion du pouce</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">145 BPM</span>
+                <span class="text-[11px] text-mocha-light">Banane</span>
+            </div>
+        </div><div id="row-20" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:07:00</span>
+                <span class="font-bold text-mocha">Semaine 21</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Moelle osseuse hématopoïétique</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">142 BPM</span>
+                <span class="text-[11px] text-mocha-light">Grande carotte</span>
+            </div>
+        </div><div id="row-21" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:07:30</span>
+                <span class="font-bold text-mocha">Semaine 22</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Ouïe éveillée &amp; Voix rassurante</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">140 BPM</span>
+                <span class="text-[11px] text-mocha-light">Papaye</span>
+            </div>
+        </div><div id="row-22" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:08:00</span>
+                <span class="font-bold text-mocha">Semaine 23</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Surfactant pulmonaire</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">139 BPM</span>
+                <span class="text-[11px] text-mocha-light">Aubergine moyenne</span>
+            </div>
+        </div><div id="row-23" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:08:30</span>
+                <span class="font-bold text-mocha">Semaine 24</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Cycles de sommeil &amp; Rêves</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">138 BPM</span>
+                <span class="text-[11px] text-mocha-light">Épi de maïs</span>
+            </div>
+        </div><div id="row-24" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:09:00</span>
+                <span class="font-bold text-mocha">Semaine 25</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Réflexe de sursaut</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">137 BPM</span>
+                <span class="text-[11px] text-mocha-light">Courgette ronde</span>
+            </div>
+        </div><div id="row-25" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:09:30</span>
+                <span class="font-bold text-mocha">Semaine 26</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Ouverture des yeux</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">136 BPM</span>
+                <span class="text-[11px] text-mocha-light">Laitue romaine</span>
+            </div>
+        </div><div id="row-26" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:10:00</span>
+                <span class="font-bold text-mocha">Semaine 27</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">✨ Stade : Clôture du 2ème Trimestre</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">135 BPM</span>
+                <span class="text-[11px] text-mocha-light">Chou-fleur</span>
+            </div>
+        </div><div id="row-27" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:10:30</span>
+                <span class="font-bold text-mocha">Semaine 28</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Bienvenue au Troisième Trimestre</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">135 BPM</span>
+                <span class="text-[11px] text-mocha-light">Aubergine de 1 kg</span>
+            </div>
+        </div><div id="row-28" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:11:00</span>
+                <span class="font-bold text-mocha">Semaine 29</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Stockage du calcium</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">134 BPM</span>
+                <span class="text-[11px] text-mocha-light">Courge Butternut</span>
+            </div>
+        </div><div id="row-29" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:11:30</span>
+                <span class="font-bold text-mocha">Semaine 30</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Régulation thermique autonome</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">133 BPM</span>
+                <span class="text-[11px] text-mocha-light">Chou blanc</span>
+            </div>
+        </div><div id="row-30" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:12:00</span>
+                <span class="font-bold text-mocha">Semaine 31</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Sens du goût développé</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">132 BPM</span>
+                <span class="text-[11px] text-mocha-light">Noix de coco</span>
+            </div>
+        </div><div id="row-31" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:12:30</span>
+                <span class="font-bold text-mocha">Semaine 32</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Échographie biométrique T3</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">132 BPM</span>
+                <span class="text-[11px] text-mocha-light">Grand cantaloup</span>
+            </div>
+        </div><div id="row-32" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:13:00</span>
+                <span class="font-bold text-mocha">Semaine 33</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Transmission des anticorps maternels</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">131 BPM</span>
+                <span class="text-[11px] text-mocha-light">Ananas</span>
+            </div>
+        </div><div id="row-33" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:13:20</span>
+                <span class="font-bold text-mocha">Semaine 34</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Maturation pulmonaire finale</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">130 BPM</span>
+                <span class="text-[11px] text-mocha-light">Melon miel</span>
+            </div>
+        </div><div id="row-34" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:13:35</span>
+                <span class="font-bold text-mocha">Semaine 35</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Réduction de l'espace intra-utérin</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">130 BPM</span>
+                <span class="text-[11px] text-mocha-light">Grand melon jaune</span>
+            </div>
+        </div><div id="row-35" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:13:50</span>
+                <span class="font-bold text-mocha">Semaine 36</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Tête engagée dans le bassin</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">130 BPM</span>
+                <span class="text-[11px] text-mocha-light">Papaye géante</span>
+            </div>
+        </div><div id="row-36" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:14:00</span>
+                <span class="font-bold text-mocha">Semaine 37</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Bébé à terme précoce</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">129 BPM</span>
+                <span class="text-[11px] text-mocha-light">Bette à carde</span>
+            </div>
+        </div><div id="row-37" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:14:10</span>
+                <span class="font-bold text-mocha">Semaine 38</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Pleine maturité fœtale 38 SA</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">128 BPM</span>
+                <span class="text-[11px] text-mocha-light">Potiron</span>
+            </div>
+        </div><div id="row-38" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:14:16</span>
+                <span class="font-bold text-mocha">Semaine 39</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Les derniers préparatifs</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">126 BPM</span>
+                <span class="text-[11px] text-mocha-light">Petite pastèque</span>
+            </div>
+        </div><div id="row-39" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:14:20</span>
+                <span class="font-bold text-mocha">Semaine 40</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">undefined</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">125 BPM</span>
+                <span class="text-[11px] text-mocha-light">Terme accompli (40 SA)</span>
+            </div>
+        </div><div id="row-40" class="transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation">
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">00:14:22</span>
+                <span class="font-bold text-mocha">Naissance</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">👶 Stade : Naissance &amp; Accueil Chaleureux</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">125 BPM</span>
+                <span class="text-[11px] text-mocha-light">Dans les bras de ses parents</span>
+            </div>
+        </div></div>
+  </div>
+</main>
+
+<footer class="text-center py-6 text-xs text-mocha-light/70 font-light">
+  Simulateur Médical Visuel &amp; Vocal • Semaines 1 à 40 • Doppler &amp; Voix-off Narrative
+</footer>
+
+<!-- SCRIPT LOGIQUE & MULTI-IMAGES DYNAMIQUES AVEC MOTEUR CHROME ANDROID & SAFARI IOS ROBUSTE -->
+<script>
+/* =========================================================
+   1. DONNÉES DE TRANSCRIPT & RENDUS 3D MÉDICAUX S1 À S40
+========================================================= */
+const IMG_S1_S3 = "https://lh3.googleusercontent.com/aida/AEtjO1VSjIOhjSZupuzDXEayV9oxt6ej4BnzRSzsyPSQ8KQp4oomNJOSAA_MW25pv5xYu1Gi2JFdlO3tn9jgglIKxZ2NMQu3WiXMHwIdJcjCyMKyahIptjnVIxBkXE0x015KuiqE6b0rI17ppmMdPcY3HEVsWIce-0hR5Jk2Y62IrzstC7MnKXO8foOA4WzZ99QVXcB6PdyEBhfMWtU4vKuZbU3LT6e_bL0C6RS5tHGTJ_HVRA";
+const IMG_S4_S7 = "https://lh3.googleusercontent.com/aida-public/AB6AXuBNvkb4qjNOZbtbLnBMOlGbIC9sc9BBAFrc186byo8wJgLYeRrZKfQuq3wU_7pCiYT6Vt1hf5XxNjZJdzjPHjr787g4Lt2T0aNUf93u8P8t9FBBSVilWhcf2ZFipFphVCxt10jeSSYnDo1w9Jx7sLUyVbfdht-TKdyUQMLnGSzeVn9_yIlknjDwnxYey0mK3oKRHpo3QHjbEvTBpFYPLH-DP89Ph-xcWzwO-ZP989E1";
+const IMG_S8_S11 = "https://lh3.googleusercontent.com/aida/AEtjO1ULvq3_phyEcQNAt9X8BNw_0kGiNw_EUt5BHWMF0ENaR6-sqlj-oMe7mbMd4_lZNey9cEOUeAuJxJukqXMnwFU_yD2H6i290CtghqknN-JcwM8npNPUsCbLxPn2jEcQTBvaKSyJa8TQFbvj3jaVYuPFzsYRjSv45bdNNh5UX8ztVNkviy2Tmwe0-Vb27q4JkAnFiVN7RkNgpAFiK-kwxiDIv4-otlDmfxxBVTR4k7QnpA";
+const IMG_S12_S17 = "https://lh3.googleusercontent.com/aida-public/AB6AXuClL_MUEjkCIf3mCuMgGsA61yHU9zAKuE9oOTxxDC6Q0x4SCTgHaJsNdBcKzPgEOSjGrImRJgz0xQdWG63XtqqjRDfViT8g6m8UTD1Hxg32U4Zp_4Pjkdb3KoiC5Jh9qlHXDwgJ7G91tlIbkOrr1Z8Xj5aU0FHJqKRvnBXsciHbtzzC2OcwkKCpBSxhz__kTSfmmy9AcWG55SRNHxv2FXvubXayj2zVSn6WKgBTVhyk";
+const IMG_S18_S25 = "https://lh3.googleusercontent.com/aida/AEtjO1UodmeczanGN_6KULHPY-XoOfdquMiRt1MQUihp_k9JwAm8inOAI-kxWC_8E32wmdih_7kvhxPa556VykrunqaWfdmZ3XkC852vEVGeFotxWuYOEkhPFrCw9MkAWGdn-lN3u4JTH33XVIKQWPwcGacHIY1C6f-j1aC0O9vzZ-iJtuSQtfGFZh6IYQCI2VGDacsSsdAwWl2mipfz9_ZCqPIyk---H1xeARL0BaI56pDSZA";
+const IMG_S26_S33 = "https://lh3.googleusercontent.com/aida-public/AB6AXuC-j8A0imqb-2MDTMpmwWev7lEVsn6iRjbW9qQoJYnYh2jJ0VwR8B2iO3bdOJzBtEv8v-f7q2B9jpXENwNIjHXicFBULPzzRTgNB1ga8Fjmr4HaRqhbdT9LYFprCCpE1DDSHroq7tBlf-SGjRHv7pdigJuCh6yQbNiUoRTfS-DPCE54-sAWkzKn4TZ56YOvLGLTZLYY7sQb3JjldL-F_YHd6mtVFwRymXBp1oVEq3xs";
+const IMG_S34_S40 = "https://lh3.googleusercontent.com/aida/AEtjO1Xw_wK825nV9yyrDZzWQXNL9nCU40xYNpde05belp4YeY--wBxIvju4DCWCk9JzvdToJxJOTktJqref1RdG93UcUJKeRu0l8tx759dkKIymKRUwxMNFp6Da4has2Cxw2zRbOQHQ1qYbq3hTlBdHHNzgIEhe5xyctTfKGJgQqwxsOLk9MtZCRhGCMTgI1AAgERnYwUkhDHNXyg_74yTrjk3MoYAxYn0MvgclFIys5dL6CA";
+const IMG_GLOBAL_WOMB = "https://lh3.googleusercontent.com/aida/AEtjO1VXUOvvp8BM7IRdhzgjMENYhwP7fz-ngz9mRvOHq6JvnGzer1_f1rIga4axHubLUwbSUj807UmUfnB3Mk3Dshr8_mM3n9fnHKTfM4xl_LLkBvLcHKjwikFzUaR-vauH3o7dzjxoeiY924HM_gOz1UBkAM7nL8X-OUBGwhsJdiHGjTnz5du9vsYu8Z6iTBii80n0sKe8m2xMy0w2_f4QkvSBzppNKBIT-MofE4oX-bDi";
+
+const transcriptData = [
+    { timeStr: "00:00:01", seconds: 1, week: "Semaine 1", bpm: "N/A", size: "0.1 mm", weight: "< 1 g", fruit: "Graine de pavot", stage: "🔬 Stade : Fécondation & Segmentation", image: IMG_S1_S3, text: "Après la fécondation, la cellule œuf entame ses premières divisions cellulaires successives en route vers l'utérus." },
+    { timeStr: "00:00:10", seconds: 10, week: "Semaine 2", bpm: "N/A", size: "0.2 mm", weight: "< 1 g", fruit: "Graine de sésame", stage: "🔬 Stade : Blastocyste J5 & Nidation", image: IMG_S1_S3, text: "Le blastocyste se sépare en bouton embryonnaire interne et trophoblaste externe qui s'implante délicatement dans l'endomètre." },
+    { timeStr: "00:00:18", seconds: 18, week: "Semaine 3", bpm: "N/A", size: "1.5 mm", weight: "< 1 g", fruit: "Pépin de pomme", stage: "🔬 Stade : Disque embryonnaire trilaminaire", image: IMG_S1_S3, text: "Gastrulation : apparition des trois feuillets fondamentaux qui donneront naissance à tous les organes du corps." },
+    { timeStr: "00:00:26", seconds: 26, week: "Semaine 4", bpm: "105 BPM", size: "2 mm", weight: "< 1 g", fruit: "Graine de lentille", stage: "🌱 Stade : Tube neural & Ébauche cardiaque", image: IMG_S4_S7, text: "Le tube neural se ferme. Une petite boucle tubulaire s'active : c'est la toute première pulsation cardiaque fœtale." },
+    { timeStr: "00:00:36", seconds: 36, week: "Semaine 5", bpm: "110 BPM", size: "3 mm", weight: "< 1 g", fruit: "Pépin d'orange", stage: "🌱 Stade : Vésicule vitelline & Sac gestationnel", image: IMG_S4_S7, text: "L'embryon s'incurve doucement dans sa poche amniotique. Le foie primitif et le cordon ombilical se mettent en place." },
+    { timeStr: "00:00:46", seconds: 46, week: "Semaine 6", bpm: "120 BPM", size: "5 mm", weight: "< 1 g", fruit: "Pois chiche", stage: "🌱 Stade : Arc branchial & Bourgeons", image: IMG_S4_S7, text: "Le cœur bat vigoureusement à 120 battements par minute. De minuscules bourgeons apparaissent pour les futurs bras." },
+    { timeStr: "00:00:58", seconds: 58, week: "Semaine 7", bpm: "130 BPM", size: "10 mm", weight: "< 1 g", fruit: "Myrtille", stage: "🌱 Stade : Cavités cérébrales", image: IMG_S4_S7, text: "Le cerveau primitif se subdivise en hémisphères. Les bourgeons des jambes s'allongent à leur tour avec grâce." },
+    { timeStr: "00:01:15", seconds: 75, week: "Semaine 8", bpm: "145 BPM", size: "1.6 cm", weight: "1.5 g", fruit: "Haricot rouge", stage: "🌱 Stade : Doigts, orteils & Yeux primitifs", image: IMG_S8_S11, text: "Semaine 8 : L'embryon dessine des doigts distincts, des yeux pigmentés et de fins mouvements involontaires." },
+    { timeStr: "00:01:35", seconds: 95, week: "Semaine 9", bpm: "155 BPM", size: "2.3 cm", weight: "2 g", fruit: "Olive verte", stage: "🌱 Stade : Cartilage et ossature", image: IMG_S8_S11, text: "La queue embryonnaire a totalement disparu. Le squelette cartilagineux amorce sa minéralisation osseuse." },
+    { timeStr: "00:01:55", seconds: 115, week: "Semaine 10", bpm: "160 BPM", size: "3.1 cm", weight: "4 g", fruit: "Prune", stage: "🌱 Stade : Organogenèse achevée", image: IMG_S8_S11, text: "Fin de la période embryonnaire : tous les organes vitaux sont désormais présents et commencent leur maturation." },
+    { timeStr: "00:02:18", seconds: 138, week: "Semaine 11", bpm: "160 BPM", size: "4.1 cm", weight: "7 g", fruit: "Figue", stage: "🌱 Stade : Paupières closes & Déglutition", image: IMG_S8_S11, text: "Les paupières recouvrent délicatement les yeux. Bébé avale de petites gorgées de liquide amniotique protecteur." },
+    { timeStr: "00:02:40", seconds: 160, week: "Semaine 12", bpm: "150 BPM", size: "5.4 cm", weight: "14 g", fruit: "Fruit de la passion", stage: "🌱 Stade : Fin embryon / Fin Premier Trimestre", image: IMG_S8_S11, text: "Cap franchi ! Le profil du fœtus est clairement humain, les ongles se forment, et les réflexes nerveux débutent." },
+    { timeStr: "00:03:05", seconds: 185, week: "Semaine 13", bpm: "150 BPM", size: "7.4 cm", weight: "23 g", fruit: "Pêche", stage: "✨ Stade : Transition Second Trimestre", image: IMG_S12_S17, text: "Entrée dans le deuxième trimestre de sérénité. Les empreintes digitales uniques s'impriment." },
+    { timeStr: "00:03:30", seconds: 210, week: "Semaine 14", bpm: "148 BPM", size: "9 - 10 cm", weight: "57 g", fruit: "Poire", stage: "✨ Stade : Fœtus T2 dans sa sphère amniotique", image: IMG_S12_S17, text: "Le fœtus fait des mouvements fluides des bras et des jambes dans une lumière utérine dorée et translucide." },
+    { timeStr: "00:04:00", seconds: 240, week: "Semaine 15", bpm: "146 BPM", size: "10.5 cm", weight: "75 g", fruit: "Pomme", stage: "✨ Stade : Sensibilité à la lumière", image: IMG_S12_S17, text: "Bébé perçoit les variations douces de lumière à travers la paroi utérine et fait de petites moues expressives." },
+    { timeStr: "00:04:30", seconds: 270, week: "Semaine 16", bpm: "145 BPM", size: "11.6 cm", weight: "100 g", fruit: "Avocat", stage: "✨ Stade : Expressions faciales & Réflexe de préhension", image: IMG_S12_S17, text: "La musculature s'affine. Les doigts s'ouvrent et se referment, saisissant parfois doucement le cordon ombilical." },
+    { timeStr: "00:05:00", seconds: 300, week: "Semaine 17", bpm: "145 BPM", size: "13 cm", weight: "140 g", fruit: "Navet doux", stage: "✨ Stade : Tissu adipeux brun", image: IMG_S12_S17, text: "Accumulation de graisse brune sous-cutanée pour réguler la température corporelle. Le cœur bat à 145 BPM." },
+    { timeStr: "00:05:30", seconds: 330, week: "Semaine 18", bpm: "145 BPM", size: "14.2 cm", weight: "190 g", fruit: "Poivron doux", stage: "✨ Stade : Myélinisation des nerfs", image: IMG_S18_S25, text: "Le système nerveux central isole ses axones par la myéline. Les premiers coups de pied discrets peuvent être ressentis !" },
+    { timeStr: "00:06:00", seconds: 360, week: "Semaine 19", bpm: "145 BPM", size: "15.3 cm", weight: "240 g", fruit: "Mangue", stage: "✨ Stade : Vernix caseosa protecteur", image: IMG_S18_S25, text: "Une fine couche onctueuse de vernix caseosa protège la peau délicate du bébé au contact du liquide amniotique." },
+    { timeStr: "00:06:30", seconds: 390, week: "Semaine 20", bpm: "145 BPM", size: "16.4 cm", weight: "300 g", fruit: "Banane", stage: "✨ Stade : Garçon 💙 & Succion du pouce", image: IMG_S18_S25, text: "À 20 semaines, le sexe masculin est formellement confirmé ! Bébé suce fréquemment son pouce avec apaisement." },
+    { timeStr: "00:07:00", seconds: 420, week: "Semaine 21", bpm: "142 BPM", size: "26.7 cm", weight: "360 g", fruit: "Grande carotte", stage: "✨ Stade : Moelle osseuse hématopoïétique", image: IMG_S18_S25, text: "La moelle osseuse prend le relais du foie pour produire les globules rouges qui nourrissent ses organes en plein essor." },
+    { timeStr: "00:07:30", seconds: 450, week: "Semaine 22", bpm: "140 BPM", size: "27.8 cm", weight: "430 g", fruit: "Papaye", stage: "✨ Stade : Ouïe éveillée & Voix rassurante", image: IMG_S18_S25, text: "L'ouïe est fonctionnelle : bébé reconnaît la mélodie de la voix de sa maman et réagit aux musiques calmes." },
+    { timeStr: "00:08:00", seconds: 480, week: "Semaine 23", bpm: "139 BPM", size: "28.9 cm", weight: "500 g", fruit: "Aubergine moyenne", stage: "✨ Stade : Surfactant pulmonaire", image: IMG_S18_S25, text: "Les alvéoles pulmonaires commencent la sécrétion de surfactant indispensable pour la respiration aérienne future." },
+    { timeStr: "00:08:30", seconds: 510, week: "Semaine 24", bpm: "138 BPM", size: "30 cm", weight: "600 g", fruit: "Épi de maïs", stage: "✨ Stade : Cycles de sommeil & Rêves", image: IMG_S18_S25, text: "Le cerveau affiche des cycles réguliers de sommeil agité et de sommeil profond. La viabilité fœtale est franchie." },
+    { timeStr: "00:09:00", seconds: 540, week: "Semaine 25", bpm: "137 BPM", size: "34.6 cm", weight: "660 g", fruit: "Courgette ronde", stage: "✨ Stade : Réflexe de sursaut", image: IMG_S18_S25, text: "Bébé réagit aux bruits extérieurs soudains en bougeant ses petites mains et en repositionnant ses pieds potelés." },
+    { timeStr: "00:09:30", seconds: 570, week: "Semaine 26", bpm: "136 BPM", size: "35.6 cm", weight: "760 g", fruit: "Laitue romaine", stage: "✨ Stade : Ouverture des yeux", image: IMG_S26_S33, text: "Ses cils sont dessinés et ses paupières s'ouvrent ! Ses yeux contemplent son cocon utérin doré." },
+    { timeStr: "00:10:00", seconds: 600, week: "Semaine 27", bpm: "135 BPM", size: "36.6 cm", weight: "875 g", fruit: "Chou-fleur", stage: "✨ Stade : Clôture du 2ème Trimestre", image: IMG_S26_S33, text: "Bébé a souvent le hoquet après avoir avalé du liquide amniotique, procurant de petits soubresauts rythmés dans le ventre." },
+    { timeStr: "00:10:30", seconds: 630, week: "Semaine 28", bpm: "135 BPM", size: "37.6 cm", weight: "1000 g", fruit: "Aubergine de 1 kg", stage: "👶 Stade : Bienvenue au Troisième Trimestre", image: IMG_S26_S33, text: "Cap symbolique du kilogramme ! Le cerveau forme ses sillons et circonvolutions complexes à un rythme impressionnant." },
+    { timeStr: "00:11:00", seconds: 660, week: "Semaine 29", bpm: "134 BPM", size: "38.6 cm", weight: "1150 g", fruit: "Courge Butternut", stage: "👶 Stade : Stockage du calcium", image: IMG_S26_S33, text: "Le squelette absorbe quotidiennement le calcium maternel pour durcir ses os tout en gardant un crâne souple." },
+    { timeStr: "00:11:30", seconds: 690, week: "Semaine 30", bpm: "133 BPM", size: "39.9 cm", weight: "1300 g", fruit: "Chou blanc", stage: "👶 Stade : Régulation thermique autonome", image: IMG_S26_S33, text: "La graisse blanche s'accumule sous la peau, adoucissant ses contours et préparant sa protection thermique." },
+    { timeStr: "00:12:00", seconds: 720, week: "Semaine 31", bpm: "132 BPM", size: "41.1 cm", weight: "1500 g", fruit: "Noix de coco", stage: "👶 Stade : Sens du goût développé", image: IMG_S26_S33, text: "Les papilles gustatives distinguent le sucré et l'aromatique des repas dégustés avec amour par sa maman." },
+    { timeStr: "00:12:30", seconds: 750, week: "Semaine 32", bpm: "132 BPM", size: "42.4 cm", weight: "1700 g", fruit: "Grand cantaloup", stage: "👶 Stade : Échographie biométrique T3", image: IMG_S26_S33, text: "La plupart des bébés amorcent leur bascule en position tête en bas céphalique, prêts pour la trajectoire de naissance." },
+    { timeStr: "00:13:00", seconds: 780, week: "Semaine 33", bpm: "131 BPM", size: "43.7 cm", weight: "1900 g", fruit: "Ananas", stage: "👶 Stade : Transmission des anticorps maternels", image: IMG_S26_S33, text: "Le placenta transfère les anticorps protecteurs pour offrir à son système immunitaire un bouclier durable." },
+    { timeStr: "00:13:20", seconds: 800, week: "Semaine 34", bpm: "130 BPM", size: "45 cm", weight: "2150 g", fruit: "Melon miel", stage: "👶 Stade : Maturation pulmonaire finale", image: IMG_S34_S40, text: "Les poumons sont quasiment indépendants. Bébé a des joues rondes et potelées, avec une peau douce et lumineuse." },
+    { timeStr: "00:13:35", seconds: 815, week: "Semaine 35", bpm: "130 BPM", size: "46.2 cm", weight: "2380 g", fruit: "Grand melon jaune", stage: "👶 Stade : Réduction de l'espace intra-utérin", image: IMG_S34_S40, text: "L'espace se restreint : au lieu de pirouettes, bébé effectue des étirements puissants et bien ciblés contre la paroi." },
+    { timeStr: "00:13:50", seconds: 830, week: "Semaine 36", bpm: "130 BPM", size: "47.4 cm", weight: "2600 g", fruit: "Papaye géante", stage: "👶 Stade : Tête engagée dans le bassin", image: IMG_S34_S40, text: "Le lanugo (fin duvet) disparaît presque totalement. La respiration de maman devient plus fluide alors que bébé descend." },
+    { timeStr: "00:14:00", seconds: 840, week: "Semaine 37", bpm: "129 BPM", size: "48.6 cm", weight: "2850 g", fruit: "Bette à carde", stage: "👶 Stade : Bébé à terme précoce", image: IMG_S34_S40, text: "À 37 semaines, le terme précoce est atteint. Tous les systèmes vitaux sont prêts à accueillir l'air libre et les câlins." },
+    { timeStr: "00:14:10", seconds: 850, week: "Semaine 38", bpm: "128 BPM", size: "49.8 cm", weight: "3100 g", fruit: "Potiron", stage: "👶 Stade : Pleine maturité fœtale 38 SA", image: IMG_S34_S40, text: "Semaine 38 : Cheveux fins, traits du visage détendus et paisibles, cordon ombilical étincelant : notre trésor est prêt !" },
+    { timeStr: "00:14:16", seconds: 856, week: "Semaine 39", bpm: "126 BPM", size: "50.7 cm", weight: "3300 g", fruit: "Petite pastèque", stage: "👶 Stade : Les derniers préparatifs", image: IMG_S34_S40, text: "Bébé peaufine ses réserves d'énergie et somnole paisiblement en attendant le signal de départ de l'accouchement." },
+    { timeStr: "00:14:20", seconds: 860, week: "Semaine 40", bpm: "125 BPM", size: "51.2 cm", weight: "3500 g", fruit: "Terme accompli (40 SA)", image: IMG_S34_S40, text: "Terme plein accompli ! Le grand voyage de 40 semaines s'achève dans l'amour absolu." },
+    { timeStr: "00:14:22", seconds: 862, week: "Naissance", bpm: "125 BPM", size: "Nouveau-né", weight: "Bienvenue au monde !", fruit: "Dans les bras de ses parents", stage: "👶 Stade : Naissance & Accueil Chaleureux", image: IMG_S34_S40, text: "Félicitations ! Vous êtes maman de votre merveilleux petit garçon !" }
+];
+
+/* =========================================================
+   2. GESTION DES MODES D'AFFICHAGE & TRANSITION CROSSFADE FLUIDE
+========================================================= */
+let currentDisplayMode = 'morph';
+function switchDisplayMode(mode) {
+    currentDisplayMode = mode;
+    const vLayer = document.getElementById("html5VideoLayer");
+    const mLayer = document.getElementById("morphologyLayer");
+    const btnV = document.getElementById("modeBtnVideo");
+    const btnM = document.getElementById("modeBtnMorph");
+    if (mode === 'morph') {
+        if (mLayer) { mLayer.classList.remove('opacity-0', 'pointer-events-none'); mLayer.classList.add('opacity-100'); }
+        if (vLayer) { vLayer.classList.remove('opacity-100'); vLayer.classList.add('opacity-0', 'pointer-events-none'); }
+        if (btnM) { btnM.className = "min-h-[40px] px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 bg-bronze text-white shadow-sm touch-manipulation"; }
+        if (btnV) { btnV.className = "min-h-[40px] px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 bg-sand/80 text-mocha hover:bg-sand touch-manipulation"; }
+    } else {
+        if (vLayer) { vLayer.classList.remove('opacity-0', 'pointer-events-none'); vLayer.classList.add('opacity-100'); }
+        if (mLayer) { mLayer.classList.remove('opacity-100'); mLayer.classList.add('opacity-0', 'pointer-events-none'); }
+        if (btnV) { btnV.className = "min-h-[40px] px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 bg-bronze text-white shadow-sm touch-manipulation"; }
+        if (btnM) { btnM.className = "min-h-[40px] px-4 py-1.5 rounded-full text-xs font-bold transition flex items-center gap-1.5 bg-sand/80 text-mocha hover:bg-sand touch-manipulation"; }
+    }
+}
+
+let activeSlot = 'A';
+let currentImageSrc = IMG_S1_S3;
+function updateFetalVisual(newSrc) {
+    if (!newSrc || currentImageSrc === newSrc) return;
+    currentImageSrc = newSrc;
+    const imgA = document.getElementById("fetalImageA");
+    const imgB = document.getElementById("fetalImageB");
+    if (!imgA || !imgB) return;
+    if (activeSlot === 'A') {
+        imgB.src = newSrc;
+        imgB.classList.remove('opacity-0', 'scale-95');
+        imgB.classList.add('opacity-100', 'scale-100');
+        imgA.classList.remove('opacity-100', 'scale-100');
+        imgA.classList.add('opacity-0', 'scale-95');
+        activeSlot = 'B';
+    } else {
+        imgA.src = newSrc;
+        imgA.classList.remove('opacity-0', 'scale-95');
+        imgA.classList.add('opacity-100', 'scale-100');
+        imgB.classList.remove('opacity-100', 'scale-100');
+        imgB.classList.add('opacity-0', 'scale-95');
+        activeSlot = 'A';
+    }
+}
+
+/* =========================================================
+   3. MOTEUR AUDIO & SYNTHÈSE VOCALE OPTIMISÉ POUR ANDROID CHROME & IOS
+========================================================= */
+let audioCtx = null;
+let masterGainNode = null;
+let audioUnlocked = false;
+let speechUnlocked = false;
+let isAudioMuted = false;
+let isSpeechEnabled = true;
+let heartbeatTimer = null;
+let toastTimeout = null;
+let frenchVoices = [];
+let allVoicesCache = [];
+let isVoiceCurrentlySpeaking = false;
+let stepAdvanceTimer = null;
+window._currentUtterance = null;
+window._speechResumeWatchdog = null;
+
+function loadVoices() {
+    if (!('speechSynthesis' in window)) return;
+    try {
+        const voices = window.speechSynthesis.getVoices();
+        if (voices && voices.length > 0) {
+            allVoicesCache = voices;
+            frenchVoices = voices.filter(v => v.lang && (v.lang.toLowerCase().startsWith('fr') || v.lang.includes('FR')));
+        }
+    } catch(e) {}
+}
+
+let voiceRetryCount = 0;
+function pollVoicesForAndroid() {
+    loadVoices();
+    if ((!frenchVoices || frenchVoices.length === 0) && voiceRetryCount < 15) {
+        voiceRetryCount++;
+        setTimeout(pollVoicesForAndroid, 250);
+    }
+}
+if ('speechSynthesis' in window) {
+    window.speechSynthesis.onvoiceschanged = () => { loadVoices(); };
+    pollVoicesForAndroid();
+}
+
+function showAudioToast(title, msg, icon = "volume_up") {
+    const toast = document.getElementById("audioToast");
+    if (!toast) return;
+    if (title) document.getElementById("toastTitle").innerText = title;
+    if (msg) document.getElementById("toastMsg").innerText = msg;
+    const icoEl = document.getElementById("toastIcon");
+    if (icoEl) icoEl.innerText = icon;
+    toast.classList.remove('opacity-0', 'pointer-events-none', '-translate-y-4');
+    toast.classList.add('opacity-100', 'translate-y-0');
+    if (toastTimeout) clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => { dismissAudioToast(); }, 6000);
+}
+
+function dismissAudioToast() {
+    const toast = document.getElementById("audioToast");
+    if (toast) {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'pointer-events-none', '-translate-y-4');
+    }
+}
+
+function unlockAudio() {
+    try {
+        if (!audioCtx) {
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (AudioContextClass) {
+                audioCtx = new AudioContextClass();
+                masterGainNode = audioCtx.createGain();
+                masterGainNode.gain.setValueAtTime(0.85, audioCtx.currentTime);
+                masterGainNode.connect(audioCtx.destination);
+            }
+        }
+        if (audioCtx && (audioCtx.state === 'suspended' || audioCtx.state === 'interrupted')) {
+            audioCtx.resume();
+        }
+        if (audioCtx && !audioUnlocked) {
+            try {
+                const buffer = audioCtx.createBuffer(1, 1, 22050);
+                const source = audioCtx.createBufferSource();
+                source.buffer = buffer;
+                source.connect(audioCtx.destination);
+                source.start(0);
+                audioUnlocked = true;
+            } catch (e) {
+                console.warn("Buffer unlock warning", e);
+            }
+        }
+    } catch(err) {
+        console.warn("Audio unlock error:", err);
+    }
+}
+
+function playChimeTone(pitch = 587.33, duration = 0.22) {
+    unlockAudio();
+    if (!audioCtx) return;
+    try {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(pitch, audioCtx.currentTime);
+        gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+    } catch(e) {}
+}
+
+function primeAudioAndSpeechEngines() {
+    unlockAudio();
+    if (!('speechSynthesis' in window)) return;
+    try {
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        }
+        if (!speechUnlocked) {
+            window.speechSynthesis.cancel();
+            const dummy = new SpeechSynthesisUtterance('');
+            dummy.volume = 0;
+            window.speechSynthesis.speak(dummy);
+            window.speechSynthesis.resume();
+            speechUnlocked = true;
+        }
+    } catch(e) {}
+}
+
+['touchstart', 'touchend', 'click', 'pointerdown'].forEach(evt => {
+    document.addEventListener(evt, () => {
+        primeAudioAndSpeechEngines();
+    }, { passive: true, once: false });
+});
+
+function testAndroidChromeVoice(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    primeAudioAndSpeechEngines();
+    isSpeechEnabled = true;
+    updateSpeechButtonUI();
+    playChimeTone(659.25, 0.18);
+    const testText = "Test vocal réussi sur Chrome Android ! La voix française est fluide et synchronisée.";
+    speakMilestoneVoice(testText, null, true);
+    showAudioToast("Voix Android Chrome activée 🤖", "Moteur vocal débloqué avec succès !", "android");
+}
+
+function testMobileSound(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    primeAudioAndSpeechEngines();
+    isAudioMuted = false;
+    isSpeechEnabled = true;
+    updateSoundButtonUI();
+    updateSpeechButtonUI();
+    playDopplerHeartbeat();
+    speakMilestoneVoice("Semaine 12 : Le cœur du fœtus bat vigoureusement à 150 battements par minute.", null, true);
+    showAudioToast("Test Doppler & Voix Réussi 💓", "Battement fœtal et transcription vocale déclenchés !");
+}
+
+function listenCurrentTranscriptNow(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    primeAudioAndSpeechEngines();
+    const idx = getCurrentStepIndex(currentSecond);
+    const item = transcriptData[idx];
+    if (item) {
+        speakMilestoneVoice(`${item.week}. ${item.text}`, null, true);
+        showAudioToast("Voix en direct 🗣️", `${item.week} lue distinctement.`);
+    }
+}
+
+function updateSoundButtonUI() {
+    const icon = document.getElementById("soundIcon");
+    const label = document.getElementById("soundLabel");
+    const btn = document.getElementById("soundToggle");
+    const stateText = document.getElementById("audioStateText");
+    if (!icon || !label || !btn) return;
+    if (isAudioMuted) {
+        icon.innerText = "volume_off";
+        label.innerText = "🔇 Doppler coupé";
+        btn.className = "min-h-[44px] px-3.5 py-2 rounded-full border border-rose-500/50 bg-rose-950/60 text-rose-300 font-semibold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 touch-manipulation";
+        if (stateText) stateText.innerText = "Doppler en pause";
+    } else {
+        icon.innerText = "volume_up";
+        label.innerText = "🔊 Son fœtal actif";
+        btn.className = "min-h-[44px] px-3.5 py-2 rounded-full border border-emerald-500/50 bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 font-semibold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 touch-manipulation";
+        if (stateText) stateText.innerText = "Doppler & Voix Prêts";
+    }
+}
+
+function updateSpeechButtonUI() {
+    const icon = document.getElementById("speechIcon");
+    const label = document.getElementById("speechLabel");
+    const btn = document.getElementById("speechToggle");
+    if (!icon || !label || !btn) return;
+    if (isSpeechEnabled) {
+        icon.innerText = "record_voice_over";
+        label.innerText = "🗣️ Voix-off : Activée";
+        btn.className = "min-h-[44px] px-3.5 py-2 rounded-full border border-amber-500/50 bg-amber-950/60 hover:bg-amber-900/80 text-amber-200 font-semibold text-xs flex items-center gap-1.5 shadow-sm transition active:scale-95 touch-manipulation";
+    } else {
+        icon.innerText = "voice_over_off";
+        label.innerText = "🗣️ Voix-off : Coupée";
+        btn.className = "min-h-[44px] px-3.5 py-2 rounded-full border border-sand/30 bg-white/5 hover:bg-white/15 text-sand/70 font-medium text-xs flex items-center gap-1.5 transition active:scale-95 touch-manipulation";
+    }
+}
+
+function playDopplerHeartbeat() {
+    if (isAudioMuted) return;
+    unlockAudio();
+    if (!audioCtx) return;
+    try {
+        if (audioCtx.state === 'suspended' || audioCtx.state === 'interrupted') {
+            audioCtx.resume();
+        }
+        const now = audioCtx.currentTime;
+        triggerDopplerPulse(now, 82, 42, 0.16, 0.75);
+        triggerDopplerPulse(now + 0.11, 102, 52, 0.13, 0.55);
+    } catch(e) {
+        console.warn("Heartbeat playback issue:", e);
+    }
+}
+
+function triggerDopplerPulse(time, startFreq, endFreq, duration, volume) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    const filter = audioCtx.createBiquadFilter();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(startFreq, time);
+    osc.frequency.exponentialRampToValueAtTime(endFreq, time + duration);
+    filter.type = "lowpass";
+    filter.frequency.setValueAtTime(260, time);
+    filter.Q.setValueAtTime(2.5, time);
+    gain.gain.setValueAtTime(volume, time);
+    gain.gain.exponentialRampToValueAtTime(0.0001, time + duration);
+    osc.connect(filter);
+    filter.connect(gain);
+    if (masterGainNode) {
+        gain.connect(masterGainNode);
+    } else {
+        gain.connect(audioCtx.destination);
+    }
+    osc.start(time);
+    osc.stop(time + duration);
+}
+
+function startHeartbeatLoop() {
+    stopHeartbeatLoop();
+    if (isAudioMuted) return;
+    const idx = getCurrentStepIndex(currentSecond);
+    const step = transcriptData[idx];
+    let bpm = 145;
+    if (step && step.bpm && step.bpm !== 'N/A') {
+        const m = step.bpm.match(/\d+/);
+        if (m) bpm = parseInt(m[0], 10);
+    }
+    const intervalMs = Math.max(380, Math.min(800, (60 / bpm) * 1000));
+    playDopplerHeartbeat();
+    heartbeatTimer = setInterval(playDopplerHeartbeat, intervalMs);
+}
+
+function stopHeartbeatLoop() {
+    if (heartbeatTimer) {
+        clearInterval(heartbeatTimer);
+        heartbeatTimer = null;
+    }
+}
+
+function speakMilestoneVoice(text, onCompleteCallback = null, forceSpeak = false) {
+    if (!isSpeechEnabled && !forceSpeak) {
+        if (onCompleteCallback) onCompleteCallback();
+        return;
+    }
+    if (!('speechSynthesis' in window)) {
+        playChimeTone();
+        if (onCompleteCallback) onCompleteCallback();
+        return;
+    }
+    try {
+        primeAudioAndSpeechEngines();
+        if (window.speechSynthesis.paused) {
+            window.speechSynthesis.resume();
+        }
+        if (forceSpeak || window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+        }
+        const clean = text.replace(/["«»🔬🌱✨👶💙]/g, '').trim();
+        const utterance = new SpeechSynthesisUtterance(clean);
+        window._currentUtterance = utterance;
+        if (!frenchVoices || frenchVoices.length === 0) {
+            loadVoices();
+        }
+        let chosenVoice = null;
+        if (frenchVoices && frenchVoices.length > 0) {
+            chosenVoice = frenchVoices.find(v => v.name.toLowerCase().includes('google') && v.lang.startsWith('fr'))
+                || frenchVoices.find(v => v.name.toLowerCase().includes('thomas') || v.name.toLowerCase().includes('amelie') || v.name.toLowerCase().includes('audrey'))
+                || frenchVoices[0];
+        } else if (allVoicesCache && allVoicesCache.length > 0) {
+            chosenVoice = allVoicesCache.find(v => v.lang && v.lang.toLowerCase().startsWith('fr')) || allVoicesCache[0];
+        }
+        if (chosenVoice) {
+            utterance.voice = chosenVoice;
+            utterance.lang = chosenVoice.lang || 'fr-FR';
+        } else {
+            utterance.lang = 'fr-FR';
+        }
+        utterance.rate = 0.92;
+        utterance.pitch = 1.0;
+        utterance.volume = 1.0;
+        let hasFinished = false;
+        const finalizeUtterance = () => {
+            if (hasFinished) return;
+            hasFinished = true;
+            isVoiceCurrentlySpeaking = false;
+            window._currentUtterance = null;
+            if (window._speechResumeWatchdog) {
+                clearInterval(window._speechResumeWatchdog);
+                window._speechResumeWatchdog = null;
+            }
+            const wave = document.getElementById("voiceSpeakingWave");
+            if (wave) wave.classList.add('opacity-30');
+            if (onCompleteCallback) onCompleteCallback();
+        };
+        utterance.onstart = () => {
+            isVoiceCurrentlySpeaking = true;
+            const wave = document.getElementById("voiceSpeakingWave");
+            if (wave) wave.classList.remove('opacity-30');
+        };
+        utterance.onend = () => { finalizeUtterance(); };
+        utterance.onerror = (err) => {
+            console.warn("SpeechSynthesis error on mobile:", err);
+            finalizeUtterance();
+        };
+        if (window._speechResumeWatchdog) clearInterval(window._speechResumeWatchdog);
+        window._speechResumeWatchdog = setInterval(() => {
+            if (window.speechSynthesis.speaking && window.speechSynthesis.paused) {
+                window.speechSynthesis.resume();
+            }
+        }, 3000);
+        window.speechSynthesis.resume();
+        window.speechSynthesis.speak(utterance);
+    } catch(e) {
+        console.warn("Speech synthesis error caught:", e);
+        isVoiceCurrentlySpeaking = false;
+        window._currentUtterance = null;
+        if (onCompleteCallback) onCompleteCallback();
+    }
+}
+
+function toggleSpeech(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    primeAudioAndSpeechEngines();
+    isSpeechEnabled = !isSpeechEnabled;
+    updateSpeechButtonUI();
+    if (!isSpeechEnabled && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        window._currentUtterance = null;
+        const wave = document.getElementById("voiceSpeakingWave");
+        if (wave) wave.classList.add('opacity-30');
+    } else if (isSpeechEnabled) {
+        const idx = getCurrentStepIndex(currentSecond);
+        speakMilestoneVoice(`${transcriptData[idx].week}. ${transcriptData[idx].text}`, null, true);
+        showAudioToast("Voix activée 🗣️", "Transcription vocale prête pour mobile & bureau.");
+    }
+}
+
+function toggleAudioPulse(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    unlockAudio();
+    isAudioMuted = !isAudioMuted;
+    updateSoundButtonUI();
+    if (isAudioMuted) {
+        stopHeartbeatLoop();
+    } else {
+        playDopplerHeartbeat();
+        if (isPlaying) startHeartbeatLoop();
+        showAudioToast("🔊 Son Doppler Activé", "Doppler fœtal synchronisé avec les battements de chaque stade.");
+    }
+}
+
+/* =========================================================
+   4. CONTRÔLE DE LECTURE & DÉFILEMENT CONTINU S1 À S40
+========================================================= */
+let currentSecond = 1;
+let isPlaying = false;
+
+function formatTime(s) {
+    const h = Math.floor(s / 3600);
+    const m = Math.floor((s % 3600) / 60);
+    const sec = s % 60;
+    const p = (n) => String(n).padStart(2, '0');
+    return `${p(h)}:${p(m)}:${p(sec)}`;
+}
+
+function getCurrentStepIndex(sec) {
+    let activeIdx = 0;
+    for (let i = 0; i < transcriptData.length; i++) {
+        if (sec >= transcriptData[i].seconds) {
+            activeIdx = i;
+        } else {
+            break;
+        }
+    }
+    return activeIdx;
+}
+
+function updateScreenDisplay(idx, shouldSpeak = false) {
+    const data = transcriptData[idx];
+    if (!data) return;
+    const screenWeek = document.getElementById("screenWeekLabel");
+    if (screenWeek) screenWeek.innerText = data.week + " • " + data.timeStr;
+    const screenSnippet = document.getElementById("screenTranscriptSnippet");
+    if (screenSnippet) screenSnippet.innerText = `"${data.text}"`;
+    const bpmVal = document.getElementById("screenBpmValue");
+    if (bpmVal) bpmVal.innerText = data.bpm;
+    const sizeVal = document.getElementById("screenSizeValue");
+    if (sizeVal) sizeVal.innerText = data.size;
+    const weightVal = document.getElementById("screenWeightValue");
+    if (weightVal) weightVal.innerText = data.weight;
+    const timeDisp = document.getElementById("currentTimeDisplay");
+    if (timeDisp) timeDisp.innerText = formatTime(currentSecond);
+    const scrub = document.getElementById("scrubTime");
+    if (scrub) scrub.innerText = formatTime(currentSecond);
+    const slider = document.getElementById("timeSlider");
+    if (slider) slider.value = currentSecond;
+    const stageLabel = document.getElementById("screenStageLabel");
+    if (stageLabel) stageLabel.innerText = data.stage;
+    const fruitBadge = document.getElementById("fruitCompareBadge");
+    if (fruitBadge) fruitBadge.innerText = "Taille : " + data.fruit;
+    if (data.image) {
+        updateFetalVisual(data.image);
+    }
+    document.querySelectorAll(".transcript-row").forEach(el => {
+        el.classList.remove("bg-bronze/20", "border-bronze");
+    });
+    const activeRow = document.getElementById(`row-${idx}`);
+    if (activeRow) {
+        activeRow.classList.add("bg-bronze/20", "border-bronze");
+    }
+}
+
+function seekToSeconds(sec) {
+    primeAudioAndSpeechEngines();
+    currentSecond = sec;
+    const idx = getCurrentStepIndex(currentSecond);
+    updateScreenDisplay(idx, false);
+    if (!isAudioMuted && isPlaying) startHeartbeatLoop();
+    if (isPlaying) {
+        scheduleNextStep();
+    }
+}
+
+function handleViewportPlayTap(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    togglePlay();
+}
+
+function togglePlay(e) {
+    if (e && e.preventDefault) e.preventDefault();
+    primeAudioAndSpeechEngines();
+    if (isPlaying) {
+        pauseSimulation();
+    } else {
+        startSimulation();
+    }
+}
+
+function startSimulation() {
+    isPlaying = true;
+    primeAudioAndSpeechEngines();
+    const playIcon = document.getElementById("playIcon");
+    const playLabel = document.getElementById("playLabel");
+    const centerIcon = document.getElementById("centerPlayIcon");
+    const centerWrapper = document.getElementById("centerPlayIconWrapper");
+    if (playIcon) playIcon.innerText = "pause";
+    if (playLabel) playLabel.innerText = "Pause";
+    if (centerIcon) centerIcon.innerText = "pause";
+    if (centerWrapper) {
+        centerWrapper.classList.add('opacity-0', 'scale-90');
+    }
+    if (!isAudioMuted) {
+        startHeartbeatLoop();
+    }
+    scheduleNextStep();
+}
+
+function scheduleNextStep() {
+    if (stepAdvanceTimer) clearTimeout(stepAdvanceTimer);
+    if (!isPlaying) return;
+    const curIdx = getCurrentStepIndex(currentSecond);
+    const stepData = transcriptData[curIdx];
+    updateScreenDisplay(curIdx, false);
+    const onSentenceFinished = () => {
+        if (!isPlaying) return;
+        stepAdvanceTimer = setTimeout(() => {
+            if (!isPlaying) return;
+            if (curIdx < transcriptData.length - 1) {
+                currentSecond = transcriptData[curIdx + 1].seconds;
+                scheduleNextStep();
+            } else {
+                pauseSimulation();
+            }
+        }, 1200);
+    };
+    if (isSpeechEnabled) {
+        speakMilestoneVoice(`${stepData.week}. ${stepData.text}`, onSentenceFinished, false);
+    } else {
+        stepAdvanceTimer = setTimeout(onSentenceFinished, 5000);
+    }
+}
+
+function pauseSimulation() {
+    isPlaying = false;
+    const playIcon = document.getElementById("playIcon");
+    const playLabel = document.getElementById("playLabel");
+    const centerIcon = document.getElementById("centerPlayIcon");
+    const centerWrapper = document.getElementById("centerPlayIconWrapper");
+    if (playIcon) playIcon.innerText = "play_arrow";
+    if (playLabel) playLabel.innerText = "Lecture Simulation";
+    if (centerIcon) centerIcon.innerText = "play_arrow";
+    if (centerWrapper) {
+        centerWrapper.classList.remove('opacity-0', 'scale-90');
+    }
+    if (stepAdvanceTimer) {
+        clearTimeout(stepAdvanceTimer);
+        stepAdvanceTimer = null;
+    }
+    stopHeartbeatLoop();
+    if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        window._currentUtterance = null;
+    }
+    const wave = document.getElementById("voiceSpeakingWave");
+    if (wave) wave.classList.add('opacity-30');
+}
+
+function nextStep() {
+    primeAudioAndSpeechEngines();
+    const curIdx = getCurrentStepIndex(currentSecond);
+    if (curIdx < transcriptData.length - 1) {
+        seekToSeconds(transcriptData[curIdx + 1].seconds);
+        speakMilestoneVoice(`${transcriptData[curIdx + 1].week}. ${transcriptData[curIdx + 1].text}`, null, true);
+    }
+}
+
+function prevStep() {
+    primeAudioAndSpeechEngines();
+    const curIdx = getCurrentStepIndex(currentSecond);
+    if (curIdx > 0) {
+        seekToSeconds(transcriptData[curIdx - 1].seconds);
+        speakMilestoneVoice(`${transcriptData[curIdx - 1].week}. ${transcriptData[curIdx - 1].text}`, null, true);
+    }
+}
+
+function jumpToTrimester(trim) {
+    primeAudioAndSpeechEngines();
+    let targetSec = 1;
+    if (trim === 1) targetSec = 1;
+    else if (trim === 2) targetSec = 210;
+    else if (trim === 3) targetSec = 630;
+    const btn1 = document.getElementById("trimBtn1");
+    const btn2 = document.getElementById("trimBtn2");
+    const btn3 = document.getElementById("trimBtn3");
+    [btn1, btn2, btn3].forEach(b => {
+        if (b) {
+            b.classList.remove("bg-bronze", "text-white");
+            b.classList.add("text-gray-300");
+        }
+    });
+    const cur = document.getElementById(`trimBtn${trim}`);
+    if (cur) {
+        cur.classList.remove("text-gray-300");
+        cur.classList.add("bg-bronze", "text-white");
+    }
+    seekToSeconds(targetSec);
+    const curIdx = getCurrentStepIndex(targetSec);
+    speakMilestoneVoice(`${transcriptData[curIdx].week}. ${transcriptData[curIdx].text}`, null, true);
+}
+
+/* =========================================================
+   5. GÉNÉRATION DES JALONS DE LA VIDÉO
+========================================================= */
+function renderTranscriptFeed() {
+    const feed = document.getElementById("transcriptFeed");
+    if (!feed) return;
+    feed.innerHTML = "";
+    transcriptData.forEach((item, idx) => {
+        const row = document.createElement("div");
+        row.id = `row-${idx}`;
+        row.className = "transcript-row min-h-[44px] p-2.5 rounded-xl border border-sand bg-cream/50 hover:bg-sand/40 cursor-pointer transition flex items-center justify-between text-xs touch-manipulation";
+        row.onclick = () => {
+            primeAudioAndSpeechEngines();
+            seekToSeconds(item.seconds);
+            speakMilestoneVoice(`${item.week}. ${item.text}`, null, true);
+        };
+        row.innerHTML = `
+            <div class="flex items-center gap-2.5">
+                <span class="font-mono text-bronze-dark font-bold bg-sand px-2 py-0.5 rounded">${item.timeStr}</span>
+                <span class="font-bold text-mocha">${item.week}</span>
+                <span class="text-mocha-light hidden md:inline truncate max-w-md">${item.stage}</span>
+            </div>
+            <div class="flex items-center gap-3">
+                <span class="text-rose-700 font-mono font-medium">${item.bpm}</span>
+                <span class="text-[11px] text-mocha-light">${item.fruit}</span>
+            </div>
+        `;
+        feed.appendChild(row);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+    renderTranscriptFeed();
+    updateScreenDisplay(0, false);
+    pollVoicesForAndroid();
+    updateSpeechButtonUI();
+    updateSoundButtonUI();
+});
+</script>
+
+
+
+</body></html>

@@ -1,0 +1,2579 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <!-- Anti-cache headers for instant automatic update detection -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Mon Parcours · Fatou / My Journey - APK Android</title>
+    <style>
+        :root {
+            --gold: #5C3B24;
+            --gold-light: #8D6648;
+            --cream: #F7F2EC;
+            --paper: #FFFFFF;
+            --ink: #2B2320;
+            --muted: #6E6058;
+            --line: #E2D3C4;
+            --green: #2B7853;
+            --warm-bg: #FAF6F0;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream);
+            color: var(--ink);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 12px;
+        }
+        .card {
+            background: var(--paper);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            padding: 24px 18px;
+            max-width: 420px;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 26px rgba(92, 59, 36, 0.08);
+            position: relative;
+        }
+        /* Contrôles du haut (Édition & Langue) */
+        .top-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        .theme-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: #F4EBD8;
+            color: var(--gold);
+            font-size: 11px;
+            font-weight: 800;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+        .theme-pill:hover {
+            background: #EEDDCA;
+            transform: translateY(-1px);
+        }
+        .lang-switch {
+            display: inline-flex;
+            background: #EFE4D6;
+            border: 1px solid var(--line);
+            border-radius: 20px;
+            padding: 3px;
+            gap: 4px;
+        }
+        .lang-btn {
+            border: none;
+            background: transparent;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--muted);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .lang-btn.active {
+            background: var(--gold);
+            color: #ffffff;
+            box-shadow: 0 2px 6px rgba(92, 59, 36, 0.25);
+        }
+
+        .logo-img {
+            width: 84px;
+            height: 84px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin-bottom: 12px;
+            box-shadow: 0 4px 14px rgba(92, 59, 36, 0.15);
+            border: 2px solid var(--line);
+        }
+        h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 3px;
+            font-family: Georgia, serif;
+        }
+        p.subtitle {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+
+        .badge {
+            display: inline-block;
+            background: #F4EBD8;
+            color: var(--gold);
+            font-size: 10.5px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+            margin-bottom: 16px;
+        }
+
+        /* Compte à rebours numérique de chaque étape vers la grossesse */
+        .milestones-card {
+            background: var(--warm-bg);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 14px 12px;
+            margin-bottom: 18px;
+            text-align: left;
+        }
+        .milestones-header {
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .milestone-badge-pill {
+            font-size: 9.5px;
+            font-weight: 800;
+            background: #E8F4ED;
+            color: var(--green);
+            padding: 2px 7px;
+            border-radius: 12px;
+            border: 1px solid #BFE0CB;
+        }
+        .milestone-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .milestone-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 8px 10px;
+        }
+        .milestone-row.highlight {
+            background: #FDF9F2;
+            border-color: #DFCFBE;
+        }
+        .m-icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            background: #F4EBD8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+        .m-info {
+            flex: 1;
+            min-width: 0;
+        }
+        .m-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .m-date {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--gold);
+            margin: 1px 0;
+        }
+        .m-desc {
+            font-size: 9.5px;
+            color: var(--muted);
+            line-height: 1.3;
+        }
+        /* Boîte compte à rebours numérique */
+        .m-countdown-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 52px;
+            background: #E8F4ED;
+            border: 1px solid #BFE0CB;
+            border-radius: 10px;
+            padding: 4px 6px;
+            flex-shrink: 0;
+        }
+        .m-countdown-box.gold {
+            background: #F8EFE3;
+            border-color: #DFCDBB;
+        }
+        .m-num {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--green);
+            line-height: 1;
+            font-family: Georgia, serif;
+        }
+        .m-countdown-box.gold .m-num {
+            color: var(--gold);
+        }
+        .m-unit {
+            font-size: 8px;
+            font-weight: 800;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+            margin-top: 1px;
+        }
+
+        /* Timeline Tabs & September Steps */
+        .timeline-tabs {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            background: #F4EBD8;
+            padding: 3px;
+            border-radius: 12px;
+        }
+        .t-tab {
+            flex: 1;
+            padding: 8px 6px;
+            border: none;
+            background: transparent;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold);
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+        .t-tab.active {
+            background: #ffffff;
+            color: var(--ink);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+        }
+        .m-time-pill {
+            display: inline-block;
+            background: #EFE5D8;
+            color: #5C3B24;
+            font-size: 9px;
+            font-weight: 800;
+            padding: 1px 5px;
+            border-radius: 6px;
+            margin-left: 4px;
+        }
+        .m-location {
+            font-size: 9px;
+            color: #7A685D;
+            margin-bottom: 2px;
+            font-weight: 600;
+        }
+        .m-done-box {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 50px;
+            background: #E8F4ED;
+            border: 1px solid #BFE0CB;
+            border-radius: 10px;
+            padding: 4px 6px;
+            flex-shrink: 0;
+            color: var(--green);
+            font-weight: 800;
+            font-size: 10.5px;
+        }
+        .m-done-box span.done-check {
+            font-size: 13px;
+            line-height: 1;
+        }
+        .m-done-box span.done-text {
+            font-size: 8px;
+            letter-spacing: 0.5px;
+            margin-top: 1px;
+        }
+
+        /* Checklist Section */
+        .checklist-card {
+            background: #FDFBF8;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 16px 14px;
+            margin-top: 18px;
+            margin-bottom: 18px;
+            text-align: left;
+            box-shadow: 0 4px 14px rgba(92, 59, 36, 0.05);
+        }
+        .checklist-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px dashed var(--line);
+        }
+        .checklist-badge {
+            background: #F4EBD8;
+            color: var(--gold);
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+        .checklist-list {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+        .chk-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 10px;
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+        .chk-item:hover {
+            border-color: var(--gold);
+            transform: translateX(2px);
+        }
+        .chk-item.checked {
+            background: #F8F5EE;
+            opacity: 0.85;
+        }
+        .chk-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 6px;
+            border: 1.5px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #FFFFFF;
+            color: transparent;
+            font-size: 12px;
+            font-weight: 800;
+            flex-shrink: 0;
+            transition: all 0.2s ease;
+        }
+        .chk-item.checked .chk-box {
+            background: var(--green);
+            border-color: var(--green);
+            color: #FFFFFF;
+        }
+        .chk-content {
+            flex: 1;
+            min-width: 0;
+        }
+        .chk-title {
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--gold);
+            line-height: 1.3;
+        }
+        .chk-item.checked .chk-title {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+        .chk-meta {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        /* Journal Photos Section */
+        .journal-card {
+            background: #FDFBF8;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 16px 14px;
+            margin-bottom: 22px;
+            text-align: left;
+            box-shadow: 0 4px 14px rgba(92, 59, 36, 0.05);
+        }
+        .journal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 4px;
+        }
+        .journal-badge {
+            background: linear-gradient(135deg, #F4EBD8, #FFECC7);
+            color: var(--gold);
+            font-size: 9px;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+            letter-spacing: 0.5px;
+        }
+        .journal-sub {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            line-height: 1.4;
+        }
+        .journal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+        .journal-item {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            box-shadow: 0 2px 8px rgba(92, 59, 36, 0.04);
+        }
+        .journal-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--gold);
+            box-shadow: 0 8px 20px rgba(92, 59, 36, 0.12);
+        }
+        .journal-item.featured {
+            grid-column: span 2;
+            flex-direction: row;
+        }
+        .journal-thumb-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            overflow: hidden;
+            background: #1A0D07;
+        }
+        .journal-item.featured .journal-thumb-wrap {
+            width: 44%;
+            aspect-ratio: 1 / 1;
+            flex-shrink: 0;
+        }
+        .journal-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .journal-item:hover .journal-thumb {
+            transform: scale(1.05);
+        }
+        .journal-step-pill {
+            position: absolute;
+            top: 7px;
+            left: 7px;
+            background: rgba(30, 16, 9, 0.85);
+            backdrop-filter: blur(4px);
+            color: #FFE6A3;
+            font-size: 8.5px;
+            font-weight: 800;
+            padding: 2px 6px;
+            border-radius: 8px;
+            border: 1px solid rgba(200, 155, 60, 0.4);
+            letter-spacing: 0.3px;
+        }
+        .journal-zoom-badge {
+            position: absolute;
+            bottom: 7px;
+            right: 7px;
+            background: rgba(30, 16, 9, 0.75);
+            backdrop-filter: blur(4px);
+            color: #FFFFFF;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            opacity: 0.85;
+            transition: opacity 0.2s;
+        }
+        .journal-item:hover .journal-zoom-badge {
+            opacity: 1;
+            background: var(--gold);
+        }
+        .journal-info {
+            padding: 9px 8px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            flex: 1;
+        }
+        .journal-item.featured .journal-info {
+            padding: 12px 10px;
+            justify-content: center;
+        }
+        .journal-item-title {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1.3;
+        }
+        .journal-item-desc {
+            font-size: 10px;
+            color: #6C5B52;
+            line-height: 1.35;
+            margin-top: 2px;
+        }
+        .journal-item-tag {
+            font-size: 9px;
+            font-weight: 700;
+            color: var(--gold-light);
+            margin-top: 3px;
+        }
+
+        /* Modal Lightbox */
+        .journal-modal {
+            display: none;
+            position: fixed;
+            z-index: 9999;
+            inset: 0;
+            background: rgba(18, 9, 4, 0.88);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+        }
+        .journal-modal.active {
+            display: flex;
+        }
+        .modal-box {
+            background: #25140B;
+            border: 1.5px solid var(--gold);
+            border-radius: 20px;
+            max-width: 380px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+            animation: modalPop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+        }
+        @keyframes modalPop {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .modal-img {
+            width: 100%;
+            aspect-ratio: 1 / 1;
+            object-fit: contain;
+            background: #140804;
+            display: block;
+        }
+        .modal-body {
+            padding: 14px 16px;
+            text-align: left;
+            background: #201008;
+        }
+        .modal-stage {
+            font-size: 9px;
+            font-weight: 800;
+            color: var(--gold-light);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .modal-title {
+            font-size: 15px;
+            font-weight: 800;
+            color: #FFE6A3;
+            margin-top: 2px;
+            line-height: 1.3;
+        }
+        .modal-desc {
+            font-size: 11.5px;
+            color: #D8BE9B;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+        .modal-close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(30, 16, 9, 0.85);
+            border: 1px solid var(--gold);
+            color: #FFE6A3;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        /* Section Notes Personnelles */
+        .notes-card {
+            background: #FDFBF8;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 16px 14px;
+            margin-top: 18px;
+            margin-bottom: 18px;
+            text-align: left;
+            box-shadow: 0 4px 14px rgba(92, 59, 36, 0.05);
+        }
+        .notes-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--gold);
+            margin-bottom: 6px;
+        }
+        .notes-badge {
+            background: #F4EBD8;
+            color: var(--gold);
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--line);
+        }
+        .notes-subtitle {
+            font-size: 11px;
+            color: var(--muted);
+            margin-bottom: 12px;
+            line-height: 1.35;
+        }
+        .notes-mood-bar {
+            display: flex;
+            gap: 6px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 10px;
+        }
+        .mood-chip {
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 4px 10px;
+            font-size: 10px;
+            font-weight: 700;
+            color: #5C3B24;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.15s ease;
+            user-select: none;
+        }
+        .mood-chip:hover, .mood-chip.active {
+            background: #F4EBD8;
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .notes-textarea {
+            width: 100%;
+            min-height: 110px;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 10px 12px;
+            font-size: 12px;
+            font-family: inherit;
+            color: var(--ink);
+            background: #ffffff;
+            resize: vertical;
+            line-height: 1.5;
+            box-sizing: border-box;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .notes-textarea:focus {
+            outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(181, 142, 69, 0.15);
+        }
+        .notes-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .notes-status {
+            font-size: 10.5px;
+            color: var(--green);
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .notes-btn-row {
+            display: flex;
+            gap: 6px;
+        }
+        .notes-btn {
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--gold);
+            cursor: pointer;
+            transition: background 0.15s;
+            font-family: inherit;
+        }
+        .notes-btn:hover {
+            background: #F4EBD8;
+        }
+        .notes-btn.primary {
+            background: var(--gold);
+            color: #ffffff;
+            border-color: var(--gold);
+        }
+        .notes-btn.primary:hover {
+            background: #462A17;
+        }
+        .notes-history {
+            margin-top: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .saved-note-item {
+            background: #ffffff;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 10px 12px;
+            font-size: 11.5px;
+            color: #4A3E38;
+            position: relative;
+        }
+        .saved-note-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 5px;
+            font-size: 9.5px;
+            color: var(--muted);
+            font-weight: 700;
+        }
+        .saved-note-mood {
+            background: #F4EBD8;
+            color: var(--gold);
+            padding: 1px 6px;
+            border-radius: 8px;
+            font-size: 9px;
+            font-weight: 800;
+        }
+        .saved-note-text {
+            font-size: 11px;
+            color: var(--ink);
+            line-height: 1.45;
+            white-space: pre-wrap;
+        }
+        .saved-note-del {
+            cursor: pointer;
+            color: #A07060;
+            font-size: 11px;
+            background: none;
+            border: none;
+            padding: 2px 4px;
+            border-radius: 4px;
+        }
+        .saved-note-del:hover {
+            color: #C03020;
+            background: #FBEBE8;
+        }
+
+        .download-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-light));
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 15px;
+            padding: 14px 20px;
+            border-radius: 14px;
+            box-shadow: 0 4px 15px rgba(92, 59, 36, 0.25);
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(92, 59, 36, 0.35);
+        }
+        .meta-info {
+            margin-top: 14px;
+            font-size: 11px;
+            color: var(--muted);
+        }
+        .instructions {
+            margin-top: 18px;
+            text-align: left;
+            background: var(--warm-bg);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 14px;
+        }
+        .instructions h3 {
+            font-size: 12.5px;
+            color: var(--gold);
+            margin-bottom: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: var(--paper);
+            padding: 8px 10px;
+            border-radius: 10px;
+            border: 1px solid var(--line);
+        }
+        .step-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: #F4EBD8;
+            font-size: 14px;
+            flex-shrink: 0;
+            border: 1px solid var(--line);
+        }
+        .step-content {
+            font-size: 11px;
+            line-height: 1.4;
+            color: #554841;
+        }
+        .step-title {
+            font-weight: 700;
+            color: var(--gold);
+            margin-bottom: 1px;
+            font-size: 11.5px;
+        }
+
+        .pdf-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background: #F4EBD8;
+            color: var(--gold);
+            border: 1.5px solid var(--gold);
+            border-radius: 12px;
+            padding: 12px 16px;
+            font-size: 13.5px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 16px;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(92, 59, 36, 0.1);
+        }
+        .pdf-btn:hover {
+            background: #EEDDCA;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(92, 59, 36, 0.18);
+        }
+
+        .share-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            background: #FAF6F0;
+            color: var(--gold);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 11px 16px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.2s ease;
+        }
+        .share-btn:hover {
+            background: #F4EBD8;
+            transform: translateY(-1px);
+        }
+        .share-success-msg {
+            display: none;
+            font-size: 11px;
+            color: var(--green);
+            font-weight: 700;
+            margin-top: 8px;
+        }
+        .print-footer {
+            display: none;
+        }
+
+        @media print {
+            body {
+                background: #FFFFFF !important;
+                padding: 0 !important;
+                color: #2B2320 !important;
+                display: block !important;
+            }
+            .card {
+                max-width: 100% !important;
+                width: 100% !important;
+                border: none !important;
+                box-shadow: none !important;
+                padding: 16px 20px !important;
+                margin: 0 !important;
+                border-radius: 0 !important;
+            }
+            .top-controls,
+            .download-btn,
+            .meta-info,
+            .instructions,
+            .share-btn,
+            .pdf-btn,
+            .share-success-msg,
+            .journal-modal,
+            .journal-zoom-badge,
+            .live-sync-indicator,
+            .update-toast,
+            .m-countdown-box {
+                display: none !important;
+            }
+            * {
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+            }
+            .milestones-card, .checklist-card, .journal-card {
+                page-break-inside: avoid;
+                margin-bottom: 20px !important;
+                border: 1px solid #C8B29E !important;
+                background: #FAF6F0 !important;
+            }
+            .chk-item {
+                page-break-inside: avoid;
+            }
+            .journal-grid {
+                display: grid !important;
+                grid-template-columns: repeat(3, 1fr) !important;
+                gap: 12px !important;
+            }
+            .journal-item.featured {
+                grid-column: span 3 !important;
+            }
+            .print-footer {
+                display: block !important;
+                text-align: center;
+                margin-top: 24px;
+                padding-top: 14px;
+                border-top: 1px dashed #C8B29E;
+                font-size: 11px;
+                color: #7A695C;
+                font-weight: 600;
+            }
+        }
+
+        /* Indicateur de synchronisation automatique et notification de mise à jour */
+        .live-sync-indicator {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            background: #F4EBD8;
+            border: 1px solid var(--line);
+            padding: 4px 10px;
+            border-radius: 12px;
+            margin-top: 10px;
+            letter-spacing: 0.2px;
+        }
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            background-color: #27AE60;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 rgba(39, 174, 96, 0.4);
+            animation: pulseDot 2s infinite ease-in-out;
+        }
+        @keyframes pulseDot {
+            0% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(39, 174, 96, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(39, 174, 96, 0); }
+        }
+        .update-toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #2B2320;
+            color: #FFFFFF;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 10px 18px;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 28px rgba(0,0,0,0.35);
+            z-index: 10000;
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
+            opacity: 0;
+            pointer-events: none;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .update-toast.visible {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .toast-spinner {
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-top-color: #F4EBD8;
+            border-radius: 50%;
+            animation: spinToast 0.8s linear infinite;
+        }
+        @keyframes spinToast {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <!-- Contrôles du haut (Édition & Langue) -->
+        <div class="top-controls">
+            <div style="display:flex; gap:6px; flex-wrap:wrap;">
+                <a href="/desktop-brown.html" class="theme-pill" title="Vue Bureau Grand Écran">
+                    <span>🖥️</span>
+                    <span>Bureau Brown</span>
+                </a>
+                <a href="/gold.html" class="theme-pill" title="Découvrir l'Édition Or">
+                    <span>✨</span>
+                    <span>Édition Or</span>
+                </a>
+            </div>
+            <div class="lang-switch">
+                <button type="button" class="lang-btn active" id="btn-fr" onclick="setLanguage('fr')">🇫🇷 FR</button>
+                <button type="button" class="lang-btn" id="btn-en" onclick="setLanguage('en')">🇬🇧 EN</button>
+            </div>
+        </div>
+
+        <!-- Logo -->
+        <img class="logo-img" src="/assets/app_logo.jpg" onerror="this.src='https://ui-avatars.com/api/?name=MP&background=5C3B24&color=fff&size=84'" alt="Logo Mon Parcours">
+
+        <!-- Titre -->
+        <h1 id="app-title">Mon Parcours</h1>
+
+        <!-- Sous-titre RMA East Side -->
+        <p class="subtitle" id="app-subtitle">Fatou ♥ · RMA of New York (East Side)</p>
+
+        <!-- Badge du code PIN -->
+        <div class="badge" id="pin-badge">🔒 Protégé · Code PIN</div>
+
+        <!-- Compte à rebours & Historique complet des étapes -->
+        <div class="milestones-card">
+            <div class="milestones-header">
+                <span>♡ <span id="milestones-title">Protocole de Traitement FIV</span></span>
+                <span class="milestone-badge-pill" id="steps-badge">15 ÉTAPES FAITES</span>
+            </div>
+
+            <!-- PGT Lab Update Banner -->
+            <div style="background: #EAF4ED; border: 1.5px solid #BFE0CB; border-radius: 12px; padding: 10px 12px; margin-bottom: 14px; text-align: left; display: flex; align-items: center; gap: 10px;">
+                <span style="font-size: 20px;">🧬</span>
+                <div>
+                    <div style="font-size: 11px; font-weight: 800; color: #2B7853;" id="pgt-update-title">Mise à jour PGT aujourd'hui</div>
+                    <div style="font-size: 11.5px; font-weight: 700; color: var(--ink);" id="pgt-update-desc">Mise à jour des résultats PGT aujourd'hui : 5 des embryons sont revenus génétiquement normaux :)</div>
+                </div>
+            </div>
+
+            <!-- Suivi Cumulatif Global du Parcours FIV -->
+            <div style="background: linear-gradient(135deg, #FAF6F0 0%, #F4EBD8 100%); border: 1.5px solid var(--gold); border-radius: 14px; padding: 12px 14px; margin-bottom: 14px; text-align: left; box-shadow: 0 3px 12px rgba(92,59,36,0.06);">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                    <span style="font-family: Georgia, serif; font-size: 13px; font-weight: 800; color: var(--gold-dark); display: flex; align-items: center; gap: 6px;">
+                        <span>📈</span>
+                        <span>Suivi Cumulatif Global du Parcours FIV</span>
+                    </span>
+                    <span style="background: #2B7A4B; color: #FFFFFF; font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 10px;">1 CYCLE PRINCIPAL · 100% SUCCÈS</span>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center;">
+                    <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px;">
+                        <div style="font-family: Georgia, serif; font-size: 16px; font-weight: 800; color: var(--gold-dark);">1</div>
+                        <div style="font-size: 9px; font-weight: 700; color: var(--muted); margin-top: 2px;">Cycle FIV Entamé</div>
+                    </div>
+                    <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px;">
+                        <div style="font-family: Georgia, serif; font-size: 16px; font-weight: 800; color: #2B7A4B;">5 / 8</div>
+                        <div style="font-size: 9px; font-weight: 700; color: var(--muted); margin-top: 2px;">Embryons Normaux</div>
+                    </div>
+                    <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px;">
+                        <div style="font-family: Georgia, serif; font-size: 16px; font-weight: 800; color: var(--gold);">1</div>
+                        <div style="font-size: 9px; font-weight: 700; color: var(--muted); margin-top: 2px;">Réussite / Positif</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onglets de sélection de période -->
+            <div class="timeline-tabs">
+                <button type="button" class="t-tab active" id="tab-sept" onclick="showTimeline('sept')">Septembre (Stimulation)</button>
+                <button type="button" class="t-tab" id="tab-upcoming" onclick="showTimeline('upcoming')">Octobre & Nov. (Grossesse)</button>
+            </div>
+
+            <!-- Liste des étapes de Septembre 2026 -->
+            <div class="milestone-list" id="september-list">
+                <div class="milestone-row">
+                    <div class="m-icon-box">💊</div>
+                    <div class="m-info">
+                        <div class="m-title">Suppression ovarienne (Nortrel)</div>
+                        <div class="m-date">1 sept. 2026 <span class="m-time-pill">⏰ 08 h 00</span></div>
+                        <div class="m-location">📍 Domicile</div>
+                        <div class="m-desc">Prise quotidienne de contraceptif oral pour bloquer l'activité ovarienne et synchroniser les follicules.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">📦</div>
+                    <div class="m-info">
+                        <div class="m-title">Réception pharmacie de stimulation</div>
+                        <div class="m-date">5 sept. 2026 <span class="m-time-pill">⏰ 10 h 30</span></div>
+                        <div class="m-location">📍 Domicile (Freedom Fertility / MDRX)</div>
+                        <div class="m-desc">Livraison réfrigérée : stylos Gonal-F, Menopur 75 UI, Cetrotide, Lupron, Ovidrel et aiguilles.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">📞</div>
+                    <div class="m-info">
+                        <div class="m-title">Coordination infirmière RMA</div>
+                        <div class="m-date">10 sept. 2026 <span class="m-time-pill">⏰ 14 h 00</span></div>
+                        <div class="m-location">📍 RMA of New York (Téléconsultation)</div>
+                        <div class="m-desc">Revue du calendrier d'injections à heure fixe et validation préalable de l'assurance médicale.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">✍️</div>
+                    <div class="m-info">
+                        <div class="m-title">Consentements RMA & Biopsie PGT-A</div>
+                        <div class="m-date">15 sept. 2026 <span class="m-time-pill">⏰ 11 h 00</span></div>
+                        <div class="m-location">📍 Portail patient RMA Engage</div>
+                        <div class="m-desc">Signature des consentements de ponction sous sédation, ICSI et biopsie chromosomique.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">🛑</div>
+                    <div class="m-info">
+                        <div class="m-title">Dernier comprimé de Nortrel</div>
+                        <div class="m-date">18 sept. 2026 <span class="m-time-pill">⏰ 21 h 00</span></div>
+                        <div class="m-location">📍 Domicile</div>
+                        <div class="m-desc">Arrêt de la mise au repos ovarien. Hydratation optimale recommandée avant l'entrée en cycle.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row highlight">
+                    <div class="m-icon-box">🔬</div>
+                    <div class="m-info">
+                        <div class="m-title">Échographie basale & Bilan hormonal J1</div>
+                        <div class="m-date">19 sept. 2026 <span class="m-time-pill">⏰ 07 h 15</span></div>
+                        <div class="m-location">📍 RMA of New York (East Side, 635 Madison Ave)</div>
+                        <div class="m-desc">Endomètre fin (< 4 mm), CFA = 28 follicules antraux, E2 < 50 pg/mL. Feu vert médical stimulation.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">🧪</div>
+                    <div class="m-info">
+                        <div class="m-title">Session d'injection & Préparation stylos</div>
+                        <div class="m-date">20 sept. 2026 <span class="m-time-pill">⏰ 19 h 30</span></div>
+                        <div class="m-location">📍 Domicile</div>
+                        <div class="m-desc">Ajustement du stylo Gonal-F et reconstitution de la solution Menopur avec aiguille de mélange Q-Cap.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row highlight">
+                    <div class="m-icon-box">💉</div>
+                    <div class="m-info">
+                        <div class="m-title">Lancement stimulation ovarienne (Jour 1)</div>
+                        <div class="m-date">21 sept. 2026 <span class="m-time-pill">⏰ 20 h 00 précises</span></div>
+                        <div class="m-location">📍 Domicile</div>
+                        <div class="m-desc">Injections sous-cutanées combinées : Gonal-F 225 UI + Menopur 75 UI dans la paroi abdominale.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">🏥</div>
+                    <div class="m-info">
+                        <div class="m-title">Contrôle de stimulation n°1 (Monitoring #1)</div>
+                        <div class="m-date">23 sept. 2026 <span class="m-time-pill">⏰ 07 h 00 & 20 h 00</span></div>
+                        <div class="m-location">📍 RMA of New York (East Side)</div>
+                        <div class="m-desc">Prise de sang : E2 = 480 pg/mL. Échographie : 18 follicules émergents (9-11 mm). Poursuite du dosage.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">🛡️</div>
+                    <div class="m-info">
+                        <div class="m-title">Contrôle n°2 & Ajout Cetrotide (Antagoniste)</div>
+                        <div class="m-date">25 sept. 2026 <span class="m-time-pill">⏰ 07 h 15 & 08 h 15</span></div>
+                        <div class="m-location">📍 RMA of New York (East Side)</div>
+                        <div class="m-desc">Follicules à 13-14 mm. 08 h 15 : Début Cetrotide 0.25 mg sous-cutané pour bloquer l'ovulation spontanée.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">📊</div>
+                    <div class="m-info">
+                        <div class="m-title">Contrôle de stimulation n°3 (Monitoring #3)</div>
+                        <div class="m-date">27 sept. 2026 <span class="m-time-pill">⏰ 07 h 30 & 20 h 00</span></div>
+                        <div class="m-location">📍 RMA of New York (East Side)</div>
+                        <div class="m-desc">E2 = 1450 pg/mL. Échographie : 32 follicules visibles (14-17 mm), endomètre trilaminaire à 9.4 mm.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">📈</div>
+                    <div class="m-info">
+                        <div class="m-title">Contrôle n°4 (Maturation avancée)</div>
+                        <div class="m-date">28 sept. 2026 <span class="m-time-pill">⏰ 07 h 15 & 20 h 00</span></div>
+                        <div class="m-location">📍 RMA of New York (East Side)</div>
+                        <div class="m-desc">Plus de 35 follicules en développement dont plus de 20 > 17 mm. E2 > 2400 pg/mL. Dernière injection.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row highlight">
+                    <div class="m-icon-box">⚡</div>
+                    <div class="m-info">
+                        <div class="m-title">DÉCLENCHEMENT D'OVULATION (Trigger Shot)</div>
+                        <div class="m-date">29 sept. 2026 <span class="m-time-pill">⏰ 23 h 00 PRÉCISES</span></div>
+                        <div class="m-location">📍 Domicile (Sous-cutané)</div>
+                        <div class="m-desc">Double déclenchement Lupron 80 UI (4 mg) + mini hCG Pregnyl exactement 36h avant la ponction.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">🩺</div>
+                    <div class="m-info">
+                        <div class="m-title">Contrôle biologique post-déclenchement</div>
+                        <div class="m-date">30 sept. 2026 <span class="m-time-pill">⏰ 08 h 45 & 19 h 00</span></div>
+                        <div class="m-location">📍 RMA East Side & Gramercy Center</div>
+                        <div class="m-desc">PDS confirmant la montée de LH/Progestérone. 19 h 00 : Consignes de jeûne strict dès minuit.</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row highlight">
+                    <div class="m-icon-box">🥚</div>
+                    <div class="m-info">
+                        <div class="m-title">PONCTION OVOCYTAIRE (OPU) : 42 OVOCYTES !</div>
+                        <div class="m-date">1 oct. 2026 <span class="m-time-pill">⏰ 06 h 45 & 08 h 00</span></div>
+                        <div class="m-location">📍 Gramercy Surgery Center / RMA NY</div>
+                        <div class="m-desc">Ponction sous sédation douce : récolte exceptionnelle de 42 ovocytes (34 matures, 8 blastocystes vitrifiés).</div>
+                    </div>
+                    <div class="m-done-box">
+                        <span class="done-check">✓</span>
+                        <span class="done-text">VALIDÉ</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste des étapes futures (Grossesse) -->
+            <div class="milestone-list" id="upcoming-list" style="display: none;">
+                <div class="milestone-row">
+                    <div class="m-icon-box">🧬</div>
+                    <div class="m-info">
+                        <div class="m-title" id="m1-title">Résultats PGT-A</div>
+                        <div class="m-date" id="m1-date">27 oct. 2026</div>
+                        <div class="m-desc" id="m1-desc">Analyse des 8 blastocystes vitrifiés.</div>
+                    </div>
+                    <div class="m-countdown-box">
+                        <span class="m-num">2</span>
+                        <span class="m-unit">JOURS</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">🏥</div>
+                    <div class="m-info">
+                        <div class="m-title" id="m2-title">Hystérosonographie SIS</div>
+                        <div class="m-date" id="m2-date">28 oct. · 08 h 00 (RMA East Side)</div>
+                        <div class="m-desc" id="m2-desc">Examen précis de l'endomètre.</div>
+                    </div>
+                    <div class="m-countdown-box">
+                        <span class="m-num">3</span>
+                        <span class="m-unit">JOURS</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">🔬</div>
+                    <div class="m-info">
+                        <div class="m-title" id="m3-title">Hystéroscopie opératoire</div>
+                        <div class="m-date" id="m3-date">30 oct. 2026 (Gramercy Center)</div>
+                        <div class="m-desc" id="m3-desc">Préparation optimale de la cavité utérine.</div>
+                    </div>
+                    <div class="m-countdown-box">
+                        <span class="m-num">5</span>
+                        <span class="m-unit">JOURS</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row highlight">
+                    <div class="m-icon-box">✨</div>
+                    <div class="m-info">
+                        <div class="m-title" id="m4-title">Transfert Embryon (FET)</div>
+                        <div class="m-date" id="m4-date">31 oct. 2026 · Implantation</div>
+                        <div class="m-desc" id="m4-desc">Le grand jour de l'implantation embryonnaire.</div>
+                    </div>
+                    <div class="m-countdown-box gold">
+                        <span class="m-num">6</span>
+                        <span class="m-unit">JOURS</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row highlight">
+                    <div class="m-icon-box">🧪</div>
+                    <div class="m-info">
+                        <div class="m-title" id="m5-title">Prise de sang Bêta-hCG</div>
+                        <div class="m-date" id="m5-date">8 nov. 2026 · Test Grossesse</div>
+                        <div class="m-desc" id="m5-desc">Dosage officiel de l'hormone de grossesse.</div>
+                    </div>
+                    <div class="m-countdown-box gold">
+                        <span class="m-num">14</span>
+                        <span class="m-unit">JOURS</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row">
+                    <div class="m-icon-box">📈</div>
+                    <div class="m-info">
+                        <div class="m-title" id="m6-title">Bêta-hCG n°2 (Évolution)</div>
+                        <div class="m-date" id="m6-date">10 nov. 2026 · Doublage taux</div>
+                        <div class="m-desc" id="m6-desc">Contrôle du bon doublage du taux d'hCG.</div>
+                    </div>
+                    <div class="m-countdown-box">
+                        <span class="m-num">16</span>
+                        <span class="m-unit">JOURS</span>
+                    </div>
+                </div>
+
+                <div class="milestone-row highlight">
+                    <div class="m-icon-box">💓</div>
+                    <div class="m-info">
+                        <div class="m-title" id="m7-title">1ère Écho (Battement de cœur)</div>
+                        <div class="m-date" id="m7-date">22 nov. 2026 · Écho 6-7 SA</div>
+                        <div class="m-desc" id="m7-desc">Premier son et visuel du cœur du futur bébé.</div>
+                    </div>
+                    <div class="m-countdown-box">
+                        <span class="m-num">28</span>
+                        <span class="m-unit">JOURS</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Checklist des Priorités & Préparatifs -->
+        <div class="checklist-card" id="checklist-card">
+            <div class="checklist-header">
+                <span>☑ <span id="checklist-title">Checklist & Préparatifs</span></span>
+                <span class="checklist-badge" id="checklist-badge">6 PRIORITÉS</span>
+            </div>
+            <div class="checklist-list">
+                <div class="chk-item" onclick="toggleCheck(this, 'chk1')">
+                    <div class="chk-box">✓</div>
+                    <div class="chk-content">
+                        <div class="chk-title" id="chk1-title">Dossier PGT-A & Consentements signés</div>
+                        <div class="chk-meta" id="chk1-meta">27 oct. · Validation génétique 8 embryons</div>
+                    </div>
+                </div>
+                <div class="chk-item" onclick="toggleCheck(this, 'chk2')">
+                    <div class="chk-box">✓</div>
+                    <div class="chk-content">
+                        <div class="chk-title" id="chk2-title">Rendez-vous SIS confirmé (RMA East Side)</div>
+                        <div class="chk-meta" id="chk2-meta">28 oct. 08 h 00 · Cavité & endomètre</div>
+                    </div>
+                </div>
+                <div class="chk-item" onclick="toggleCheck(this, 'chk3')">
+                    <div class="chk-box">✓</div>
+                    <div class="chk-content">
+                        <div class="chk-title" id="chk3-title">Consultation pré-op Hystéroscopie</div>
+                        <div class="chk-meta" id="chk3-meta">30 oct. · Gramercy Surgery Center</div>
+                    </div>
+                </div>
+                <div class="chk-item checked" onclick="toggleCheck(this, 'chk4')">
+                    <div class="chk-box">✓</div>
+                    <div class="chk-content">
+                        <div class="chk-title" id="chk4-title">Protocoles médicamenteux & Progestérone</div>
+                        <div class="chk-meta" id="chk4-meta">En cours · Support lutéal & oestrogènes</div>
+                    </div>
+                </div>
+                <div class="chk-item" onclick="toggleCheck(this, 'chk5')">
+                    <div class="chk-box">✓</div>
+                    <div class="chk-content">
+                        <div class="chk-title" id="chk5-title">Préparer le jour du transfert FET</div>
+                        <div class="chk-meta" id="chk5-meta">31 oct. · Vessie pleine, tenue confortable</div>
+                    </div>
+                </div>
+                <div class="chk-item" onclick="toggleCheck(this, 'chk6')">
+                    <div class="chk-box">✓</div>
+                    <div class="chk-content">
+                        <div class="chk-title" id="chk6-title">Test Bêta-hCG & suivi RMA</div>
+                        <div class="chk-meta" id="chk6-meta">8 nov. · Prise de sang officielle</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Journal Photos (Sous la checklist) -->
+        <div class="journal-card" id="journal-photos-section">
+            <div class="journal-header">
+                <span>📷 <span id="journal-title">Journal Photos du Parcours</span></span>
+                <span class="journal-badge" id="journal-badge">IA ART GALLERY</span>
+            </div>
+            <p class="journal-sub" id="journal-subtitle">Vignettes visuelles artistiques représentant chaque étape clé du parcours FIV.</p>
+
+            <div class="journal-grid">
+                <!-- Vignette 1: PGT-A Embryo -->
+                <div class="journal-item" onclick="openPhotoModal('pgta')">
+                    <div class="journal-thumb-wrap">
+                        <img class="journal-thumb" src="/assets/journal_pgta.svg" alt="PGT-A Blastocystes">
+                        <span class="journal-step-pill" id="j1-step">ÉTAPE 1 · 27 OCT.</span>
+                        <div class="journal-zoom-badge">🔍</div>
+                    </div>
+                    <div class="journal-info">
+                        <div class="journal-item-title" id="j1-title">Blastocyste & PGT-A</div>
+                        <div class="journal-item-desc" id="j1-desc">Vitalité & analyse des 8 embryons.</div>
+                        <div class="journal-item-tag" id="j1-tag">#Embryologie</div>
+                    </div>
+                </div>
+
+                <!-- Vignette 2: SIS Ultrasound -->
+                <div class="journal-item" onclick="openPhotoModal('sis')">
+                    <div class="journal-thumb-wrap">
+                        <img class="journal-thumb" src="/assets/journal_sis.svg" alt="SIS Échographie 3D">
+                        <span class="journal-step-pill" id="j2-step">ÉTAPE 2 · 28 OCT.</span>
+                        <div class="journal-zoom-badge">🔍</div>
+                    </div>
+                    <div class="journal-info">
+                        <div class="journal-item-title" id="j2-title">SIS RMA East Side</div>
+                        <div class="journal-item-desc" id="j2-desc">Endomètre trilaminaire optimal (9.2mm).</div>
+                        <div class="journal-item-tag" id="j2-tag">#Échographie3D</div>
+                    </div>
+                </div>
+
+                <!-- Vignette 3: Transfert d'Embryon (Featured Full Width) -->
+                <div class="journal-item featured" onclick="openPhotoModal('transfer')">
+                    <div class="journal-thumb-wrap">
+                        <img class="journal-thumb" src="/assets/journal_transfer.svg" alt="Transfert FET Implantation">
+                        <span class="journal-step-pill" id="j3-step">ÉTAPE 4 · 31 OCT.</span>
+                        <div class="journal-zoom-badge">🔍</div>
+                    </div>
+                    <div class="journal-info">
+                        <div class="journal-item-title" id="j3-title">Transfert Embryon (FET)</div>
+                        <div class="journal-item-desc" id="j3-desc">Le grand jour : l'étincelle de vie trouve son doux nid.</div>
+                        <div class="journal-item-tag" id="j3-tag">#Implantation #JourJ</div>
+                    </div>
+                </div>
+
+                <!-- Vignette 4: Bêta-hCG Positif -->
+                <div class="journal-item" onclick="openPhotoModal('betahcg')">
+                    <div class="journal-thumb-wrap">
+                        <img class="journal-thumb" src="/assets/journal_betahcg.svg" alt="Bêta-hCG Positif">
+                        <span class="journal-step-pill" id="j4-step">ÉTAPE 5 · 8 NOV.</span>
+                        <div class="journal-zoom-badge">🔍</div>
+                    </div>
+                    <div class="journal-info">
+                        <div class="journal-item-title" id="j4-title">Bêta-hCG Positif</div>
+                        <div class="journal-item-desc" id="j4-desc">Les 2 lignes tant espérées qui illuminent tout.</div>
+                        <div class="journal-item-tag" id="j4-tag">#DeuxLignes #Grossesse</div>
+                    </div>
+                </div>
+
+                <!-- Vignette 5: Battement de cœur -->
+                <div class="journal-item" onclick="openPhotoModal('heartbeat')">
+                    <div class="journal-thumb-wrap">
+                        <img class="journal-thumb" src="/assets/journal_ultrasound.svg" alt="Premiers Battements de Cœur">
+                        <span class="journal-step-pill" id="j5-step">ÉTAPE 7 · 22 NOV.</span>
+                        <div class="journal-zoom-badge">🔍</div>
+                    </div>
+                    <div class="journal-info">
+                        <div class="journal-item-title" id="j5-title">1ers Battements Cœur</div>
+                        <div class="journal-item-desc" id="j5-desc">Écho de viabilité : le rythme de la vie (145 BPM).</div>
+                        <div class="journal-item-tag" id="j5-tag">#PremierCœur #Émotion</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Notes Personnelles (Sous le journal photos) -->
+        <div class="notes-card" id="notes-personnelles-section">
+            <div class="notes-header">
+                <span>📝 <span id="notes-title">Notes personnelles de Fatou</span></span>
+                <span class="notes-badge" id="notes-badge">ESPACE PRIVÉ</span>
+            </div>
+            <p class="notes-subtitle" id="notes-subtitle">Notez ici vos pensées quotidiennes, vos émotions, questions pour l'équipe RMA ou petits bonheurs. Vos écrits sont automatiquement enregistrés en privé sur votre appareil.</p>
+
+            <!-- Sélecteur d'émotions / humeur -->
+            <div class="notes-mood-bar" id="mood-selector">
+                <span class="mood-chip active" onclick="selectMood(this, '✨ Pleine d\'espoir')">✨ Pleine d'espoir</span>
+                <span class="mood-chip" onclick="selectMood(this, '🌸 Sereine')">🌸 Sereine</span>
+                <span class="mood-chip" onclick="selectMood(this, '🙏 Reconnaissante')">🙏 Reconnaissante</span>
+                <span class="mood-chip" onclick="selectMood(this, '💪 Confiante')">💪 Confiante</span>
+                <span class="mood-chip" onclick="selectMood(this, '🧘 Apaisée')">🧘 Apaisée</span>
+                <span class="mood-chip" onclick="selectMood(this, '💭 Réfléchie')">💭 Réfléchie</span>
+            </div>
+
+            <!-- Zone de texte éditable par Fatou -->
+            <textarea class="notes-textarea" id="fatou-daily-notes" placeholder="Chère Fatou, écrivez vos pensées du jour ici..." oninput="autoSaveDailyNotes()"></textarea>
+
+            <div class="notes-actions">
+                <div class="notes-status" id="notes-status">
+                    <span>✓</span>
+                    <span id="notes-status-text">Sauvegardé automatiquement</span>
+                </div>
+                <div class="notes-btn-row">
+                    <button type="button" class="notes-btn" onclick="insertTodayDate()" id="btn-insert-date">📅 Date</button>
+                    <button type="button" class="notes-btn" onclick="clearNotesDraft()" id="btn-clear-note">Effacer</button>
+                    <button type="button" class="notes-btn primary" onclick="archiveNoteEntry()" id="btn-archive-note">Ajouter au journal</button>
+                </div>
+            </div>
+
+            <!-- Historique des pensées enregistrées -->
+            <div class="notes-history" id="notes-history-list"></div>
+        </div>
+
+        <a class="download-btn" id="download-link" href="https://litter.catbox.moe/z1ni2q.apk" download="MonParcours.apk">
+            <span>📥</span>
+            <span id="download-btn-text">Télécharger l'APK Android</span>
+        </a>
+
+        <p class="meta-info" id="meta-info-text">Fichier : <b>MonParcours.apk</b> (~28 Mo)<br>Compatible avec Android 7.0 et supérieur</p>
+
+        <div class="instructions">
+            <h3><span>📋</span> <span id="guide-header">Guide d'installation rapide</span></h3>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-icon">📥</div>
+                    <div class="step-content">
+                        <div class="step-title" id="step1-title">1. Télécharger l'APK</div>
+                        <span id="step1-desc">Cliquez sur le bouton ci-dessus pour enregistrer le fichier sur votre smartphone.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-icon">📂</div>
+                    <div class="step-content">
+                        <div class="step-title" id="step2-title">2. Ouvrir le fichier</div>
+                        <span id="step2-desc">Appuyez sur la notification de fin de téléchargement ou ouvrez le dossier <i>Téléchargements</i>.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-icon">🛡️</div>
+                    <div class="step-content">
+                        <div class="step-title" id="step3-title">3. Autoriser la source</div>
+                        <span id="step3-desc">Si Android vous le demande, cochez <i>« Autoriser l'installation depuis cette source »</i>.</span>
+                    </div>
+                </div>
+                <div class="step-item">
+                    <div class="step-icon">🔒</div>
+                    <div class="step-content">
+                        <div class="step-title" id="step4-title">4. Déverrouiller & Profiter</div>
+                        <span id="step4-desc">Ouvrez l'application <b>Mon Parcours</b> et saisissez votre code secret.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bouton Enregistrer en PDF -->
+        <button class="pdf-btn" id="pdf-button" type="button" onclick="saveAsPdf()">
+            <span>📄</span>
+            <span id="pdf-btn-text">Enregistrer en PDF</span>
+        </button>
+
+        <!-- Bouton Partager cette page -->
+        <button class="share-btn" id="share-button" type="button">
+            <span>🔗</span>
+            <span id="share-btn-text">Partager cette page</span>
+        </button>
+        <div class="share-success-msg" id="share-msg">✓ Lien copié dans le presse-papier !</div>
+
+        <!-- Indicateur de mise à jour en direct -->
+        <div class="live-sync-indicator" id="live-indicator">
+            <span class="pulse-dot"></span>
+            <span id="sync-text">En direct · Mises à jour auto</span>
+        </div>
+
+        <!-- Footer pour impression et PDF -->
+        <div class="print-footer" id="print-footer-text">
+            Mon Parcours FIV · Fatou ♥ · RMA of New York (East Side) · Document officiel pour suivi personnel & médical
+        </div>
+    </div>
+
+    <!-- Notification Toast de mise à jour automatique -->
+    <div class="update-toast" id="update-toast">
+        <div class="toast-spinner"></div>
+        <span id="update-toast-text">Mise à jour détectée · Actualisation...</span>
+    </div>
+
+    <!-- Modal Lightbox Grand Format pour Journal Photos -->
+    <div class="journal-modal" id="journal-modal" onclick="closePhotoModal(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <button class="modal-close-btn" type="button" onclick="closePhotoModal(event)" aria-label="Fermer">✕</button>
+            <img class="modal-img" id="modal-img" src="" alt="Aperçu Grand Format">
+            <div class="modal-body">
+                <div class="modal-stage" id="modal-stage"></div>
+                <div class="modal-title" id="modal-title"></div>
+                <div class="modal-desc" id="modal-desc"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // SafeStorage: Fallback gracefully to memory if running inside sandboxed iframes (e.g., Google Sites)
+        const SafeStorage = {
+            _mem: {},
+            getItem: function(key) {
+                try {
+                    return window.localStorage.getItem(key);
+                } catch (e) {
+                    return this._mem[key] !== undefined ? this._mem[key] : null;
+                }
+            },
+            setItem: function(key, val) {
+                try {
+                    window.localStorage.setItem(key, String(val));
+                } catch (e) {
+                    this._mem[key] = String(val);
+                }
+            },
+            removeItem: function(key) {
+                try {
+                    window.localStorage.removeItem(key);
+                } catch (e) {
+                    delete this._mem[key];
+                }
+            }
+        };
+
+        // Dictionnaire bilingue Français / Anglais
+        const translations = {
+            fr: {
+                appTitle: "Mon Parcours",
+                appSubtitle: "Fatou ♥ · RMA of New York (East Side)",
+                pinBadge: "🔒 Protégé · Code PIN",
+                milestonesTitle: "En route vers la Grossesse",
+                stepsBadge: "7 ÉTAPES",
+                m1Title: "Résultats PGT-A : 5 Normaux !",
+                m1Date: "26 oct. · 5 euploïdes sur 8",
+                m1Desc: "Magnifique nouvelle ! 5 embryons normaux sur 8 testés.",
+                m2Title: "Hystérosonographie SIS",
+                m2Date: "28 oct. · 08 h 00 (RMA East Side)",
+                m2Desc: "Examen précis de l'endomètre.",
+                m3Title: "Hystéroscopie opératoire",
+                m3Date: "30 oct. 2026 (Gramercy Center)",
+                m3Desc: "Préparation optimale de la cavité utérine.",
+                m4Title: "Transfert Embryon (FET)",
+                m4Date: "31 oct. 2026 · Implantation",
+                m4Desc: "Le grand jour de l'implantation embryonnaire.",
+                m5Title: "Prise de sang Bêta-hCG",
+                m5Date: "8 nov. 2026 · Test Grossesse",
+                m5Desc: "Dosage officiel de l'hormone de grossesse.",
+                m6Title: "Bêta-hCG n°2 (Évolution)",
+                m6Date: "10 nov. 2026 · Doublage taux",
+                m6Desc: "Contrôle du bon doublage du taux d'hCG.",
+                m7Title: "1ère Écho (Battement de cœur)",
+                m7Date: "22 nov. 2026 · Écho 6-7 SA",
+                m7Desc: "Premier son et visuel du cœur du futur bébé.",
+
+                // Checklist
+                checklistTitle: "Checklist & Préparatifs",
+                checklistBadge: "6 PRIORITÉS",
+                chk1Title: "Dossier PGT-A & Consentements signés",
+                chk1Meta: "27 oct. · Validation génétique 8 embryons",
+                chk2Title: "Rendez-vous SIS confirmé (RMA East Side)",
+                chk2Meta: "28 oct. 08 h 00 · Cavité & endomètre",
+                chk3Title: "Consultation pré-op Hystéroscopie",
+                chk3Meta: "30 oct. · Gramercy Surgery Center",
+                chk4Title: "Protocoles médicamenteux & Progestérone",
+                chk4Meta: "En cours · Support lutéal & oestrogènes",
+                chk5Title: "Préparer le jour du transfert FET",
+                chk5Meta: "31 oct. · Vessie pleine, tenue confortable",
+                chk6Title: "Test Bêta-hCG & suivi RMA",
+                chk6Meta: "8 nov. · Prise de sang officielle",
+
+                // Journal Photos
+                journalTitle: "Journal Photos du Parcours",
+                journalBadge: "IA ART GALLERY",
+                journalSubtitle: "Vignettes visuelles artistiques représentant chaque étape clé du parcours FIV.",
+                j1Step: "ÉTAPE 1 · 27 OCT.",
+                j1Title: "Blastocyste & PGT-A",
+                j1Desc: "Vitalité & analyse des 8 embryons.",
+                j1Tag: "#Embryologie",
+                j2Step: "ÉTAPE 2 · 28 OCT.",
+                j2Title: "SIS RMA East Side",
+                j2Desc: "Endomètre trilaminaire optimal (9.2mm).",
+                j2Tag: "#Échographie3D",
+                j3Step: "ÉTAPE 4 · 31 OCT.",
+                j3Title: "Transfert Embryon (FET)",
+                j3Desc: "Le grand jour : l'étincelle de vie trouve son doux nid.",
+                j3Tag: "#Implantation #JourJ",
+                j4Step: "ÉTAPE 5 · 8 NOV.",
+                j4Title: "Bêta-hCG Positif",
+                j4Desc: "Les 2 lignes tant espérées qui illuminent tout.",
+                j4Tag: "#DeuxLignes #Grossesse",
+                j5Step: "ÉTAPE 7 · 22 NOV.",
+                j5Title: "1ers Battements Cœur",
+                j5Desc: "Écho de viabilité : le rythme de la vie (145 BPM).",
+                j5Tag: "#PremierCœur #Émotion",
+
+                // Notes personnelles
+                notesTitle: "Notes personnelles de Fatou",
+                notesBadge: "ESPACE PRIVÉ",
+                notesSubtitle: "Notez ici vos pensées quotidiennes, vos émotions, questions pour l'équipe RMA ou petits bonheurs. Vos écrits sont automatiquement enregistrés en privé sur votre appareil.",
+                notesPlaceholder: "Chère Fatou, écrivez vos pensées du jour ici...",
+                notesStatusText: "Sauvegardé automatiquement",
+                btnInsertDate: "📅 Date",
+                btnClearNote: "Effacer",
+                btnArchiveNote: "Ajouter au journal",
+
+                downloadBtn: "Télécharger l'APK Android",
+                metaInfo: "Fichier : <b>MonParcours.apk</b> (~28 Mo)<br>Compatible avec Android 7.0 et supérieur",
+                guideHeader: "Guide d'installation rapide",
+                step1Title: "1. Télécharger l'APK",
+                step1Desc: "Cliquez sur le bouton ci-dessus pour enregistrer le fichier sur votre smartphone.",
+                step2Title: "2. Ouvrir le fichier",
+                step2Desc: "Appuyez sur la notification de fin de téléchargement ou ouvrez le dossier <i>Téléchargements</i>.",
+                step3Title: "3. Autoriser la source",
+                step3Desc: "Si Android vous le demande, cochez <i>« Autoriser l'installation depuis cette source »</i>.",
+                step4Title: "4. Déverrouiller & Profiter",
+                step4Desc: "Ouvrez l'application <b>Mon Parcours</b> et saisissez votre code secret.",
+                savePdfBtn: "Enregistrer en PDF",
+                shareBtn: "Partager cette page",
+                shareSuccess: "✓ Lien copié dans le presse-papier !",
+                shareTitle: "Mon Parcours - Téléchargement APK",
+                shareText: "Téléchargez l'application Mon Parcours pour suivre le protocole de Fatou.",
+                printFooter: "Mon Parcours FIV · Fatou ♥ · RMA of New York (East Side) · Document officiel pour suivi personnel & médical",
+                liveSyncText: "En direct · Mises à jour auto",
+                updateToastText: "Mise à jour détectée · Actualisation en cours..."
+            },
+            en: {
+                appTitle: "My Journey",
+                appSubtitle: "Fatou ♥ · RMA of New York (East Side)",
+                pinBadge: "🔒 Protected · PIN Code",
+                milestonesTitle: "Next Steps to Pregnancy",
+                stepsBadge: "7 STEPS",
+                m1Title: "PGT-A Results: 5 Normal!",
+                m1Date: "Oct 26 · 5 euploid of 8",
+                m1Desc: "Wonderful news! 5 genetically normal embryos.",
+                m2Title: "Saline Ultrasound SIS",
+                m2Date: "Oct 28 · 8:00 AM (RMA East Side)",
+                m2Desc: "Precise uterine cavity check.",
+                m3Title: "Operative Hysteroscopy",
+                m3Date: "Oct 30, 2026 (Gramercy Center)",
+                m3Desc: "Optimal uterine prep before transfer.",
+                m4Title: "Frozen Embryo Transfer",
+                m4Date: "Oct 31, 2026 · Implantation",
+                m4Desc: "The big embryo transfer day.",
+                m5Title: "Beta-hCG Blood Test",
+                m5Date: "Nov 8, 2026 · Pregnancy Test",
+                m5Desc: "Official pregnancy hormone blood test.",
+                m6Title: "Beta-hCG #2 (Rise Check)",
+                m6Date: "Nov 10, 2026 · Doubling rate",
+                m6Desc: "Confirmation of exponential rise.",
+                m7Title: "First Ultrasound (Heartbeat)",
+                m7Date: "Nov 22, 2026 · 6-7 Weeks Scan",
+                m7Desc: "First visual and heartbeat of your baby.",
+
+                // Checklist
+                checklistTitle: "Checklist & Roadmap",
+                checklistBadge: "6 PRIORITIES",
+                chk1Title: "PGT-A Genetics & Signed Consents",
+                chk1Meta: "Oct 27 · Genetic clearance of 8 embryos",
+                chk2Title: "SIS Appointment Confirmed (RMA East Side)",
+                chk2Meta: "Oct 28 8:00 AM · Uterine cavity check",
+                chk3Title: "Pre-op Hysteroscopy Consultation",
+                chk3Meta: "Oct 30 · Gramercy Surgery Center",
+                chk4Title: "Medication & Progesterone Protocol",
+                chk4Meta: "In progress · Luteal support & estrogen",
+                chk5Title: "FET Transfer Day Preparation",
+                chk5Meta: "Oct 31 · Full bladder, comfortable clothes",
+                chk6Title: "Beta-hCG Blood Test & RMA Follow-up",
+                chk6Meta: "Nov 8 · Official pregnancy confirmation",
+
+                // Journal Photos
+                journalTitle: "Photo Journey Journal",
+                journalBadge: "AI ART GALLERY",
+                journalSubtitle: "Artistic visual vignettes capturing each milestone of your IVF journey.",
+                j1Step: "STEP 1 · OCT 27",
+                j1Title: "Blastocyst & PGT-A",
+                j1Desc: "Vitality & genetic analysis of 8 embryos.",
+                j1Tag: "#Embryology",
+                j2Step: "STEP 2 · OCT 28",
+                j2Title: "SIS at RMA East Side",
+                j2Desc: "Optimal trilaminar lining (9.2mm).",
+                j2Tag: "#3DUltrasound",
+                j3Step: "STEP 4 · OCT 31",
+                j3Title: "Embryo Transfer (FET)",
+                j3Desc: "The big day: spark of life finds its warm home.",
+                j3Tag: "#Implantation #TransferDay",
+                j4Step: "STEP 5 · NOV 8",
+                j4Title: "Positive Beta-hCG",
+                j4Desc: "The 2 long-awaited lines shining bright.",
+                j4Tag: "#TwoLines #Pregnancy",
+                j5Step: "STEP 7 · NOV 22",
+                j5Title: "First Heartbeat Scan",
+                j5Desc: "Viability scan: the rhythm of new life (145 BPM).",
+                j5Tag: "#FirstHeartbeat #Emotion",
+
+                // Notes personnelles
+                notesTitle: "Fatou's Personal Notes",
+                notesBadge: "PRIVATE SPACE",
+                notesSubtitle: "Write your daily thoughts, feelings, doctor questions, or little joys here. Your notes are automatically and privately saved on your device.",
+                notesPlaceholder: "Dear Fatou, write your daily thoughts here...",
+                notesStatusText: "Auto-saved",
+                btnInsertDate: "📅 Date",
+                btnClearNote: "Clear",
+                btnArchiveNote: "Add to journal",
+
+                downloadBtn: "Download Android APK",
+                metaInfo: "File: <b>MonParcours.apk</b> (~28 MB)<br>Compatible with Android 7.0 and up",
+                guideHeader: "Quick Installation Guide",
+                step1Title: "1. Download the APK",
+                step1Desc: "Tap the button above to save the file on your Android smartphone.",
+                step2Title: "2. Open the file",
+                step2Desc: "Tap the download notification or open your <i>Downloads</i> folder.",
+                step3Title: "3. Allow install",
+                step3Desc: "If prompted by Android, toggle <i>'Allow installation from this source'</i>.",
+                step4Title: "4. Unlock & Enjoy",
+                step4Desc: "Launch <b>My Journey</b> and enter your secret PIN code.",
+                savePdfBtn: "Save as PDF",
+                shareBtn: "Share this page",
+                shareSuccess: "✓ Link copied to clipboard!",
+                shareTitle: "My Journey - Download APK",
+                shareText: "Download My Journey app to follow Fatou's RMA protocol.",
+                printFooter: "My IVF Journey · Fatou ♥ · RMA of New York (East Side) · Official roadmap for personal & medical care",
+                liveSyncText: "Live · Auto-updates active",
+                updateToastText: "Update detected · Refreshing page..."
+            }
+        };
+
+        let currentLang = 'fr';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+
+            const t = translations[lang];
+
+            document.getElementById('app-title').textContent = t.appTitle;
+            document.getElementById('app-subtitle').textContent = t.appSubtitle;
+            document.getElementById('pin-badge').textContent = t.pinBadge;
+
+            if (document.getElementById('tab-sept')) {
+                document.getElementById('tab-sept').textContent = (lang === 'fr') ? "Septembre (Stimulation)" : "September (Stimulation)";
+            }
+            if (document.getElementById('tab-upcoming')) {
+                document.getElementById('tab-upcoming').textContent = (lang === 'fr') ? "Octobre & Nov. (Grossesse)" : "Oct & Nov (Pregnancy)";
+            }
+            showTimeline(currentTimeline);
+
+            document.getElementById('m1-title').textContent = t.m1Title;
+            document.getElementById('m1-date').textContent = t.m1Date;
+            document.getElementById('m1-desc').textContent = t.m1Desc;
+
+            document.getElementById('m2-title').textContent = t.m2Title;
+            document.getElementById('m2-date').textContent = t.m2Date;
+            document.getElementById('m2-desc').textContent = t.m2Desc;
+
+            document.getElementById('m3-title').textContent = t.m3Title;
+            document.getElementById('m3-date').textContent = t.m3Date;
+            document.getElementById('m3-desc').textContent = t.m3Desc;
+
+            document.getElementById('m4-title').textContent = t.m4Title;
+            document.getElementById('m4-date').textContent = t.m4Date;
+            document.getElementById('m4-desc').textContent = t.m4Desc;
+
+            document.getElementById('m5-title').textContent = t.m5Title;
+            document.getElementById('m5-date').textContent = t.m5Date;
+            document.getElementById('m5-desc').textContent = t.m5Desc;
+
+            document.getElementById('m6-title').textContent = t.m6Title;
+            document.getElementById('m6-date').textContent = t.m6Date;
+            document.getElementById('m6-desc').textContent = t.m6Desc;
+
+            document.getElementById('m7-title').textContent = t.m7Title;
+            document.getElementById('m7-date').textContent = t.m7Date;
+            document.getElementById('m7-desc').textContent = t.m7Desc;
+
+            // Checklist
+            if (document.getElementById('checklist-title')) document.getElementById('checklist-title').textContent = t.checklistTitle;
+            if (document.getElementById('checklist-badge')) document.getElementById('checklist-badge').textContent = t.checklistBadge;
+            if (document.getElementById('chk1-title')) document.getElementById('chk1-title').textContent = t.chk1Title;
+            if (document.getElementById('chk1-meta')) document.getElementById('chk1-meta').textContent = t.chk1Meta;
+            if (document.getElementById('chk2-title')) document.getElementById('chk2-title').textContent = t.chk2Title;
+            if (document.getElementById('chk2-meta')) document.getElementById('chk2-meta').textContent = t.chk2Meta;
+            if (document.getElementById('chk3-title')) document.getElementById('chk3-title').textContent = t.chk3Title;
+            if (document.getElementById('chk3-meta')) document.getElementById('chk3-meta').textContent = t.chk3Meta;
+            if (document.getElementById('chk4-title')) document.getElementById('chk4-title').textContent = t.chk4Title;
+            if (document.getElementById('chk4-meta')) document.getElementById('chk4-meta').textContent = t.chk4Meta;
+            if (document.getElementById('chk5-title')) document.getElementById('chk5-title').textContent = t.chk5Title;
+            if (document.getElementById('chk5-meta')) document.getElementById('chk5-meta').textContent = t.chk5Meta;
+            if (document.getElementById('chk6-title')) document.getElementById('chk6-title').textContent = t.chk6Title;
+            if (document.getElementById('chk6-meta')) document.getElementById('chk6-meta').textContent = t.chk6Meta;
+
+            // Journal Photos
+            if (document.getElementById('journal-title')) document.getElementById('journal-title').textContent = t.journalTitle;
+            if (document.getElementById('journal-badge')) document.getElementById('journal-badge').textContent = t.journalBadge;
+            if (document.getElementById('journal-subtitle')) document.getElementById('journal-subtitle').textContent = t.journalSubtitle;
+
+            if (document.getElementById('j1-step')) document.getElementById('j1-step').textContent = t.j1Step;
+            if (document.getElementById('j1-title')) document.getElementById('j1-title').textContent = t.j1Title;
+            if (document.getElementById('j1-desc')) document.getElementById('j1-desc').textContent = t.j1Desc;
+            if (document.getElementById('j1-tag')) document.getElementById('j1-tag').textContent = t.j1Tag;
+
+            if (document.getElementById('j2-step')) document.getElementById('j2-step').textContent = t.j2Step;
+            if (document.getElementById('j2-title')) document.getElementById('j2-title').textContent = t.j2Title;
+            if (document.getElementById('j2-desc')) document.getElementById('j2-desc').textContent = t.j2Desc;
+            if (document.getElementById('j2-tag')) document.getElementById('j2-tag').textContent = t.j2Tag;
+
+            if (document.getElementById('j3-step')) document.getElementById('j3-step').textContent = t.j3Step;
+            if (document.getElementById('j3-title')) document.getElementById('j3-title').textContent = t.j3Title;
+            if (document.getElementById('j3-desc')) document.getElementById('j3-desc').textContent = t.j3Desc;
+            if (document.getElementById('j3-tag')) document.getElementById('j3-tag').textContent = t.j3Tag;
+
+            if (document.getElementById('j4-step')) document.getElementById('j4-step').textContent = t.j4Step;
+            if (document.getElementById('j4-title')) document.getElementById('j4-title').textContent = t.j4Title;
+            if (document.getElementById('j4-desc')) document.getElementById('j4-desc').textContent = t.j4Desc;
+            if (document.getElementById('j4-tag')) document.getElementById('j4-tag').textContent = t.j4Tag;
+
+            if (document.getElementById('j5-step')) document.getElementById('j5-step').textContent = t.j5Step;
+            if (document.getElementById('j5-title')) document.getElementById('j5-title').textContent = t.j5Title;
+            if (document.getElementById('j5-desc')) document.getElementById('j5-desc').textContent = t.j5Desc;
+            if (document.getElementById('j5-tag')) document.getElementById('j5-tag').textContent = t.j5Tag;
+
+            // Notes Personnelles
+            if (document.getElementById('notes-title')) document.getElementById('notes-title').textContent = t.notesTitle;
+            if (document.getElementById('notes-badge')) document.getElementById('notes-badge').textContent = t.notesBadge;
+            if (document.getElementById('notes-subtitle')) document.getElementById('notes-subtitle').textContent = t.notesSubtitle;
+            if (document.getElementById('fatou-daily-notes')) document.getElementById('fatou-daily-notes').placeholder = t.notesPlaceholder;
+            if (document.getElementById('notes-status-text')) document.getElementById('notes-status-text').textContent = t.notesStatusText;
+            if (document.getElementById('btn-insert-date')) document.getElementById('btn-insert-date').textContent = t.btnInsertDate;
+            if (document.getElementById('btn-clear-note')) document.getElementById('btn-clear-note').textContent = t.btnClearNote;
+            if (document.getElementById('btn-archive-note')) document.getElementById('btn-archive-note').textContent = t.btnArchiveNote;
+            renderNotesHistory();
+
+            document.getElementById('download-btn-text').textContent = t.downloadBtn;
+            document.getElementById('meta-info-text').innerHTML = t.metaInfo;
+
+            document.getElementById('guide-header').textContent = t.guideHeader;
+            document.getElementById('step1-title').textContent = t.step1Title;
+            document.getElementById('step1-desc').innerHTML = t.step1Desc;
+            document.getElementById('step2-title').textContent = t.step2Title;
+            document.getElementById('step2-desc').innerHTML = t.step2Desc;
+            document.getElementById('step3-title').textContent = t.step3Title;
+            document.getElementById('step3-desc').innerHTML = t.step3Desc;
+            document.getElementById('step4-title').textContent = t.step4Title;
+            document.getElementById('step4-desc').innerHTML = t.step4Desc;
+
+            if (document.getElementById('pdf-btn-text')) document.getElementById('pdf-btn-text').textContent = t.savePdfBtn;
+            document.getElementById('share-btn-text').textContent = t.shareBtn;
+            if (document.getElementById('print-footer-text')) document.getElementById('print-footer-text').textContent = t.printFooter;
+            if (document.getElementById('sync-text')) document.getElementById('sync-text').textContent = t.liveSyncText;
+            if (document.getElementById('update-toast-text')) document.getElementById('update-toast-text').textContent = t.updateToastText;
+
+            document.querySelectorAll('.m-unit').forEach(el => {
+                el.textContent = lang === 'fr' ? 'JOURS' : 'DAYS';
+            });
+        }
+
+        function saveAsPdf() {
+            window.print();
+        }
+
+        // Checklist Interactivity
+        let currentTimeline = 'sept';
+        function showTimeline(mode) {
+            currentTimeline = mode;
+            const septTab = document.getElementById('tab-sept');
+            const upTab = document.getElementById('tab-upcoming');
+            const septList = document.getElementById('september-list');
+            const upList = document.getElementById('upcoming-list');
+            const title = document.getElementById('milestones-title');
+            const badge = document.getElementById('steps-badge');
+
+            if (mode === 'sept') {
+                if (septTab) septTab.classList.add('active');
+                if (upTab) upTab.classList.remove('active');
+                if (septList) septList.style.display = 'flex';
+                if (upList) upList.style.display = 'none';
+                if (title) title.textContent = (currentLang === 'fr') ? "Étapes de Septembre 2026 (Stimulation)" : "September 2026 Milestones (Stimulation)";
+                if (badge) badge.textContent = (currentLang === 'fr') ? "15 ÉTAPES FAITES" : "15 STEPS DONE";
+            } else {
+                if (septTab) septTab.classList.remove('active');
+                if (upTab) upTab.classList.add('active');
+                if (septList) septList.style.display = 'none';
+                if (upList) upList.style.display = 'flex';
+                if (title) title.textContent = (currentLang === 'fr') ? "En route vers la Grossesse" : "Next Steps to Pregnancy";
+                if (badge) badge.textContent = (currentLang === 'fr') ? "7 ÉTAPES" : "7 STEPS";
+            }
+        }
+
+        function toggleCheck(el, key) {
+            el.classList.toggle('checked');
+            try {
+                SafeStorage.setItem('checklist_' + key, el.classList.contains('checked') ? '1' : '0');
+            } catch (e) {}
+        }
+
+        // ==================== NOTES PERSONNELLES (LOCALSTORAGE / SAFESTORAGE) ====================
+        let currentSelectedMood = "✨ Pleine d'espoir";
+
+        function selectMood(el, mood) {
+            currentSelectedMood = mood;
+            document.querySelectorAll('#mood-selector .mood-chip').forEach(c => c.classList.remove('active'));
+            if (el) el.classList.add('active');
+            try {
+                SafeStorage.setItem('fatou_daily_notes_mood', mood);
+            } catch (e) {}
+        }
+
+        function autoSaveDailyNotes() {
+            const textarea = document.getElementById('fatou-daily-notes');
+            const statusText = document.getElementById('notes-status-text');
+            if (!textarea) return;
+
+            const text = textarea.value;
+            try {
+                SafeStorage.setItem('fatou_daily_notes_draft', text);
+                SafeStorage.setItem('fatou_daily_notes_last_saved', new Date().toISOString());
+                if (statusText) {
+                    const now = new Date();
+                    const timeStr = now.toLocaleTimeString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+                    statusText.textContent = currentLang === 'fr' 
+                        ? `Sauvegardé automatiquement (${timeStr})`
+                        : `Auto-saved (${timeStr})`;
+                }
+            } catch (e) {
+                console.error("Erreur sauvegarde LocalStorage", e);
+            }
+        }
+
+        function insertTodayDate() {
+            const textarea = document.getElementById('fatou-daily-notes');
+            if (!textarea) return;
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString(currentLang === 'fr' ? 'fr-FR' : 'en-US', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+
+            const prefix = `[${dateStr} · ${currentSelectedMood}] `;
+            if (!textarea.value.includes(prefix)) {
+                textarea.value = prefix + textarea.value;
+                autoSaveDailyNotes();
+                textarea.focus();
+            }
+        }
+
+        function clearNotesDraft() {
+            const textarea = document.getElementById('fatou-daily-notes');
+            if (!textarea) return;
+
+            if (textarea.value.trim().length > 0) {
+                const confirmMsg = currentLang === 'fr' 
+                    ? "Voulez-vous effacer le brouillon en cours ? Vos notes archivées ci-dessous seront conservées."
+                    : "Do you want to clear the current draft? Your archived notes below will be kept.";
+                if (!confirm(confirmMsg)) return;
+            }
+
+            textarea.value = '';
+            try {
+                SafeStorage.removeItem('fatou_daily_notes_draft');
+            } catch (e) {}
+
+            const statusText = document.getElementById('notes-status-text');
+            if (statusText) {
+                statusText.textContent = currentLang === 'fr' ? "Brouillon effacé" : "Draft cleared";
+            }
+        }
+
+        function getSavedNotesList() {
+            try {
+                const data = SafeStorage.getItem('fatou_saved_notes_list');
+                if (data) return JSON.parse(data);
+            } catch (e) {}
+            // Default initial notes for Fatou
+            return [
+                {
+                    id: 'note_init_1',
+                    date: "26 octobre 2026",
+                    time: "14 h 30",
+                    mood: "✨ Pleine d'espoir",
+                    text: "En attente douce des résultats PGT-A. Chaque jour nous rapproche. Rester sereine, respirer profondément, et faire confiance au travail remarquable du laboratoire."
+                },
+                {
+                    id: 'note_init_2',
+                    date: "24 octobre 2026",
+                    time: "09 h 15",
+                    mood: "🌸 Sereine",
+                    text: "Rendez-vous confirmé à 08h00 à RMA East Side pour l'hystérosonographie SIS du 28 octobre. Penser à prendre une bouteille d'eau."
+                }
+            ];
+        }
+
+        function saveNotesListToStorage(list) {
+            try {
+                SafeStorage.setItem('fatou_saved_notes_list', JSON.stringify(list));
+            } catch (e) {}
+        }
+
+        function archiveNoteEntry() {
+            const textarea = document.getElementById('fatou-daily-notes');
+            if (!textarea) return;
+
+            const text = textarea.value.trim();
+            if (!text) {
+                alert(currentLang === 'fr' ? "Veuillez écrire quelques mots avant d'ajouter au journal." : "Please write a few words before adding to the journal.");
+                textarea.focus();
+                return;
+            }
+
+            const now = new Date();
+            const dateStr = now.toLocaleDateString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+            const timeStr = now.toLocaleTimeString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+
+            const newNote = {
+                id: 'note_' + Date.now(),
+                date: dateStr,
+                time: timeStr,
+                mood: currentSelectedMood,
+                text: text
+            };
+
+            const list = getSavedNotesList();
+            list.unshift(newNote);
+            saveNotesListToStorage(list);
+
+            textarea.value = '';
+            try {
+                SafeStorage.removeItem('fatou_daily_notes_draft');
+            } catch (e) {}
+
+            renderNotesHistory();
+
+            const statusText = document.getElementById('notes-status-text');
+            if (statusText) {
+                statusText.textContent = currentLang === 'fr' ? "✓ Ajouté au journal !" : "✓ Added to journal!";
+            }
+        }
+
+        function deleteSavedNote(id) {
+            const confirmMsg = currentLang === 'fr' ? "Supprimer cette pensée du journal ?" : "Delete this thought from journal?";
+            if (!confirm(confirmMsg)) return;
+
+            let list = getSavedNotesList();
+            list = list.filter(n => n.id !== id);
+            saveNotesListToStorage(list);
+            renderNotesHistory();
+        }
+
+        function renderNotesHistory() {
+            const container = document.getElementById('notes-history-list');
+            if (!container) return;
+
+            const list = getSavedNotesList();
+            if (list.length === 0) {
+                container.innerHTML = `<div style="font-size:11px; color:#8C7B72; font-style:italic; padding:6px 0;">${currentLang === 'fr' ? 'Aucune pensée archivée pour l\'instant.' : 'No archived thoughts yet.'}</div>`;
+                return;
+            }
+
+            container.innerHTML = list.map(item => `
+                <div class="saved-note-item" id="${item.id}">
+                    <div class="saved-note-head">
+                        <div>
+                            <span>📅 ${item.date} · ${item.time || ''}</span>
+                            <span class="saved-note-mood" style="margin-left:6px;">${item.mood || '🌸 Sereine'}</span>
+                        </div>
+                        <button type="button" class="saved-note-del" onclick="deleteSavedNote('${item.id}')" title="Supprimer">✕</button>
+                    </div>
+                    <div class="saved-note-text">${escapeHtml(item.text)}</div>
+                </div>
+            `).join('');
+        }
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function initNotesFromStorage() {
+            const textarea = document.getElementById('fatou-daily-notes');
+            try {
+                const draft = SafeStorage.getItem('fatou_daily_notes_draft');
+                if (draft && textarea) {
+                    textarea.value = draft;
+                }
+                const savedMood = SafeStorage.getItem('fatou_daily_notes_mood');
+                if (savedMood) {
+                    currentSelectedMood = savedMood;
+                    document.querySelectorAll('#mood-selector .mood-chip').forEach(c => {
+                        if (c.textContent.trim() === savedMood) c.classList.add('active');
+                        else c.classList.remove('active');
+                    });
+                }
+            } catch (e) {}
+            renderNotesHistory();
+        }
+
+        // Restore checklist states from storage
+        document.addEventListener('DOMContentLoaded', () => {
+            initNotesFromStorage();
+            const keys = ['chk1', 'chk2', 'chk3', 'chk4', 'chk5', 'chk6'];
+            keys.forEach((key, index) => {
+                const saved = SafeStorage.getItem('checklist_' + key);
+                const items = document.querySelectorAll('.chk-item');
+                if (saved !== null && items[index]) {
+                    if (saved === '1') items[index].classList.add('checked');
+                    else items[index].classList.remove('checked');
+                }
+            });
+        });
+
+        // Photo Gallery Lightbox Details
+        const photoDetails = {
+            pgta: {
+                src: "/assets/journal_pgta.svg",
+                stageFr: "Étape 1 · 27 Octobre 2026",
+                stageEn: "Step 1 · October 27, 2026",
+                titleFr: "Résultats PGT-A · 8 Blastocystes",
+                titleEn: "PGT-A Screening Results · 8 Blastocysts",
+                descFr: "Illustration artistique au microscope électronique révélant le trophoectoderme doré et la masse cellulaire interne d'un blastocyste à vitalité optimale avant transfert.",
+                descEn: "Artistic scientific illustration showing the glowing golden cellular structure of a healthy blastocyst ready for transfer."
+            },
+            sis: {
+                src: "/assets/journal_sis.svg",
+                stageFr: "Étape 2 · 28 Octobre 2026 · RMA East Side",
+                stageEn: "Step 2 · October 28, 2026 · RMA East Side",
+                titleFr: "Hystérosonographie SIS & Échographie 3D",
+                titleEn: "Saline Ultrasound SIS & 3D Imaging",
+                descFr: "Cartographie échographique de haute précision confirmant un endomètre trilaminaire parfait de 9.2 mm, accueillant et prêt pour l'implantation.",
+                descEn: "High-resolution ultrasound mapping confirming a perfect trilaminar endometrium (9.2 mm) ready for embryo implantation."
+            },
+            transfer: {
+                src: "/assets/journal_transfer.svg",
+                stageFr: "Étape 4 · 31 Octobre 2026 · Jour J",
+                stageEn: "Step 4 · October 31, 2026 · Big Day",
+                titleFr: "Transfert d'Embryon Congelé (FET)",
+                titleEn: "Frozen Embryo Transfer (FET)",
+                descFr: "Le moment sacré du transfert embryonnaire. Deux mains bienveillantes bercent l'étincelle de vie qui prend racine avec amour.",
+                descEn: "The sacred moment of embryo transfer. Caring hands gently cradling the glowing spark of life settling into its sanctuary."
+            },
+            betahcg: {
+                src: "/assets/journal_betahcg.svg",
+                stageFr: "Étape 5 · 8 Novembre 2026",
+                stageEn: "Step 5 · November 8, 2026",
+                titleFr: "Confirmation Grossesse · Bêta-hCG Positif",
+                titleEn: "Pregnancy Confirmation · Positive Beta-hCG",
+                descFr: "Le bonheur ineffable des deux lignes roses confirmant l'implantation réussie et le début officiel de la grossesse.",
+                descEn: "The unforgettable joy of two distinct pink lines confirming successful implantation and early pregnancy."
+            },
+            heartbeat: {
+                src: "/assets/journal_ultrasound.svg",
+                stageFr: "Étape 7 · 22 Novembre 2026 · 6-7 SA",
+                stageEn: "Step 7 · November 22, 2026 · 6-7 Weeks Scan",
+                titleFr: "Première Échographie · Battement de Cœur",
+                titleEn: "First Ultrasound · Baby's Heartbeat",
+                descFr: "Les toutes premières pulsations régulières à 145 BPM résonnant dans la salle d'échographie, concrétisant le rêve d'une vie.",
+                descEn: "The very first rhythmic heartbeats at 145 BPM echoing in the ultrasound suite, bringing the dream to life."
+            }
+        };
+
+        function openPhotoModal(key) {
+            const item = photoDetails[key];
+            if (!item) return;
+
+            const modal = document.getElementById('journal-modal');
+            const img = document.getElementById('modal-img');
+            const stage = document.getElementById('modal-stage');
+            const title = document.getElementById('modal-title');
+            const desc = document.getElementById('modal-desc');
+
+            img.src = item.src;
+            stage.textContent = currentLang === 'fr' ? item.stageFr : item.stageEn;
+            title.textContent = currentLang === 'fr' ? item.titleFr : item.titleEn;
+            desc.textContent = currentLang === 'fr' ? item.descFr : item.descEn;
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePhotoModal(e) {
+            if (e) e.stopPropagation();
+            const modal = document.getElementById('journal-modal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closePhotoModal();
+        });
+
+        const shareBtn = document.getElementById("share-button");
+        const shareMsg = document.getElementById("share-msg");
+
+        function showFeedback(text) {
+            if (shareMsg) {
+                shareMsg.textContent = text || translations[currentLang].shareSuccess;
+                shareMsg.style.display = "block";
+                setTimeout(() => {
+                    shareMsg.style.display = "none";
+                }, 3000);
+            }
+        }
+
+        function copyLink() {
+            const url = window.location.href;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(url)
+                    .then(() => showFeedback(translations[currentLang].shareSuccess))
+                    .catch(() => fallbackCopy(url));
+            } else {
+                fallbackCopy(url);
+            }
+        }
+
+        function fallbackCopy(text) {
+            const input = document.createElement("input");
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            try {
+                document.execCommand("copy");
+                showFeedback(translations[currentLang].shareSuccess);
+            } catch (e) {
+                showFeedback("Copied!");
+            }
+            document.body.removeChild(input);
+        }
+
+        if (shareBtn) {
+            shareBtn.addEventListener("click", async () => {
+                const t = translations[currentLang];
+                const shareData = {
+                    title: t.shareTitle,
+                    text: t.shareText,
+                    url: window.location.href
+                };
+
+                if (navigator.share) {
+                    try {
+                        await navigator.share(shareData);
+                    } catch (err) {
+                        if (err.name !== "AbortError") {
+                            copyLink();
+                        }
+                    }
+                } else {
+                    copyLink();
+                }
+            });
+        }
+
+        // ==========================================
+        // AUTO-UPDATE ENGINE (Updates on Changes)
+        // ==========================================
+        (function initAutoUpdateEngine() {
+            // Guard: Do not run auto-poll inside sandboxed iframes (e.g., Google Sites embed) or non-http protocols
+            try {
+                if (window.self !== window.top) return;
+                if (!window.location || !window.location.protocol.startsWith('http')) return;
+            } catch (e) {
+                return;
+            }
+
+            let initialFingerprint = null;
+            let isReloading = false;
+            const CHECK_INTERVAL_MS = 5000; // Polls every 5 seconds
+
+            async function fetchFingerprint() {
+                try {
+                    // Send cache-busted HEAD request to detect server/file changes
+                    const checkUrl = window.location.pathname + '?_auto_sync=' + Date.now();
+                    const headRes = await fetch(checkUrl, {
+                        method: 'HEAD',
+                        cache: 'no-store',
+                        headers: { 'Cache-Control': 'no-cache', 'Pragma': 'no-cache' }
+                    });
+                    if (!headRes.ok) return null;
+                    const etag = headRes.headers.get('ETag') || '';
+                    const lastMod = headRes.headers.get('Last-Modified') || '';
+                    const len = headRes.headers.get('Content-Length') || '';
+                    if (etag || lastMod || len) {
+                        return `${etag}|${lastMod}|${len}`;
+                    }
+                    // Fallback if the web server omits caching headers
+                    const fullRes = await fetch(checkUrl, { cache: 'no-store' });
+                    const content = await fullRes.text();
+                    return 'len:' + content.length + ':' + content.slice(0, 100);
+                } catch (e) {
+                    return null;
+                }
+            }
+
+            async function checkServerChanges() {
+                if (isReloading) return;
+                const currentFp = await fetchFingerprint();
+                if (!currentFp) return;
+
+                if (initialFingerprint === null) {
+                    initialFingerprint = currentFp;
+                    return;
+                }
+
+                if (currentFp !== initialFingerprint) {
+                    isReloading = true;
+                    notifyAndReload();
+                }
+            }
+
+            function notifyAndReload() {
+                const toast = document.getElementById('update-toast');
+                if (toast) toast.classList.add('visible');
+                setTimeout(() => {
+                    // Force clean reload bypass
+                    window.location.reload();
+                }, 1000);
+            }
+
+            // 1. Initial snapshot
+            fetchFingerprint().then(fp => {
+                if (fp) initialFingerprint = fp;
+            });
+
+            // 2. Periodic background verification
+            setInterval(checkServerChanges, CHECK_INTERVAL_MS);
+
+            // 3. Instant re-check on tab focus / visibility return
+            document.addEventListener('visibilitychange', () => {
+                if (document.visibilityState === 'visible') {
+                    checkServerChanges();
+                }
+            });
+            window.addEventListener('focus', checkServerChanges);
+
+            // 4. Real-time cross-tab state synchronization
+            try {
+                window.addEventListener('storage', (e) => {
+                    if (e.key && e.key.startsWith('checklist_')) {
+                        const keys = ['chk1', 'chk2', 'chk3', 'chk4', 'chk5', 'chk6'];
+                        keys.forEach((key, index) => {
+                            const saved = SafeStorage.getItem('checklist_' + key);
+                            const items = document.querySelectorAll('.chk-item');
+                            if (saved !== null && items[index]) {
+                                if (saved === '1') items[index].classList.add('checked');
+                                else items[index].classList.remove('checked');
+                            }
+                        });
+                    }
+                });
+            } catch (e) {}
+        })();
+    </script>
+</body>
+</html>

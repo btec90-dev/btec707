@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="sisBg" cx="50%" cy="45%" r="65%">
+      <stop offset="0%" stop-color="#302016" />
+      <stop offset="60%" stop-color="#1E120B" />
+      <stop offset="100%" stop-color="#0E0704" />
+    </radialGradient>
+    <linearGradient id="endoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCE7D6" />
+      <stop offset="40%" stop-color="#EAA68C" />
+      <stop offset="80%" stop-color="#C26A54" />
+      <stop offset="100%" stop-color="#843B2A" />
+    </linearGradient>
+    <linearGradient id="scanBeam" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FFEAA7" stop-opacity="0.3" />
+      <stop offset="100%" stop-color="#C89B3C" stop-opacity="0" />
+    </linearGradient>
+    <linearGradient id="goldStroke" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EAD59A" />
+      <stop offset="50%" stop-color="#C89B3C" />
+      <stop offset="100%" stop-color="#7B541C" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fond -->
+  <rect width="400" height="400" rx="24" fill="url(#sisBg)" />
+  <rect width="396" height="396" x="2" y="2" rx="22" fill="none" stroke="url(#goldStroke)" stroke-width="1.5" stroke-opacity="0.4" />
+
+  <!-- Grille d'échographie médicale subtile -->
+  <g stroke="#6A462F" stroke-width="0.6" stroke-opacity="0.3">
+    <line x1="60" y1="100" x2="340" y2="100" />
+    <line x1="60" y1="160" x2="340" y2="160" />
+    <line x1="60" y1="220" x2="340" y2="220" />
+    <line x1="60" y1="280" x2="340" y2="280" />
+    <line x1="120" y1="70" x2="120" y2="300" />
+    <line x1="200" y1="70" x2="200" y2="300" />
+    <line x1="280" y1="70" x2="280" y2="300" />
+  </g>
+
+  <!-- Faisceau sectoriel échographique -->
+  <path d="M200,60 L90,280 A160,160 0 0,0 310,280 Z" fill="url(#scanBeam)" />
+
+  <!-- L'utérus et cavité endométriale trilaminaire -->
+  <path d="M140,240 C120,200 130,140 200,120 C270,140 280,200 260,240 C240,265 160,265 140,240 Z" 
+        fill="#4A2617" stroke="#9A5A39" stroke-width="2.5" opacity="0.85" />
+
+  <!-- Aspect trilaminaire doré parfait (Triple Line Pattern) -->
+  <path d="M170,175 Q200,160 230,175" fill="none" stroke="#FFE7BA" stroke-width="3" stroke-linecap="round" />
+  <path d="M173,184 Q200,169 227,184" fill="none" stroke="#C89B3C" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M176,193 Q200,178 224,193" fill="none" stroke="#FFE7BA" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Marqueurs de calibration échographique -->
+  <g stroke="#FFD666" stroke-width="1.2">
+    <!-- Croix mesure 1 -->
+    <line x1="166" y1="184" x2="174" y2="184" />
+    <line x1="170" y1="180" x2="170" y2="188" />
+    <!-- Croix mesure 2 -->
+    <line x1="226" y1="184" x2="234" y2="184" />
+    <line x1="230" y1="180" x2="230" y2="188" />
+  </g>
+  <text x="200" y="215" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="10" font-weight="700" fill="#FFE58F">9.2 mm · TRILAMINAIRE</text>
+
+  <!-- En-tête clinique -->
+  <rect x="70" y="75" width="260" height="26" rx="8" fill="#1A0D07" opacity="0.8" />
+  <text x="85" y="92" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="600" fill="#D4AF37">RMA OF NEW YORK · EAST SIDE</text>
+  <text x="315" y="92" text-anchor="end" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9" font-weight="700" fill="#52C41A">✓ OPTIMAL</text>
+
+  <!-- Cartouche / Badge du bas -->
+  <rect x="50" y="325" width="300" height="44" rx="14" fill="#201008" stroke="#C89B3C" stroke-width="1.2" stroke-opacity="0.6" />
+  <text x="200" y="344" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#FFE6A3" letter-spacing="1">SIS &amp; ÉCHOGRAPHIE 3D</text>
+  <text x="200" y="358" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="500" fill="#D8BE9B">Endomètre réceptif &amp; Cavité prête au nid</text>
+</svg>

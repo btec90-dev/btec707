@@ -1,0 +1,1445 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mon Parcours FIV — Fatou ♥ (RMA of New York)</title>
+    <style>
+        :root {
+            --gold: #B58E45;
+            --gold-dark: #5C3B24;
+            --gold-light: #F4EBD8;
+            --gold-gradient: linear-gradient(135deg, #C59A4E 0%, #E6CA8D 50%, #9C722B 100%);
+            --warm-bg: #FAF6F0;
+            --card-bg: #FFFFFF;
+            --ink: #2E231D;
+            --muted: #7A6960;
+            --line: #E8DCCF;
+            --green: #2B7A4B;
+            --green-bg: #EAF4ED;
+            --green-line: #BFE0CB;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: var(--warm-bg);
+            color: var(--ink);
+            line-height: 1.5;
+            padding: 10px 4px;
+            margin: 0;
+            width: 100%;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border: 1.5px solid var(--line);
+            border-radius: 20px;
+            padding: 18px 14px;
+            box-shadow: 0 4px 20px rgba(92, 59, 36, 0.08);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        /* Top Controls */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 14px;
+            gap: 8px;
+        }
+
+        .badge-pin {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--gold-light);
+            color: var(--gold-dark);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-switch {
+            display: flex;
+            gap: 4px;
+            background: var(--gold-light);
+            padding: 2px;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 4px 8px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold-dark);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background: #FFFFFF;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        /* Hero Header */
+        .avatar-wrap {
+            width: 76px;
+            height: 76px;
+            border-radius: 20px;
+            margin: 0 auto 10px auto;
+            background: var(--gold-gradient);
+            padding: 3px;
+            box-shadow: 0 4px 14px rgba(181, 142, 69, 0.25);
+        }
+
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 17px;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        h1 {
+            font-family: Georgia, serif;
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--gold-dark);
+            margin-bottom: 3px;
+        }
+
+        .subtitle {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        /* Key Metrics Grid */
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+
+        .metric-card {
+            background: var(--warm-bg);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 8px 4px;
+            text-align: center;
+        }
+
+        .metric-num {
+            font-family: Georgia, serif;
+            font-size: 19px;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1.1;
+        }
+
+        .metric-label {
+            font-size: 9.5px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-top: 2px;
+            line-height: 1.2;
+        }
+
+        /* Section Container */
+        .section-box {
+            background: #FDFBF8;
+            border: 1.5px solid var(--line);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 16px;
+            text-align: left;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+
+        .section-title {
+            font-family: Georgia, serif;
+            font-size: 14.5px;
+            font-weight: 800;
+            color: var(--gold-dark);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .pill-badge {
+            background: var(--green-bg);
+            color: var(--green);
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 12px;
+            border: 1px solid var(--green-line);
+        }
+
+        /* Timeline Navigation Tabs */
+        .timeline-tabs {
+            display: flex;
+            gap: 6px;
+            background: var(--gold-light);
+            padding: 3px;
+            border-radius: 12px;
+            margin-bottom: 12px;
+        }
+
+        .t-tab {
+            flex: 1;
+            padding: 8px 6px;
+            border: none;
+            background: transparent;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--gold-dark);
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .t-tab.active {
+            background: #FFFFFF;
+            color: var(--ink);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+            font-weight: 800;
+        }
+
+        /* Step Items */
+        .step-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .step-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            padding: 10px;
+            transition: transform 0.1s ease;
+        }
+
+        .step-row.highlight {
+            background: #FFFDF9;
+            border-color: #D8C3AE;
+        }
+
+        .step-icon-box {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: var(--gold-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex-shrink: 0;
+            border: 1px solid var(--line);
+        }
+
+        .step-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .step-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 4px;
+            margin-bottom: 2px;
+        }
+
+        .step-title {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--ink);
+            line-height: 1.3;
+        }
+
+        .step-meta-row {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 3px;
+        }
+
+        .step-date {
+            font-size: 10.5px;
+            font-weight: 800;
+            color: var(--gold);
+        }
+
+        .time-chip {
+            background: var(--gold-light);
+            color: var(--gold-dark);
+            font-size: 9.5px;
+            font-weight: 800;
+            padding: 1px 6px;
+            border-radius: 6px;
+        }
+
+        .step-location {
+            font-size: 9.5px;
+            color: #7A6960;
+            font-weight: 600;
+        }
+
+        .step-desc {
+            font-size: 10.5px;
+            color: #554841;
+            line-height: 1.4;
+        }
+
+        /* Badges on right side */
+        .done-pill {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid var(--green-line);
+            border-radius: 8px;
+            padding: 4px 6px;
+            font-size: 9px;
+            font-weight: 800;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .countdown-pill {
+            background: #FFF7EC;
+            border: 1px solid #E6CA8D;
+            border-radius: 10px;
+            padding: 4px 8px;
+            text-align: center;
+            flex-shrink: 0;
+            min-width: 52px;
+        }
+
+        .countdown-num {
+            font-family: Georgia, serif;
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .countdown-lbl {
+            font-size: 8px;
+            font-weight: 800;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* Checklist */
+        .chk-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 9px 11px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .chk-box {
+            width: 22px;
+            height: 22px;
+            border-radius: 6px;
+            border: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            color: transparent;
+            font-weight: 800;
+            flex-shrink: 0;
+            transition: all 0.15s ease;
+        }
+
+        .chk-row.checked .chk-box {
+            background: var(--green);
+            border-color: var(--green);
+            color: #FFFFFF;
+        }
+
+        .chk-row.checked .chk-title {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+
+        .chk-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--ink);
+        }
+
+        .chk-sub {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* Personal Notes */
+        .mood-bar {
+            display: flex;
+            gap: 5px;
+            overflow-x: auto;
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+
+        .mood-tag {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            padding: 3px 9px;
+            font-size: 10.5px;
+            font-weight: 700;
+            color: var(--gold-dark);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+
+        .mood-tag.active {
+            background: var(--gold-light);
+            border-color: var(--gold);
+            font-weight: 800;
+        }
+
+        .notes-area {
+            width: 100%;
+            min-height: 100px;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 12px;
+            color: var(--ink);
+            background: #FFFFFF;
+            resize: vertical;
+            line-height: 1.45;
+        }
+
+        .notes-area:focus {
+            outline: none;
+            border-color: var(--gold);
+        }
+
+        .notes-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+
+        .save-indicator {
+            font-size: 10.5px;
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-mini {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 5px 9px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold-dark);
+            cursor: pointer;
+        }
+
+        .btn-mini.primary {
+            background: var(--gold-dark);
+            color: #FFFFFF;
+            border-color: var(--gold-dark);
+        }
+
+        .saved-notes-box {
+            margin-top: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .note-card-item {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            padding: 8px 10px;
+            font-size: 11px;
+            color: var(--ink);
+        }
+
+        .note-card-head {
+            display: flex;
+            justify-content: space-between;
+            font-size: 9.5px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 3px;
+        }
+
+        /* Action Buttons */
+        .actions-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .btn-main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--gold-dark);
+            color: #FFFFFF;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 14.5px;
+            padding: 13px 18px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 14px rgba(92, 59, 36, 0.2);
+            width: 100%;
+        }
+
+        .btn-outline {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: #FFFFFF;
+            color: var(--gold-dark);
+            border: 1.5px solid var(--gold);
+            border-radius: 14px;
+            padding: 12px 18px;
+            font-size: 13.5px;
+            font-weight: 800;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .footer-note {
+            margin-top: 16px;
+            font-size: 10.5px;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        @media print {
+            body { background: #FFFFFF; padding: 0; }
+            .container { border: none; box-shadow: none; max-width: 100%; padding: 0; }
+            .timeline-tabs, .btn-main, .btn-outline, .btn-group, .mood-bar, .top-bar { display: none !important; }
+            #september-list, #upcoming-list { display: flex !important; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Top Bar -->
+        <div class="top-bar">
+            <div style="display: flex; align-items: center; gap: 6px; flex-wrap: wrap;">
+                <span class="badge-pin" id="pin-badge">🔒 Code PIN · 1998</span>
+                <a href="/desktop-brown.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none; font-size:10.5px; font-weight:700; color:#5C3B24; background:#F4EBD8; padding:3px 8px; border-radius:20px; border:1px solid #E8DCCF;">🖥️ Bureau Brown</a>
+            </div>
+            <div class="lang-switch">
+                <button type="button" class="lang-btn active" id="btn-fr" onclick="setLang('fr')">🇫🇷 FR</button>
+                <button type="button" class="lang-btn" id="btn-en" onclick="setLang('en')">🇬🇧 EN</button>
+            </div>
+        </div>
+
+        <!-- Hero Header -->
+        <div class="avatar-wrap">
+            <div class="avatar-img">🤰</div>
+        </div>
+        <h1 id="hero-title">Mon Parcours FIV</h1>
+        <p class="subtitle" id="hero-subtitle">Fatou ♥ · RMA of New York (East Side) & Gramercy</p>
+
+        <!-- Chiffres Clés du Laboratoire -->
+        <div class="metrics-grid">
+            <div class="metric-card">
+                <div class="metric-num">42</div>
+                <div class="metric-label" id="lbl-recueillis">Ovocytes prélevés</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-num">34</div>
+                <div class="metric-label" id="lbl-matures">Matures (MII)</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-num">11</div>
+                <div class="metric-label" id="lbl-fecondes">Fécondés ICSI</div>
+            </div>
+            <div class="metric-card">
+                <div class="metric-num">8</div>
+                <div class="metric-label" id="lbl-vitrifies">Blastocystes</div>
+            </div>
+        </div>
+
+        <!-- PGT Lab Update Banner -->
+        <div style="background: var(--green-bg); border: 1.5px solid var(--green-line); border-radius: 14px; padding: 12px 14px; margin-bottom: 16px; text-align: left; display: flex; align-items: center; gap: 10px; box-shadow: 0 3px 10px rgba(43,122,75,0.06);">
+            <span style="font-size: 22px;">🧬</span>
+            <div>
+                <div style="font-size: 11px; font-weight: 800; color: var(--green);" id="pgt-update-title">Mise à jour PGT aujourd'hui</div>
+                <div style="font-size: 11.5px; font-weight: 700; color: var(--ink);" id="pgt-update-desc">Mise à jour des résultats PGT aujourd'hui : 5 des embryons sont revenus génétiquement normaux :)</div>
+            </div>
+        </div>
+
+        <!-- Suivi Cumulatif Global du Parcours FIV -->
+        <div style="background: linear-gradient(135deg, #FAF6F0 0%, #F4EBD8 100%); border: 1.5px solid var(--gold); border-radius: 14px; padding: 12px 14px; margin-bottom: 16px; text-align: left; box-shadow: 0 3px 12px rgba(92,59,36,0.06);">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+                <span style="font-family: Georgia, serif; font-size: 13px; font-weight: 800; color: var(--gold-dark); display: flex; align-items: center; gap: 6px;">
+                    <span>📈</span>
+                    <span id="cumul-title">Suivi Cumulatif Global du Parcours FIV</span>
+                </span>
+                <span style="background: #2B7A4B; color: #FFFFFF; font-size: 9.5px; font-weight: 800; padding: 3px 8px; border-radius: 10px;" id="cumul-status">100% SUCCÈS PGT-A</span>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; text-align: center;">
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px;">
+                    <div style="font-family: Georgia, serif; font-size: 16px; font-weight: 800; color: var(--gold-dark);">1</div>
+                    <div style="font-size: 9px; font-weight: 700; color: var(--muted); margin-top: 2px;" id="cumul-c1">Cycle FIV Entamé</div>
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px;">
+                    <div style="font-family: Georgia, serif; font-size: 16px; font-weight: 800; color: #2B7A4B;">5 / 8</div>
+                    <div style="font-size: 9px; font-weight: 700; color: var(--muted); margin-top: 2px;" id="cumul-c2">Embryons Normaux</div>
+                </div>
+                <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px 4px;">
+                    <div style="font-family: Georgia, serif; font-size: 16px; font-weight: 800; color: var(--gold);">1</div>
+                    <div style="font-size: 9px; font-weight: 700; color: var(--muted); margin-top: 2px;" id="cumul-c3">Cycle Réussi / Positif</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Étapes du Protocole -->
+        <div class="section-box">
+            <div class="section-header">
+                <span class="section-title">
+                    <span>♡</span>
+                    <span id="proto-title">Protocole Médical FIV</span>
+                </span>
+                <span class="pill-badge" id="proto-badge">15 ÉTAPES FAITES</span>
+            </div>
+
+            <!-- Onglets de sélection -->
+            <div class="timeline-tabs">
+                <button type="button" class="t-tab active" id="tab-sept" onclick="showTab('sept')">Septembre (Stimulation)</button>
+                <button type="button" class="t-tab" id="tab-up" onclick="showTab('up')">Octobre / Nov. (Grossesse)</button>
+            </div>
+
+            <!-- Liste Septembre 2026 -->
+            <div class="step-list" id="september-list">
+                <div class="step-row">
+                    <div class="step-icon-box">💊</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Suppression ovarienne (Nortrel)</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">1 sept. 2026</span>
+                            <span class="time-chip">⏰ 08 h 00</span>
+                            <span class="step-location">📍 Domicile</span>
+                        </div>
+                        <p class="step-desc">Prise quotidienne de contraceptif oral pour bloquer l'activité ovarienne basale et synchroniser les follicules antraux.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">📦</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Réception pharmacie de stimulation</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">5 sept. 2026</span>
+                            <span class="time-chip">⏰ 10 h 30</span>
+                            <span class="step-location">📍 Domicile (Freedom Fertility)</span>
+                        </div>
+                        <p class="step-desc">Livraison réfrigérée : stylos Gonal-F, Menopur 75 UI, Cetrotide, Lupron 4 mg, Ovidrel/Pregnyl et aiguilles 27G.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">📞</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Coordination infirmière RMA</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">10 sept. 2026</span>
+                            <span class="time-chip">⏰ 14 h 00</span>
+                            <span class="step-location">📍 RMA NY East (Téléconsultation)</span>
+                        </div>
+                        <p class="step-desc">Revue du calendrier d'injections à heure fixe et validation préalable de l'assurance médicale.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">✍️</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Consentements RMA & Biopsie PGT-A</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">15 sept. 2026</span>
+                            <span class="time-chip">⏰ 11 h 00</span>
+                            <span class="step-location">📍 Portail RMA Engage</span>
+                        </div>
+                        <p class="step-desc">Signature électronique des protocoles de ponction sous sédation, ICSI et biopsie chromosomique.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">🛑</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Dernier comprimé de Nortrel</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">18 sept. 2026</span>
+                            <span class="time-chip">⏰ 21 h 00</span>
+                            <span class="step-location">📍 Domicile</span>
+                        </div>
+                        <p class="step-desc">Arrêt du blocage ovarien. Hydratation abondante recommandée avant le bilan d'entrée en stimulation.</p>
+                    </div>
+                </div>
+
+                <div class="step-row highlight">
+                    <div class="step-icon-box">🔬</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Échographie basale & Bilan hormonal J1</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">19 sept. 2026</span>
+                            <span class="time-chip">⏰ 07 h 15</span>
+                            <span class="step-location">📍 RMA East Side (635 Madison)</span>
+                        </div>
+                        <p class="step-desc">Endomètre fin (< 4 mm), CFA = 28 follicules antraux, E2 < 50 pg/mL. Feu vert médical stimulation.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">🧪</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Préparation des stylos & Reconstitution</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">20 sept. 2026</span>
+                            <span class="time-chip">⏰ 19 h 30</span>
+                            <span class="step-location">📍 Domicile</span>
+                        </div>
+                        <p class="step-desc">Ajustement du stylo injecteur Gonal-F et mélange de Menopur avec solution stérile via aiguille Q-Cap.</p>
+                    </div>
+                </div>
+
+                <div class="step-row highlight">
+                    <div class="step-icon-box">💉</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Lancement stimulation ovarienne (Jour 1)</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">21 sept. 2026</span>
+                            <span class="time-chip">⏰ 20 h 00 précises</span>
+                            <span class="step-location">📍 Domicile</span>
+                        </div>
+                        <p class="step-desc">Premières injections sous-cutanées : Gonal-F 225 UI + Menopur 75 UI dans la zone abdominale.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">🏥</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Contrôle de stimulation n°1 (Monitoring #1)</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">23 sept. 2026</span>
+                            <span class="time-chip">⏰ 07 h 00 & 20 h 00</span>
+                            <span class="step-location">📍 RMA of New York (East Side)</span>
+                        </div>
+                        <p class="step-desc">Prise de sang : E2 = 480 pg/mL. Échographie : 18 follicules en développement (9–11 mm). Poursuite des doses.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">🛡️</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Contrôle n°2 & Ajout Cetrotide (Antagoniste)</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">25 sept. 2026</span>
+                            <span class="time-chip">⏰ 07 h 15 & 08 h 15</span>
+                            <span class="step-location">📍 RMA East Side & Domicile</span>
+                        </div>
+                        <p class="step-desc">Follicules à 13–14 mm. 08 h 15 : Début Cetrotide 0.25 mg sous-cutané pour bloquer l'ovulation spontanée.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">📊</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Contrôle de stimulation n°3 (Monitoring #3)</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">27 sept. 2026</span>
+                            <span class="time-chip">⏰ 07 h 30 & 20 h 00</span>
+                            <span class="step-location">📍 RMA of New York (East Side)</span>
+                        </div>
+                        <p class="step-desc">E2 = 1450 pg/mL. Échographie : 32 follicules visibles (14–17 mm), endomètre trilaminaire à 9.4 mm.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">📈</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Contrôle n°4 (Maturation avancée)</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">28 sept. 2026</span>
+                            <span class="time-chip">⏰ 07 h 15 & 20 h 00</span>
+                            <span class="step-location">📍 RMA of New York (East Side)</span>
+                        </div>
+                        <p class="step-desc">Plus de 35 follicules en développement dont plus de 20 > 17 mm. E2 > 2400 pg/mL. Dernière stimulation.</p>
+                    </div>
+                </div>
+
+                <div class="step-row highlight">
+                    <div class="step-icon-box">⚡</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">DÉCLENCHEMENT D'OVULATION (Trigger Shot)</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">29 sept. 2026</span>
+                            <span class="time-chip">⏰ 23 h 00 PRÉCISES</span>
+                            <span class="step-location">📍 Domicile</span>
+                        </div>
+                        <p class="step-desc">Double déclenchement Lupron 80 UI (4 mg) + mini hCG Pregnyl exactement 36h avant la ponction.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">🩺</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">Contrôle post-déclenchement & Consignes</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">30 sept. 2026</span>
+                            <span class="time-chip">⏰ 08 h 45 & 19 h 00</span>
+                            <span class="step-location">📍 RMA East Side & Gramercy</span>
+                        </div>
+                        <p class="step-desc">PDS confirmant la montée de LH/Progestérone. 19 h 00 : Consignes de jeûne strict dès minuit.</p>
+                    </div>
+                </div>
+
+                <div class="step-row highlight">
+                    <div class="step-icon-box">🥚</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title">PONCTION OVOCYTAIRE : 42 OVOCYTES !</span>
+                            <span class="done-pill">✓ FAIT</span>
+                        </div>
+                        <div class="step-meta-row">
+                            <span class="step-date">1 oct. 2026</span>
+                            <span class="time-chip">⏰ 06 h 45 & 08 h 00</span>
+                            <span class="step-location">📍 Gramercy Surgery Center</span>
+                        </div>
+                        <p class="step-desc">Ponction sous sédation douce : récolte de 42 ovocytes (34 matures, 11 fécondés ICSI, 8 blastocystes vitrifiés).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Liste Grossesse (Upcoming) -->
+            <div class="step-list" id="upcoming-list" style="display: none;">
+                <div class="step-row highlight" style="background:#FAF2EA; border-color:#C89B3C;">
+                    <div class="step-icon-box">🧬</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title" id="u1-title">Résultats PGT-A : 5 Embryons Normaux !</span>
+                            <div class="done-pill" style="background:#2B7853; color:#FFF; border-color:#2B7853;">✓ 5 EUPLOÏDES</div>
+                        </div>
+                        <div class="step-meta-row"><span class="step-date">26 oct. 2026 · Reçu aujourd'hui !</span><span class="step-location">📍 RMA Lab</span></div>
+                        <p class="step-desc" id="u1-desc">Magnifique nouvelle ! Sur les 8 blastocystes biopsiés, 5 sont revenus génétiquement normaux (euploïdes) et parfaits pour le transfert.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">🏥</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title" id="u2-title">Hystérosonographie SIS</span>
+                            <div class="countdown-pill"><div class="countdown-num">3</div><div class="countdown-lbl">JOURS</div></div>
+                        </div>
+                        <div class="step-meta-row"><span class="step-date">28 oct. · 08 h 00</span><span class="step-location">📍 RMA East Side</span></div>
+                        <p class="step-desc" id="u2-desc">Examen précis de la cavité utérine et de l'endomètre.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">🔬</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title" id="u3-title">Hystéroscopie opératoire</span>
+                            <div class="countdown-pill"><div class="countdown-num">5</div><div class="countdown-lbl">JOURS</div></div>
+                        </div>
+                        <div class="step-meta-row"><span class="step-date">30 oct. 2026</span><span class="step-location">📍 Gramercy Center</span></div>
+                        <p class="step-desc" id="u3-desc">Préparation optimale de la cavité utérine avant le transfert.</p>
+                    </div>
+                </div>
+
+                <div class="step-row highlight">
+                    <div class="step-icon-box">✨</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title" id="u4-title">Transfert Embryon (FET)</span>
+                            <div class="countdown-pill"><div class="countdown-num">6</div><div class="countdown-lbl">JOURS</div></div>
+                        </div>
+                        <div class="step-meta-row"><span class="step-date">31 oct. 2026</span><span class="step-location">📍 Implantation</span></div>
+                        <p class="step-desc" id="u4-desc">Le grand jour de l'implantation de votre blastocyste.</p>
+                    </div>
+                </div>
+
+                <div class="step-row highlight">
+                    <div class="step-icon-box">🧪</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title" id="u5-title">Prise de sang Bêta-hCG</span>
+                            <div class="countdown-pill"><div class="countdown-num">14</div><div class="countdown-lbl">JOURS</div></div>
+                        </div>
+                        <div class="step-meta-row"><span class="step-date">8 nov. 2026</span><span class="step-location">📍 Test Grossesse</span></div>
+                        <p class="step-desc" id="u5-desc">Dosage officiel de l'hormone de grossesse dans le sang.</p>
+                    </div>
+                </div>
+
+                <div class="step-row">
+                    <div class="step-icon-box">📈</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title" id="u6-title">Bêta-hCG n°2 (Évolution)</span>
+                            <div class="countdown-pill"><div class="countdown-num">16</div><div class="countdown-lbl">JOURS</div></div>
+                        </div>
+                        <div class="step-meta-row"><span class="step-date">10 nov. 2026</span></div>
+                        <p class="step-desc" id="u6-desc">Vérification du doublement régulier du taux d'hCG.</p>
+                    </div>
+                </div>
+
+                <div class="step-row highlight">
+                    <div class="step-icon-box">💓</div>
+                    <div class="step-content">
+                        <div class="step-head">
+                            <span class="step-title" id="u7-title">1ère Écho (Battement de cœur)</span>
+                            <div class="countdown-pill"><div class="countdown-num">28</div><div class="countdown-lbl">JOURS</div></div>
+                        </div>
+                        <div class="step-meta-row"><span class="step-date">22 nov. 2026</span><span class="step-location">📍 6-7 SA</span></div>
+                        <p class="step-desc" id="u7-desc">Premier son et premier visuel du cœur de votre futur bébé.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Checklist Interactive -->
+        <div class="section-box">
+            <div class="section-header">
+                <span class="section-title">
+                    <span>☑</span>
+                    <span id="chk-head-title">Priorités & Préparatifs</span>
+                </span>
+                <span class="pill-badge" id="chk-head-badge">6 ACTIONS</span>
+            </div>
+            <div class="step-list">
+                <div class="chk-row" onclick="toggleChk(this, 'c1')">
+                    <div class="chk-box">✓</div>
+                    <div>
+                        <div class="chk-title" id="c1-title">Dossier PGT-A & Consentements signés</div>
+                        <div class="chk-sub" id="c1-sub">27 oct. · Validation génétique des 8 blastocystes</div>
+                    </div>
+                </div>
+                <div class="chk-row" onclick="toggleChk(this, 'c2')">
+                    <div class="chk-box">✓</div>
+                    <div>
+                        <div class="chk-title" id="c2-title">Rendez-vous SIS confirmé (RMA East Side)</div>
+                        <div class="chk-sub" id="c2-sub">28 oct. 08 h 00 · Cavité utérine & endomètre</div>
+                    </div>
+                </div>
+                <div class="chk-row" onclick="toggleChk(this, 'c3')">
+                    <div class="chk-box">✓</div>
+                    <div>
+                        <div class="chk-title" id="c3-title">Consultation pré-op Hystéroscopie</div>
+                        <div class="chk-sub" id="c3-sub">30 oct. · Gramercy Surgery Center</div>
+                    </div>
+                </div>
+                <div class="chk-row checked" onclick="toggleChk(this, 'c4')">
+                    <div class="chk-box">✓</div>
+                    <div>
+                        <div class="chk-title" id="c4-title">Protocoles médicamenteux & Progestérone</div>
+                        <div class="chk-sub" id="c4-sub">En cours · Support lutéal et œstrogènes</div>
+                    </div>
+                </div>
+                <div class="chk-row" onclick="toggleChk(this, 'c5')">
+                    <div class="chk-box">✓</div>
+                    <div>
+                        <div class="chk-title" id="c5-title">Préparer le jour du transfert FET</div>
+                        <div class="chk-sub" id="c5-sub">31 oct. · Vessie pleine, tenue confortable</div>
+                    </div>
+                </div>
+                <div class="chk-row" onclick="toggleChk(this, 'c6')">
+                    <div class="chk-box">✓</div>
+                    <div>
+                        <div class="chk-title" id="c6-title">Test Bêta-hCG & suivi RMA</div>
+                        <div class="chk-sub" id="c6-sub">8 nov. · Prise de sang officielle de confirmation</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Notes Personnelles de Fatou (LocalStorage) -->
+        <div class="section-box">
+            <div class="section-header">
+                <span class="section-title">
+                    <span>📝</span>
+                    <span id="notes-head-title">Notes personnelles de Fatou</span>
+                </span>
+                <span class="pill-badge" id="notes-head-badge">ESPACE PRIVÉ</span>
+            </div>
+            <p class="step-desc" style="margin-bottom: 8px;" id="notes-desc">Écrivez vos pensées quotidiennes, vos émotions ou vos questions. Vos notes sont enregistrées automatiquement sur votre appareil.</p>
+
+            <!-- Émotions -->
+            <div class="mood-bar">
+                <span class="mood-tag active" onclick="pickMood(this, '✨ Pleine d\'espoir')">✨ Pleine d'espoir</span>
+                <span class="mood-tag" onclick="pickMood(this, '🌸 Sereine')">🌸 Sereine</span>
+                <span class="mood-tag" onclick="pickMood(this, '🙏 Reconnaissante')">🙏 Reconnaissante</span>
+                <span class="mood-tag" onclick="pickMood(this, '💪 Confiante')">💪 Confiante</span>
+                <span class="mood-tag" onclick="pickMood(this, '🧘 Apaisée')">🧘 Apaisée</span>
+            </div>
+
+            <!-- Textarea -->
+            <textarea class="notes-area" id="notes-input" placeholder="Chère Fatou, écrivez vos pensées du jour ici..." oninput="autoSaveNote()"></textarea>
+
+            <div class="notes-controls">
+                <span class="save-indicator" id="notes-status-lbl">✓ Sauvegardé en direct</span>
+                <div class="btn-group">
+                    <button type="button" class="btn-mini" onclick="addDateStamp()" id="btn-stamp">📅 Date</button>
+                    <button type="button" class="btn-mini" onclick="clearDraft()" id="btn-clear">Effacer</button>
+                    <button type="button" class="btn-mini primary" onclick="archiveNote()" id="btn-save">Ajouter au journal</button>
+                </div>
+            </div>
+
+            <!-- Notes List -->
+            <div class="saved-notes-box" id="saved-notes-container"></div>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="actions-box">
+            <a class="btn-main" href="https://litter.catbox.moe/z1ni2q.apk" download="MonParcours.apk" target="_blank" rel="noopener noreferrer">
+                <span>📥</span>
+                <span id="btn-dl-text">Télécharger l'APK Android (MonParcours)</span>
+            </a>
+            <button type="button" class="btn-outline" onclick="window.print()">
+                <span>📄</span>
+                <span id="btn-pdf-text">Enregistrer la page en PDF</span>
+            </button>
+        </div>
+
+        <p class="footer-note" id="footer-text">Mon Parcours FIV · Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center · Document confidentiel de suivi personnel</p>
+    </div>
+
+    <script>
+        // Safe Storage Helper (resilient to third-party cookies / sandboxed Google Sites iframes)
+        const SafeStorage = {
+            _memory: {},
+            getItem: function(key) {
+                try {
+                    return localStorage.getItem(key);
+                } catch(e) {
+                    return this._memory[key] || null;
+                }
+            },
+            setItem: function(key, val) {
+                try {
+                    localStorage.setItem(key, val);
+                } catch(e) {
+                    this._memory[key] = val;
+                }
+            },
+            removeItem: function(key) {
+                try {
+                    localStorage.removeItem(key);
+                } catch(e) {
+                    delete this._memory[key];
+                }
+            }
+        };
+
+        let currentLanguage = 'fr';
+        let currentActiveMood = "✨ Pleine d'espoir";
+
+        // Tab Switching
+        function showTab(tab) {
+            const septTab = document.getElementById('tab-sept');
+            const upTab = document.getElementById('tab-up');
+            const septList = document.getElementById('september-list');
+            const upList = document.getElementById('upcoming-list');
+            const badge = document.getElementById('proto-badge');
+
+            if (tab === 'sept') {
+                septTab.classList.add('active');
+                upTab.classList.remove('active');
+                septList.style.display = 'flex';
+                upList.style.display = 'none';
+                badge.textContent = (currentLanguage === 'fr') ? "15 ÉTAPES FAITES" : "15 STEPS DONE";
+            } else {
+                septTab.classList.remove('active');
+                upTab.classList.add('active');
+                septList.style.display = 'none';
+                upList.style.display = 'flex';
+                badge.textContent = (currentLanguage === 'fr') ? "7 ÉTAPES" : "7 STEPS";
+            }
+        }
+
+        // Checklist toggle
+        function toggleChk(el, id) {
+            el.classList.toggle('checked');
+            SafeStorage.setItem('gs_chk_' + id, el.classList.contains('checked') ? '1' : '0');
+        }
+
+        // Mood pick
+        function pickMood(el, mood) {
+            currentActiveMood = mood;
+            document.querySelectorAll('.mood-tag').forEach(t => t.classList.remove('active'));
+            el.classList.add('active');
+            SafeStorage.setItem('gs_mood', mood);
+        }
+
+        // Notes Auto Save
+        function autoSaveNote() {
+            const val = document.getElementById('notes-input').value;
+            SafeStorage.setItem('gs_note_draft', val);
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+            document.getElementById('notes-status-lbl').textContent = (currentLanguage === 'fr') 
+                ? `✓ Sauvegardé en direct (${timeStr})`
+                : `✓ Auto-saved (${timeStr})`;
+        }
+
+        function addDateStamp() {
+            const input = document.getElementById('notes-input');
+            const now = new Date();
+            const dateStr = now.toLocaleDateString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+            const stamp = `[${dateStr} · ${currentActiveMood}] `;
+            if (!input.value.includes(stamp)) {
+                input.value = stamp + input.value;
+                autoSaveNote();
+                input.focus();
+            }
+        }
+
+        function clearDraft() {
+            const input = document.getElementById('notes-input');
+            if (input.value.trim().length > 0) {
+                const msg = currentLanguage === 'fr' ? "Effacer le texte en cours ?" : "Clear current draft?";
+                if (!confirm(msg)) return;
+            }
+            input.value = '';
+            SafeStorage.removeItem('gs_note_draft');
+            document.getElementById('notes-status-lbl').textContent = (currentLanguage === 'fr') ? "Brouillon effacé" : "Draft cleared";
+        }
+
+        function getSavedNotes() {
+            const raw = SafeStorage.getItem('gs_saved_notes_data');
+            if (raw) {
+                try { return JSON.parse(raw); } catch(e) {}
+            }
+            return [
+                {
+                    id: 'n1',
+                    date: "26 octobre 2026",
+                    mood: "✨ Pleine d'espoir",
+                    text: "En attente douce des résultats PGT-A. Chaque jour nous rapproche. Rester sereine, respirer profondément, et faire confiance au travail remarquable du laboratoire."
+                },
+                {
+                    id: 'n2',
+                    date: "24 octobre 2026",
+                    mood: "🌸 Sereine",
+                    text: "Rendez-vous confirmé à 08h00 à RMA East Side pour l'hystérosonographie SIS du 28 octobre."
+                }
+            ];
+        }
+
+        function archiveNote() {
+            const input = document.getElementById('notes-input');
+            const text = input.value.trim();
+            if (!text) {
+                alert(currentLanguage === 'fr' ? "Écrivez une note avant d'ajouter." : "Write a note before saving.");
+                return;
+            }
+            const now = new Date();
+            const dateStr = now.toLocaleDateString(currentLanguage === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+            const newNote = {
+                id: 'n_' + Date.now(),
+                date: dateStr,
+                mood: currentActiveMood,
+                text: text
+            };
+            const list = getSavedNotes();
+            list.unshift(newNote);
+            SafeStorage.setItem('gs_saved_notes_data', JSON.stringify(list));
+            input.value = '';
+            SafeStorage.removeItem('gs_note_draft');
+            renderSavedNotes();
+            document.getElementById('notes-status-lbl').textContent = (currentLanguage === 'fr') ? "✓ Ajouté au journal !" : "✓ Saved to journal!";
+        }
+
+        function deleteNote(id) {
+            const msg = currentLanguage === 'fr' ? "Supprimer cette note ?" : "Delete this note?";
+            if (!confirm(msg)) return;
+            let list = getSavedNotes();
+            list = list.filter(n => n.id !== id);
+            SafeStorage.setItem('gs_saved_notes_data', JSON.stringify(list));
+            renderSavedNotes();
+        }
+
+        function renderSavedNotes() {
+            const box = document.getElementById('saved-notes-container');
+            const list = getSavedNotes();
+            if (list.length === 0) {
+                box.innerHTML = `<div style="font-size:10.5px;color:#8C7B72;font-style:italic;padding:4px 0;">${currentLanguage === 'fr' ? 'Aucune pensée archivée pour l\'instant.' : 'No archived notes yet.'}</div>`;
+                return;
+            }
+            box.innerHTML = list.map(item => `
+                <div class="note-card-item">
+                    <div class="note-card-head">
+                        <span>📅 ${item.date} · ${item.mood || ''}</span>
+                        <button type="button" style="border:none;background:none;color:#A06050;cursor:pointer;font-weight:bold;" onclick="deleteNote('${item.id}')">✕</button>
+                    </div>
+                    <div style="font-size:11px;line-height:1.4;white-space:pre-wrap;">${escapeTxt(item.text)}</div>
+                </div>
+            `).join('');
+        }
+
+        function escapeTxt(str) {
+            return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // Language Support
+        const i18n = {
+            fr: {
+                pin: "🔒 Code PIN · 1998",
+                title: "Mon Parcours FIV",
+                subtitle: "Fatou ♥ · RMA of New York (East Side) & Gramercy",
+                recueillis: "Ovocytes prélevés",
+                matures: "Matures (MII)",
+                fecondes: "Fécondés ICSI",
+                vitrifies: "Blastocystes",
+                protoTitle: "Protocole Médical FIV",
+                protoBadgeSept: "15 ÉTAPES FAITES",
+                protoBadgeUp: "7 ÉTAPES",
+                tabSept: "Septembre (Stimulation)",
+                tabUp: "Octobre / Nov. (Grossesse)",
+                chkTitle: "Priorités & Préparatifs",
+                chkBadge: "6 ACTIONS",
+                notesTitle: "Notes personnelles de Fatou",
+                notesBadge: "ESPACE PRIVÉ",
+                notesDesc: "Écrivez vos pensées quotidiennes, vos émotions ou vos questions. Vos notes sont enregistrées automatiquement sur votre appareil.",
+                notesPlaceholder: "Chère Fatou, écrivez vos pensées du jour ici...",
+                btnStamp: "📅 Date",
+                btnClear: "Effacer",
+                btnSave: "Ajouter au journal",
+                btnDl: "Télécharger l'APK Android (MonParcours)",
+                btnPdf: "Enregistrer la page en PDF",
+                footer: "Mon Parcours FIV · Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center · Document confidentiel de suivi personnel"
+            },
+            en: {
+                pin: "🔒 PIN Code · 1998",
+                title: "My IVF Journey",
+                subtitle: "Fatou ♥ · RMA of New York (East Side) & Gramercy",
+                recueillis: "Oocytes Retrieved",
+                matures: "Mature (MII)",
+                fecondes: "Fertilized ICSI",
+                vitrifies: "Blastocysts",
+                protoTitle: "IVF Medical Protocol",
+                protoBadgeSept: "15 STEPS DONE",
+                protoBadgeUp: "7 STEPS",
+                tabSept: "September (Stimulation)",
+                tabUp: "October / Nov (Pregnancy)",
+                chkTitle: "Priorities & Roadmap",
+                chkBadge: "6 ACTIONS",
+                notesTitle: "Fatou's Personal Notes",
+                notesBadge: "PRIVATE SPACE",
+                notesDesc: "Write your daily thoughts, feelings, or doctor questions. Your notes are automatically saved on your device.",
+                notesPlaceholder: "Dear Fatou, write your thoughts of the day here...",
+                btnStamp: "📅 Date",
+                btnClear: "Clear",
+                btnSave: "Add to journal",
+                btnDl: "Download Android APK (MyJourney)",
+                btnPdf: "Save Page as PDF",
+                footer: "My IVF Journey · Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center · Confidential Personal Roadmap"
+            }
+        };
+
+        function setLang(lang) {
+            currentLanguage = lang;
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            const t = i18n[lang];
+
+            document.getElementById('pin-badge').textContent = t.pin;
+            document.getElementById('hero-title').textContent = t.title;
+            document.getElementById('hero-subtitle').textContent = t.subtitle;
+            document.getElementById('lbl-recueillis').textContent = t.recueillis;
+            document.getElementById('lbl-matures').textContent = t.matures;
+            document.getElementById('lbl-fecondes').textContent = t.fecondes;
+            document.getElementById('lbl-vitrifies').textContent = t.vitrifies;
+            document.getElementById('proto-title').textContent = t.protoTitle;
+            document.getElementById('tab-sept').textContent = t.tabSept;
+            document.getElementById('tab-up').textContent = t.tabUp;
+            document.getElementById('chk-head-title').textContent = t.chkTitle;
+            document.getElementById('chk-head-badge').textContent = t.chkBadge;
+            document.getElementById('notes-head-title').textContent = t.notesTitle;
+            document.getElementById('notes-head-badge').textContent = t.notesBadge;
+            document.getElementById('notes-desc').textContent = t.notesDesc;
+            document.getElementById('notes-input').placeholder = t.notesPlaceholder;
+            document.getElementById('btn-stamp').textContent = t.btnStamp;
+            document.getElementById('btn-clear').textContent = t.btnClear;
+            document.getElementById('btn-save').textContent = t.btnSave;
+            document.getElementById('btn-dl-text').textContent = t.btnDl;
+            document.getElementById('btn-pdf-text').textContent = t.btnPdf;
+            document.getElementById('footer-text').textContent = t.footer;
+
+            const isSeptActive = document.getElementById('tab-sept').classList.contains('active');
+            document.getElementById('proto-badge').textContent = isSeptActive ? t.protoBadgeSept : t.protoBadgeUp;
+        }
+
+        function toggleStepReminder(btn, stepId) {
+            if (typeof Notification !== 'undefined' && Notification.permission !== 'granted') {
+                Notification.requestPermission();
+            }
+            const active = btn.classList.toggle('active');
+            btn.textContent = active ? '🔔 Rappel actif' : '🔔 Rappel';
+            btn.style.background = active ? 'var(--gold-dark)' : 'var(--gold-light)';
+            btn.style.color = active ? '#FFFFFF' : 'var(--gold-dark)';
+            SafeStorage.setItem('gs_reminder_' + stepId, active ? '1' : '0');
+            
+            const toast = document.getElementById('global-toast') || createToast();
+            toast.textContent = active ? '✓ Alarme & notification locale programmées (1h avant le rendez-vous).' : '✕ Rappel désactivé.';
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 3500);
+        }
+
+        function createToast() {
+            let t = document.createElement('div');
+            t.id = 'global-toast';
+            t.style.cssText = 'position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:#382214; color:#FFF; padding:9px 18px; border-radius:20px; font-size:11.5px; font-weight:bold; z-index:99999; box-shadow:0 4px 16px rgba(0,0,0,0.35);';
+            document.body.appendChild(t);
+            return t;
+        }
+
+        // Initialize on load or immediate if document already ready
+        function initApp() {
+            try {
+                // Restore checklist items
+                ['c1', 'c2', 'c3', 'c4', 'c5', 'c6'].forEach(id => {
+                    const s = SafeStorage.getItem('gs_chk_' + id);
+                    if (s !== null) {
+                        const row = document.querySelector(`.chk-row[onclick*="${id}"]`);
+                        if (row) {
+                            if (s === '1') row.classList.add('checked');
+                            else row.classList.remove('checked');
+                        }
+                    }
+                });
+
+                // Restore draft and mood
+                const draft = SafeStorage.getItem('gs_note_draft');
+                if (draft) {
+                    const inp = document.getElementById('notes-input');
+                    if (inp) inp.value = draft;
+                }
+
+                const savedMood = SafeStorage.getItem('gs_mood');
+                if (savedMood) {
+                    currentActiveMood = savedMood;
+                    document.querySelectorAll('.mood-tag').forEach(tag => {
+                        if (tag.textContent.trim() === savedMood) tag.classList.add('active');
+                        else tag.classList.remove('active');
+                    });
+                }
+
+                renderSavedNotes();
+            } catch (err) {
+                console.warn('Init error caught:', err);
+            }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+</body>
+</html>

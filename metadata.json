@@ -1,0 +1,6 @@
+{
+  "name": "Mon Parcours FIV",
+  "description": "Votre parcours FIV doux et clair pour Fatou : calendrier, laboratoire, checklist et journal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

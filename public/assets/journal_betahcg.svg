@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="100%" height="100%">
+  <defs>
+    <radialGradient id="hcgBg" cx="50%" cy="40%" r="65%">
+      <stop offset="0%" stop-color="#361D15" />
+      <stop offset="60%" stop-color="#20100B" />
+      <stop offset="100%" stop-color="#0E0603" />
+    </radialGradient>
+    <linearGradient id="stickGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#FFFDF9" />
+      <stop offset="70%" stop-color="#F2EFE9" />
+      <stop offset="100%" stop-color="#DDD6CC" />
+    </linearGradient>
+    <linearGradient id="pinkLine" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#FF4D4F" />
+      <stop offset="50%" stop-color="#FF7875" />
+      <stop offset="100%" stop-color="#CF1322" />
+    </linearGradient>
+    <linearGradient id="goldStroke4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EAD59A" />
+      <stop offset="50%" stop-color="#C89B3C" />
+      <stop offset="100%" stop-color="#7B541C" />
+    </linearGradient>
+  </defs>
+
+  <!-- Fond -->
+  <rect width="400" height="400" rx="24" fill="url(#hcgBg)" />
+  <rect width="396" height="396" x="2" y="2" rx="22" fill="none" stroke="url(#goldStroke4)" stroke-width="1.5" stroke-opacity="0.4" />
+
+  <!-- Pétales et confettis dorés subtils -->
+  <circle cx="80" cy="80" r="2" fill="#FFE8A3" opacity="0.4" />
+  <circle cx="320" cy="70" r="2.5" fill="#FFE8A3" opacity="0.5" />
+  <circle cx="90" cy="270" r="1.5" fill="#FFE8A3" opacity="0.4" />
+  <circle cx="310" cy="280" r="2" fill="#FFE8A3" opacity="0.5" />
+
+  <!-- Couronne florale de célébration douce -->
+  <circle cx="200" cy="180" r="110" fill="none" stroke="#68422A" stroke-width="1" stroke-dasharray="8,6" opacity="0.4" />
+  <circle cx="200" cy="180" r="95" fill="#FFC95C" opacity="0.08" />
+
+  <!-- Test de Grossesse stylisé (bâtonnet épuré et moderne) -->
+  <g transform="rotate(-15 200 180)">
+    <!-- Ombre -->
+    <rect x="75" y="165" width="250" height="44" rx="22" fill="#0A0503" opacity="0.4" filter="blur(4px)" />
+    <!-- Corps du test -->
+    <rect x="70" y="160" width="260" height="40" rx="20" fill="url(#stickGrad)" stroke="#C89B3C" stroke-width="1.5" />
+    <!-- Embout grip or rosé -->
+    <path d="M70,180 A20,20 0 0,1 110,160 L110,200 A20,20 0 0,1 70,180 Z" fill="#D48B7A" opacity="0.85" />
+    <circle cx="90" cy="180" r="3" fill="#FFFFFF" opacity="0.8" />
+
+    <!-- Fenêtre de lecture -->
+    <rect x="145" y="168" width="85" height="24" rx="6" fill="#FFFFFF" stroke="#E0D6C8" stroke-width="1" />
+    
+    <!-- DEUX LIGNES ROSES VIVES (Test Positif) -->
+    <line x1="172" y1="172" x2="172" y2="188" stroke="url(#pinkLine)" stroke-width="3.5" stroke-linecap="round" />
+    <line x1="202" y1="172" x2="202" y2="188" stroke="url(#pinkLine)" stroke-width="3.5" stroke-linecap="round" />
+    
+    <!-- Cœur scintillant entre les lignes -->
+    <circle cx="187" cy="180" r="2" fill="#FF7875" />
+
+    <!-- Petit capuchon fin -->
+    <rect x="305" y="166" width="20" height="28" rx="6" fill="#C89B3C" opacity="0.7" />
+  </g>
+
+  <!-- Inscription de confirmation Bêta-hCG -->
+  <rect x="120" y="85" width="160" height="30" rx="15" fill="#201008" stroke="#52C41A" stroke-width="1.2" />
+  <text x="200" y="104" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="11" font-weight="800" fill="#73D13D" letter-spacing="1">✓ BÊTA-hCG POSITIF</text>
+
+  <!-- Cartouche / Badge du bas -->
+  <rect x="50" y="325" width="300" height="44" rx="14" fill="#201008" stroke="#C89B3C" stroke-width="1.2" stroke-opacity="0.6" />
+  <text x="200" y="344" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="700" fill="#FFE6A3" letter-spacing="1">CONFIRMATION GROSSESSE</text>
+  <text x="200" y="358" text-anchor="middle" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="9.5" font-weight="500" fill="#D8BE9B">Les deux lignes tant attendues brillent</text>
+</svg>
