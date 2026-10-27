@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Heart, Calendar, TestTube, CheckSquare, BookOpen, Baby, Lock, Unlock, Download, Bell, Plus, Trash2, Edit3, Menu, X } from 'lucide-react';
+import { fetchNotesFromKV, saveNotesToKV } from './kvService';
 
 export default function App() {
   const [currentTab, setCurrentTab] = useState('home');
@@ -15,13 +16,22 @@ export default function App() {
     { id: 'chk-pgta', symbol: '🧬', title: 'Surveiller les résultats PGT-A', dateText: '23–28 octobre', badgeText: '⏳ En cours', badgeType: 'today', isCompleted: false, description: 'Analyse chromosomique des 8 blastocystes vitrifiés.' }
   ]);
 
-  // Journal notes state
+  // Journal notes state with Vercel KV persistence
   const [notes, setNotes] = useState([
     { id: '1', title: 'En attente douce des résultats PGT-A', date: '2026-10-26', category: 'Émotion', content: 'Chaque jour nous rapproche. Rester sereine, respirer profondément, et faire confiance au laboratoire.' },
     { id: '2', title: 'Après la ponction : 42 ovocytes !', date: '2026-10-01', category: 'Jalon', content: '42 ovocytes prélevés, 34 matures et 8 magnifiques blastocystes vitrifiés. Très fière ♡' }
   ]);
   const [newNoteTitle, setNewNoteTitle] = useState('');
   const [newNoteContent, setNewNoteContent] = useState('');
+
+  // Fetch notes from Vercel KV on mount
+  useEffect(() => {
+    fetchNotesFromKV().then((fetched) => {
+      if (fetched && Array.isArray(fetched) && fetched.length > 0) {
+        setNotes(fetched);
+      }
+    });
+  }, []);
 
   const toggleCheck = (id) => {
     setChecklist(checklist.map(item => item.id === id ? { ...item, isCompleted: !item.isCompleted } : item));
@@ -30,13 +40,20 @@ export default function App() {
   const addNote = (e) => {
     e.preventDefault();
     if (!newNoteTitle) return;
-    setNotes([{ id: Date.now().toString(), title: newNoteTitle, date: new Date().toISOString().split('T')[0], category: 'Personnel', content: newNoteContent }, ...notes]);
+    const updatedNotes = [
+      { id: Date.now().toString(), title: newNoteTitle, date: new Date().toISOString().split('T')[0], category: 'Personnel', content: newNoteContent },
+      ...notes
+    ];
+    setNotes(updatedNotes);
+    saveNotesToKV(updatedNotes);
     setNewNoteTitle('');
     setNewNoteContent('');
   };
 
   const deleteNote = (id) => {
-    setNotes(notes.filter(n => n.id !== id));
+    const updatedNotes = notes.filter(n => n.id !== id);
+    setNotes(updatedNotes);
+    saveNotesToKV(updatedNotes);
   };
 
   const headerBg = isGoldTheme ? 'bg-[#947230]' : 'bg-[#5C3B24]';
