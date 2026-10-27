@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
+import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import androidx.compose.foundation.layout.*
@@ -47,7 +48,6 @@ fun WebViewScreen(url: String = "https://ais-dev-aotcacp2lpsk4r5vjbwdxk-46262843
                 )
                 Button(
                     onClick = {
-                        // Requirement 2: evaluateJavascript execution handle
                         webViewRef?.evaluateJavascript("console.log('Hello from Native APK'); alert('Synchronisation Native réussie !');", null)
                     },
                     modifier = Modifier.height(36.dp)
@@ -68,17 +68,27 @@ fun WebViewScreen(url: String = "https://ais-dev-aotcacp2lpsk4r5vjbwdxk-46262843
                     settings.domStorageEnabled = true
                     settings.loadWithOverviewMode = true
                     settings.useWideViewPort = true
+                    settings.loadsImagesAutomatically = true
+                    settings.databaseEnabled = true
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
+                    }
 
-                    // Requirement 3: CookieManager session synchronization
+                    // CookieManager session synchronization
                     val cookieManager = CookieManager.getInstance()
                     cookieManager.setAcceptCookie(true)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         cookieManager.setAcceptThirdPartyCookies(this, true)
                     }
 
-                    webViewClient = WebViewClient()
+                    webViewClient = object : WebViewClient() {
+                        override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
+                            url?.let { view?.loadUrl(it) }
+                            return true
+                        }
+                    }
 
-                    // Requirement 1: addJavascriptInterface named AndroidBridge
+                    // addJavascriptInterface named AndroidBridge
                     addJavascriptInterface(AndroidBridge { data ->
                         lastReceivedMessage = data
                     }, "AndroidBridge")

@@ -32,12 +32,16 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyApplicationTheme {
-                val viewModel: FivViewModel = viewModel()
-                val currentTab by viewModel.currentTab.collectAsState()
-                val checklistItems by viewModel.checklistItems.collectAsState()
-                val journalNotes by viewModel.journalNotes.collectAsState()
+                var isAuthenticated by remember { mutableStateOf(false) }
+                if (!isAuthenticated) {
+                    PinLockScreen(onUnlockSuccess = { isAuthenticated = true })
+                } else {
+                    val viewModel: FivViewModel = viewModel()
+                    val currentTab by viewModel.currentTab.collectAsState()
+                    val checklistItems by viewModel.checklistItems.collectAsState()
+                    val journalNotes by viewModel.journalNotes.collectAsState()
 
-                var isGoldTheme by remember { mutableStateOf(false) }
+                    var isGoldTheme by remember { mutableStateOf(false) }
 
                 val headerBgColor = if (isGoldTheme) Color(0xFFB58E45) else Color(0xFF5C3B24)
                 val headerBorderColor = if (isGoldTheme) Color(0xFFDFCA9D) else Color(0xFF754E32)
@@ -210,5 +214,6 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
+    }
     }
 }

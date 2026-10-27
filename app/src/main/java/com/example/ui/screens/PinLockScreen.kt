@@ -26,7 +26,7 @@ fun PinLockScreen(
     var enteredPin by remember { mutableStateOf("") }
     var showError by remember { mutableStateOf(false) }
 
-    val correctPin = "1998"
+    val correctPin = "9999"
 
     fun onNumberClick(digit: String) {
         if (enteredPin.length < 4) {
