@@ -1,0 +1,2374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Parcours FIV · Fatou ♥ (Desktop Brown Edition)</title>
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/recharts@2.10.4/umd/Recharts.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        :root {
+            --brown-primary: #5C3B24;
+            --brown-secondary: #8D6648;
+            --brown-dark: #382214;
+            --brown-soft: #F4EBD8;
+            --cream-bg: #FAF6F0;
+            --card-bg: #FFFFFF;
+            --ink: #2B2320;
+            --muted: #6E6058;
+            --line: #E2D3C4;
+            --line-subtle: #EDE4DA;
+            --green: #2B7853;
+            --green-bg: #EAF4ED;
+            --green-line: #BFE0CB;
+            --gold-gradient: linear-gradient(135deg, #7A4F31 0%, #5C3B24 100%);
+            --shadow-sm: 0 2px 8px rgba(92, 59, 36, 0.05);
+            --shadow-md: 0 6px 20px rgba(92, 59, 36, 0.08);
+            --shadow-lg: 0 12px 36px rgba(92, 59, 36, 0.12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--cream-bg);
+            color: var(--ink);
+            line-height: 1.5;
+            padding: 24px 16px;
+        }
+
+        .desktop-wrapper {
+            max-width: 1240px;
+            margin: 0 auto;
+        }
+
+        /* Top Bar */
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 14px 22px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow-sm);
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .nav-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: var(--gold-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            box-shadow: 0 3px 10px rgba(92, 59, 36, 0.2);
+            color: #FFFFFF;
+        }
+
+        .nav-title {
+            font-family: Georgia, serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--brown-primary);
+            line-height: 1.2;
+        }
+
+        .nav-subtitle {
+            font-size: 12px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .nav-badges {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: var(--brown-soft);
+            color: var(--brown-primary);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .lang-switch {
+            display: flex;
+            background: var(--brown-soft);
+            padding: 3px;
+            border-radius: 20px;
+            border: 1px solid var(--line);
+        }
+
+        .lang-btn {
+            background: transparent;
+            border: none;
+            padding: 5px 11px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--brown-primary);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--brown-primary);
+            color: #FFFFFF;
+            box-shadow: 0 2px 6px rgba(92, 59, 36, 0.25);
+        }
+
+        .btn-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--card-bg);
+            border: 1.5px solid var(--brown-primary);
+            color: var(--brown-primary);
+            padding: 7px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
+
+        .btn-header:hover {
+            background: var(--brown-soft);
+        }
+
+        .btn-header.primary {
+            background: var(--brown-primary);
+            color: #FFFFFF;
+        }
+
+        .btn-header.primary:hover {
+            background: var(--brown-dark);
+        }
+
+        /* Metrics Banner */
+        .metrics-banner {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 24px;
+        }
+
+        .metric-tile {
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 18px 14px;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .metric-tile:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .metric-val {
+            font-family: Georgia, serif;
+            font-size: 34px;
+            font-weight: 800;
+            color: var(--brown-primary);
+            line-height: 1;
+        }
+
+        .metric-title {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--ink);
+            margin-top: 6px;
+        }
+
+        .metric-sub {
+            font-size: 10.5px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        /* 2-Column Desktop Grid */
+        .desktop-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 24px;
+            align-items: start;
+        }
+
+        /* Content Cards */
+        .panel-card {
+            background: var(--card-bg);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            padding: 22px 20px;
+            box-shadow: var(--shadow-sm);
+            margin-bottom: 24px;
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--line-subtle);
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .panel-title {
+            font-family: Georgia, serif;
+            font-size: 17px;
+            font-weight: 800;
+            color: var(--brown-primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .status-badge {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid var(--green-line);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 800;
+        }
+
+        /* Timeline Navigation Tabs */
+        .timeline-tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--brown-soft);
+            padding: 4px;
+            border-radius: 14px;
+            margin-bottom: 18px;
+            border: 1px solid var(--line);
+        }
+
+        .t-tab {
+            flex: 1;
+            padding: 10px 14px;
+            border: none;
+            background: transparent;
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--brown-primary);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+        }
+
+        .t-tab.active {
+            background: #FFFFFF;
+            color: var(--brown-dark);
+            box-shadow: 0 2px 8px rgba(92, 59, 36, 0.12);
+            font-weight: 800;
+        }
+
+        /* Step Card */
+        .steps-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 14px;
+            background: #FFFFFF;
+            border: 1px solid var(--line-subtle);
+            border-radius: 14px;
+            padding: 14px 16px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .step-item:hover {
+            border-color: var(--line);
+            box-shadow: 0 4px 14px rgba(92, 59, 36, 0.06);
+            transform: translateY(-1px);
+        }
+
+        .step-item.completed {
+            border-left: 4px solid var(--green);
+        }
+
+        .step-item.highlight {
+            border-left: 4px solid var(--brown-primary);
+            background: #FFFDFB;
+        }
+
+        .step-icon-col {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .step-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: var(--brown-soft);
+            border: 1px solid var(--line);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .step-num-badge {
+            font-size: 9.5px;
+            font-weight: 800;
+            color: var(--muted);
+            background: var(--cream-bg);
+            padding: 2px 6px;
+            border-radius: 6px;
+            border: 1px solid var(--line-subtle);
+        }
+
+        .step-main {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .step-head-row {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 4px;
+        }
+
+        .step-heading {
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--brown-dark);
+            line-height: 1.3;
+        }
+
+        .step-meta-chips {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+
+        .chip-date {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--brown-primary);
+        }
+
+        .chip-time {
+            background: var(--brown-soft);
+            color: var(--brown-dark);
+            font-size: 10.5px;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 8px;
+        }
+
+        .chip-loc {
+            font-size: 10.5px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .step-text {
+            font-size: 12px;
+            color: #4A3E37;
+            line-height: 1.5;
+        }
+
+        .dosage-tag {
+            display: inline-block;
+            background: #FDF5EA;
+            border: 1px solid #E6CA8D;
+            color: var(--brown-primary);
+            font-size: 11px;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 6px;
+            margin-top: 6px;
+        }
+
+        .step-pill-right {
+            flex-shrink: 0;
+            text-align: right;
+        }
+
+        .pill-done {
+            background: var(--green-bg);
+            color: var(--green);
+            border: 1px solid var(--green-line);
+            padding: 3px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .pill-countdown {
+            background: #FFF7EC;
+            border: 1px solid #E6CA8D;
+            padding: 4px 8px;
+            border-radius: 10px;
+            text-align: center;
+            min-width: 56px;
+        }
+
+        .countdown-val {
+            font-family: Georgia, serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--brown-primary);
+            line-height: 1;
+        }
+
+        .countdown-lbl {
+            font-size: 8px;
+            font-weight: 800;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* Photo Gallery */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin-top: 14px;
+        }
+
+        .gallery-card {
+            background: var(--cream-bg);
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            border-color: var(--brown-primary);
+        }
+
+        .gallery-img-wrap {
+            height: 115px;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid var(--line-subtle);
+        }
+
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-card:hover .gallery-img-wrap img {
+            transform: scale(1.05);
+        }
+
+        .gallery-body {
+            padding: 8px 10px;
+        }
+
+        .gallery-date {
+            font-size: 9.5px;
+            font-weight: 800;
+            color: var(--brown-primary);
+        }
+
+        .gallery-name {
+            font-size: 11.5px;
+            font-weight: 800;
+            color: var(--ink);
+            margin: 2px 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Right Column Widgets */
+        /* Personal Notes */
+        .mood-chips {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+
+        .mood-pill {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            padding: 4px 10px;
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--brown-primary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .mood-pill.active {
+            background: var(--brown-soft);
+            border-color: var(--brown-primary);
+            font-weight: 800;
+        }
+
+        .notes-textarea {
+            width: 100%;
+            min-height: 115px;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            padding: 12px;
+            font-family: inherit;
+            font-size: 12.5px;
+            color: var(--ink);
+            background: #FFFFFF;
+            resize: vertical;
+            line-height: 1.5;
+            transition: border-color 0.2s ease;
+        }
+
+        .notes-textarea:focus {
+            outline: none;
+            border-color: var(--brown-primary);
+        }
+
+        .notes-toolbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 8px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .save-status {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--green);
+        }
+
+        .notes-btns {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-note {
+            background: #FFFFFF;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            padding: 6px 10px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: var(--brown-primary);
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .btn-note:hover {
+            background: var(--brown-soft);
+        }
+
+        .btn-note.primary {
+            background: var(--brown-primary);
+            color: #FFFFFF;
+            border-color: var(--brown-primary);
+        }
+
+        .btn-note.primary:hover {
+            background: var(--brown-dark);
+        }
+
+        .saved-notes-feed {
+            margin-top: 14px;
+            max-height: 250px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding-right: 4px;
+        }
+
+        .saved-note-bubble {
+            background: #FFFFFF;
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 10px 12px;
+            position: relative;
+        }
+
+        .bubble-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            margin-bottom: 4px;
+        }
+
+        .bubble-del {
+            background: transparent;
+            border: none;
+            color: #A99B93;
+            cursor: pointer;
+            font-size: 13px;
+            padding: 0 4px;
+            line-height: 1;
+        }
+
+        .bubble-del:hover {
+            color: #B52828;
+        }
+
+        .bubble-text {
+            font-size: 11.5px;
+            color: var(--ink);
+            line-height: 1.45;
+            white-space: pre-wrap;
+        }
+
+        /* Checklist */
+        .checklist-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: #FFFFFF;
+            border: 1px solid var(--line-subtle);
+            border-radius: 12px;
+            padding: 10px 12px;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .check-item:hover {
+            border-color: var(--line);
+            background: #FFFDFB;
+        }
+
+        .check-box {
+            width: 22px;
+            height: 22px;
+            border-radius: 7px;
+            border: 2px solid var(--brown-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: transparent;
+            font-size: 13px;
+            font-weight: 900;
+            flex-shrink: 0;
+            transition: all 0.15s ease;
+        }
+
+        .check-item.checked .check-box {
+            background: var(--green);
+            border-color: var(--green);
+            color: #FFFFFF;
+        }
+
+        .check-item.checked .check-title {
+            text-decoration: line-through;
+            color: var(--muted);
+        }
+
+        .check-title {
+            font-size: 12.5px;
+            font-weight: 800;
+            color: var(--ink);
+        }
+
+        .check-sub {
+            font-size: 10.5px;
+            color: var(--muted);
+            margin-top: 1px;
+        }
+
+        /* Clinic Info Card */
+        .clinic-info-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .clinic-item {
+            display: flex;
+            gap: 10px;
+            font-size: 11.5px;
+            line-height: 1.45;
+        }
+
+        .clinic-icon {
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .clinic-name {
+            font-weight: 800;
+            color: var(--brown-primary);
+        }
+
+        /* Lightbox Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(43, 35, 32, 0.75);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 20px;
+            backdrop-filter: blur(4px);
+        }
+
+        .modal-overlay.open {
+            display: flex;
+        }
+
+        .modal-box {
+            background: #FFFFFF;
+            border-radius: 18px;
+            max-width: 580px;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            animation: popIn 0.2s ease-out;
+        }
+
+        @keyframes popIn {
+            from { transform: scale(0.95); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-img-wrap {
+            height: 240px;
+            background: var(--cream-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .modal-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .modal-close-btn {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid var(--line);
+            color: var(--ink);
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .modal-content {
+            padding: 18px 20px;
+        }
+
+        .modal-stage {
+            font-size: 11px;
+            font-weight: 800;
+            color: var(--brown-primary);
+            margin-bottom: 2px;
+        }
+
+        .modal-title {
+            font-family: Georgia, serif;
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--brown-dark);
+            margin-bottom: 8px;
+        }
+
+        .modal-desc {
+            font-size: 12.5px;
+            color: #4A3E37;
+            line-height: 1.55;
+        }
+
+        /* Footer */
+        .desktop-footer {
+            margin-top: 24px;
+            text-align: center;
+            font-size: 11px;
+            color: var(--muted);
+            padding: 16px 0;
+            border-top: 1px solid var(--line);
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 980px) {
+            .desktop-grid {
+                grid-template-columns: 1fr;
+            }
+            .metrics-banner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            body { padding: 12px 8px; }
+            .metrics-banner { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; }
+            .top-navbar { flex-direction: column; align-items: flex-start; }
+            .nav-actions { width: 100%; justify-content: space-between; }
+        }
+
+        /* Print Media */
+        @media print {
+            body { background: #FFFFFF; padding: 0; }
+            .top-navbar .nav-actions, .timeline-tabs, .mood-chips, .notes-toolbar, .btn-note, .modal-overlay { display: none !important; }
+            .desktop-wrapper { max-width: 100%; }
+            .desktop-grid { display: block; }
+            .panel-card { border: none; box-shadow: none; padding: 10px 0; }
+            #september-steps, #upcoming-steps { display: flex !important; }
+        }
+    </style>
+</head>
+<body>
+    <!-- PIN Lock Overlay Modal -->
+    <div id="pin-lock-overlay" style="position:fixed; top:0; left:0; width:100%; height:100%; background: #FAF6F0; z-index:99999; display:flex; justify-content:center; align-items:center; padding:20px;">
+        <div style="background: #FFFFFF; border: 1px solid #E2D3C4; border-radius: 24px; padding: 28px 24px; max-width: 360px; width: 100%; text-align: center; box-shadow: 0 10px 30px rgba(92,59,36,0.12);">
+            <div style="font-size: 34px; margin-bottom: 8px;">🔒</div>
+            <h2 style="font-family: Georgia, serif; font-size: 22px; color: #5C3B24; margin-bottom: 6px;">Mon Parcours</h2>
+            <div style="display:inline-block; background: #F4EBD8; color: #5C3B24; font-size: 11px; font-weight: 800; padding: 5px 12px; border-radius: 20px; border: 1px solid #E2D3C4; margin-bottom: 16px;">🔒 Espace Sécurisé · Fatou</div>
+            <p style="font-size: 13px; color: #6E6058; margin-bottom: 16px;">Entrez votre code PIN secret (9999)</p>
+            
+            <!-- Masked Dots -->
+            <div id="pin-dots" style="display:flex; justify-content:center; gap:16px; margin-bottom:16px;">
+                <div class="pin-dot" style="width:16px; height:16px; border-radius:50%; border:1px solid #E2D3C4; background:#E2D3C4; transition:all 0.2s;"></div>
+                <div class="pin-dot" style="width:16px; height:16px; border-radius:50%; border:1px solid #E2D3C4; background:#E2D3C4; transition:all 0.2s;"></div>
+                <div class="pin-dot" style="width:16px; height:16px; border-radius:50%; border:1px solid #E2D3C4; background:#E2D3C4; transition:all 0.2s;"></div>
+                <div class="pin-dot" style="width:16px; height:16px; border-radius:50%; border:1px solid #E2D3C4; background:#E2D3C4; transition:all 0.2s;"></div>
+            </div>
+            
+            <div id="pin-error" style="color: #BA4A4A; font-size: 12px; font-weight: bold; margin-bottom: 12px; display:none;">Code PIN incorrect</div>
+
+            <!-- Dial Pad -->
+            <div style="display:grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 260px; margin: 0 auto;">
+                <button onclick="pressPin('1')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">1</button>
+                <button onclick="pressPin('2')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">2</button>
+                <button onclick="pressPin('3')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">3</button>
+                <button onclick="pressPin('4')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">4</button>
+                <button onclick="pressPin('5')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">5</button>
+                <button onclick="pressPin('6')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">6</button>
+                <button onclick="pressPin('7')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">7</button>
+                <button onclick="pressPin('8')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">8</button>
+                <button onclick="pressPin('9')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">9</button>
+                <div></div>
+                <button onclick="pressPin('0')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:20px; font-weight:bold; cursor:pointer; margin:0 auto;">0</button>
+                <button onclick="pressPin('back')" style="width:60px; height:60px; border-radius:50%; border:1px solid #E2D3C4; background:#FDFAF6; color:#2B2320; font-size:18px; font-weight:bold; cursor:pointer; margin:0 auto;">⌫</button>
+            </div>
+        </div>
+    </div>
+    <script>
+        let enteredWebPin = "";
+        const correctWebPin = "9999";
+        function pressPin(digit) {
+            const errorEl = document.getElementById('pin-error');
+            errorEl.style.display = 'none';
+            if (digit === 'back') {
+                if (enteredWebPin.length > 0) {
+                    enteredWebPin = enteredWebPin.slice(0, -1);
+                }
+            } else {
+                if (enteredWebPin.length < 4) {
+                    enteredWebPin += digit;
+                }
+            }
+            updatePinDots();
+            if (enteredWebPin.length === 4) {
+                if (enteredWebPin === correctWebPin) {
+                    document.getElementById('pin-lock-overlay').style.display = 'none';
+                } else {
+                    errorEl.style.display = 'block';
+                    enteredWebPin = "";
+                    updatePinDots();
+                }
+            }
+        }
+        function updatePinDots() {
+            const dots = document.querySelectorAll('.pin-dot');
+            dots.forEach((dot, idx) => {
+                if (idx < enteredWebPin.length) {
+                    dot.style.background = '#5C3B24';
+                    dot.style.borderColor = '#5C3B24';
+                } else {
+                    dot.style.background = '#E2D3C4';
+                    dot.style.borderColor = '#E2D3C4';
+                }
+            });
+        }
+        window.addEventListener('storage', (e) => {
+            if (e.key && e.key.startsWith('mon_parcours')) {
+                location.reload();
+            }
+        });
+    </script>
+    <div class="desktop-wrapper">
+        <!-- Top Navbar -->
+        <header class="top-navbar">
+            <div class="nav-brand">
+                <div class="nav-logo">🤰</div>
+                <div>
+                    <h1 class="nav-title" id="header-title">Mon Parcours FIV</h1>
+                    <div class="nav-subtitle" id="header-subtitle">Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center</div>
+                </div>
+            </div>
+
+            <div class="nav-badges">
+                <span class="badge-pill" style="background:#FAF2EA; color:#7A4F31;">🖥️ Grand Écran · Brown</span>
+            </div>
+
+            <div class="nav-actions">
+                <a class="btn-header primary" href="video-3d.html" target="_blank" rel="noopener noreferrer" style="background: linear-gradient(135deg, #C08A3E 0%, #8F5C1B 100%);">
+                    <span>🎬</span>
+                    <span>Simulation 3D & Voix-off</span>
+                </a>
+
+                <div class="lang-switch">
+                    <button type="button" class="lang-btn active" id="btn-fr" onclick="switchLanguage('fr')">🇫🇷 FR</button>
+                    <button type="button" class="lang-btn" id="btn-en" onclick="switchLanguage('en')">🇬🇧 EN</button>
+                </div>
+                <button type="button" class="btn-header" onclick="window.print()">
+                    <span>📄</span>
+                    <span id="btn-pdf-text">Imprimer / PDF</span>
+                </button>
+                <a class="btn-header primary" href="https://litter.catbox.moe/z1ni2q.apk" target="_blank" rel="noopener noreferrer">
+                    <span>📥</span>
+                    <span id="btn-apk-text">APK Android</span>
+                </a>
+            </div>
+        </header>
+
+        <!-- ⏳ COMPTEUR DYNAMIQUE 'JOURS DEPUIS LE DÉBUT' -->
+        <div style="background: linear-gradient(135deg, #5C3B24 0%, #8D6648 100%); color: #FFF; border-radius: 16px; padding: 14px 22px; margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px; box-shadow: var(--shadow-md); border: 1.5px solid #DFCA9D;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <span style="font-size: 26px;">⏳</span>
+                <div>
+                    <div style="font-size: 11px; font-weight: 800; color: #FFDF7D; letter-spacing: 1px; text-transform: uppercase;">Compteur du Parcours</div>
+                    <div style="font-family: Georgia, serif; font-size: 17px; font-weight: 800; color: #FFF;">Jours depuis le début du protocole (21 sept. 2026)</div>
+                </div>
+            </div>
+            <div style="background: rgba(255,255,255,0.15); backdrop-filter: blur(4px); border: 1px solid rgba(255,255,255,0.3); border-radius: 12px; padding: 8px 18px; text-align: center;">
+                <div style="font-family: Georgia, serif; font-size: 26px; font-weight: 900; color: #FFDF7D; line-height: 1;" id="dynamic-day-counter">--</div>
+                <div style="font-size: 9.5px; font-weight: 800; color: #FFF; letter-spacing: 0.5px; margin-top: 2px;">JOURS ÉCOULÉS</div>
+            </div>
+        </div>
+
+        <!-- Key Metrics Banner -->
+        <section class="metrics-banner">
+            <div class="metric-tile">
+                <div class="metric-val">42</div>
+                <div class="metric-title" id="lbl-oocytes">Ovocytes Prélevés</div>
+                <div class="metric-sub">Ponction OPU · 18/09/2026</div>
+            </div>
+            <div class="metric-tile">
+                <div class="metric-val">34</div>
+                <div class="metric-title" id="lbl-mature">Ovocytes Matures (MII)</div>
+                <div class="metric-sub">Taux de maturité : 81 %</div>
+            </div>
+            <div class="metric-tile">
+                <div class="metric-val">28</div>
+                <div class="metric-title" id="lbl-fertilized">Fécondés par ICSI</div>
+                <div class="metric-sub">Taux de fécondation : 82 %</div>
+            </div>
+            <div class="metric-tile">
+                <div class="metric-val">14</div>
+                <div class="metric-title" id="lbl-blastocysts">Blastocystes Vitrifiés</div>
+                <div class="metric-sub">Biopsiés pour analyse PGT-A</div>
+            </div>
+        </section>
+
+        <!-- PGT Lab Update Banner -->
+        <div style="background: #EAF4ED; border: 1.5px solid #BFE0CB; border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; text-align: left; display: flex; align-items: center; gap: 12px; box-shadow: 0 3px 10px rgba(43,122,75,0.06);">
+            <span style="font-size: 22px;">🧬</span>
+            <div>
+                <div style="font-size: 11.5px; font-weight: 800; color: #2B7853;" id="pgt-update-title">Mise à jour PGT aujourd'hui</div>
+                <div style="font-size: 12px; font-weight: 700; color: var(--ink);" id="pgt-update-desc">Mise à jour des résultats PGT aujourd'hui : 5 des embryons sont revenus génétiquement normaux :)</div>
+            </div>
+        </div>
+
+        <!-- Main 2-Column Desktop Grid -->
+        <main class="desktop-grid">
+            <!-- Left Column: Protocol Timeline & Photo Journal -->
+            <div class="left-column">
+                <!-- Suivi Cumulatif Global du Parcours FIV -->
+                <div style="background: linear-gradient(135deg, #FAF6F0 0%, #F5EBE1 100%); border: 1.5px solid var(--brown-primary); border-radius: 14px; padding: 14px 16px; margin-bottom: 16px; box-shadow: 0 4px 12px rgba(92,59,36,0.06);">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                        <span style="font-family: Georgia, serif; font-size: 14px; font-weight: 800; color: var(--brown-primary); display: flex; align-items: center; gap: 6px;">
+                            <span>📈</span>
+                            <span>Suivi Cumulatif Global du Parcours FIV</span>
+                        </span>
+                        <span style="background: #2B7853; color: #FFFFFF; font-size: 10px; font-weight: 800; padding: 3px 10px; border-radius: 12px;">1 CYCLE PRINCIPAL · 100% SUCCÈS</span>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; text-align: center;">
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px;">
+                            <div style="font-family: Georgia, serif; font-size: 18px; font-weight: 800; color: var(--brown-primary);">1</div>
+                            <div style="font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 2px;">Cycle FIV Entamé</div>
+                        </div>
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px;">
+                            <div style="font-family: Georgia, serif; font-size: 18px; font-weight: 800; color: #2B7853;">5 / 8</div>
+                            <div style="font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 2px;">Embryons Euploïdes</div>
+                        </div>
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 10px; padding: 8px;">
+                            <div style="font-family: Georgia, serif; font-size: 18px; font-weight: 800; color: #C89B3C;">1</div>
+                            <div style="font-size: 10px; font-weight: 700; color: var(--muted); margin-top: 2px;">Réussite / Positif</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Cloud Firestore Real-Time Status Banner -->
+                <div style="background: #EAF4ED; border: 1.5px solid #BFE0CB; border-radius: 14px; padding: 12px 18px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; box-shadow: 0 3px 10px rgba(43,122,75,0.06);">
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 16px;">🟢</span>
+                        <span style="font-size: 12px; font-weight: 800; color: #2B7853;" id="firestore-sync-status">Cloud Firestore : Connecté (Temps réel) · Fatou APK Sync active</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <span style="font-size: 11px; color: var(--muted); font-weight: 700;" id="last-sync-time">Dernière synchro : à l'instant</span>
+                        <button type="button" onclick="forceSyncAPK()" style="background: #2B7853; color: #FFF; border: none; padding: 6px 14px; border-radius: 12px; font-size: 11.5px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 6px rgba(43,122,75,0.2); transition: all 0.2s;">🔄 Synchroniser APK</button>
+                    </div>
+                </div>
+
+                <!-- Widget: Jours écoulés & Restants (Protocole & Grossesse) -->
+                <div style="background: linear-gradient(135deg, #FAF6F0 0%, #F5EBE1 100%); border: 1.5px solid var(--brown-primary); border-radius: 16px; padding: 16px 20px; margin-bottom: 16px; box-shadow: var(--shadow-sm); display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <div style="width: 44px; height: 44px; border-radius: 12px; background: var(--brown-primary); color: #FFF; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 3px 10px rgba(92,59,36,0.2);">⏳</div>
+                        <div>
+                            <div style="font-family: Georgia, serif; font-size: 15px; font-weight: 800; color: var(--brown-primary);" id="chrono-title">Compteur du Parcours FIV & Grossesse</div>
+                            <div style="font-size: 11px; color: var(--muted); font-weight: 600;" id="chrono-sub">Début du protocole : 21 sept. 2026 · Terme estimé : ~21 juin 2027</div>
+                        </div>
+                    </div>
+                    <div style="display: flex; gap: 12px; align-items: center;">
+                        <div style="background: #FFFFFF; border: 1px solid var(--line); border-radius: 12px; padding: 8px 14px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
+                            <div style="font-family: Georgia, serif; font-size: 20px; font-weight: 800; color: var(--brown-primary);" id="days-elapsed-val">36</div>
+                            <div style="font-size: 9.5px; font-weight: 800; color: var(--muted); text-transform: uppercase;">Jours Écoulés</div>
+                        </div>
+                        <div style="background: #EAF4ED; border: 1px solid #BFE0CB; border-radius: 12px; padding: 8px 14px; text-align: center; box-shadow: 0 2px 6px rgba(0,0,0,0.04);">
+                            <div style="font-family: Georgia, serif; font-size: 20px; font-weight: 800; color: #2B7853;" id="days-remaining-val">238</div>
+                            <div style="font-size: 9.5px; font-weight: 800; color: var(--green); text-transform: uppercase;">Jours Restants (Terme)</div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+
+
+                <!-- Protocol Section -->
+                <section class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <span>🔬</span>
+                            <span id="proto-panel-title">Protocole Médical FIV</span>
+                        </div>
+                        <span class="status-badge" id="proto-badge">15 ÉTAPES TERMINÉES</span>
+                    </div>
+
+                    <!-- 📅 CALENDRIER INTERACTIF & FILTRE PAR DATE -->
+                    <div style="background: linear-gradient(135deg, #FAF6F0 0%, #F4EBD8 100%); border: 1.5px solid var(--brown-primary); border-radius: 14px; padding: 12px 16px; margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; box-shadow: var(--shadow-sm);">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 18px;">📅</span>
+                            <div>
+                                <div style="font-size: 12px; font-weight: 800; color: var(--brown-primary);">Calendrier Interactif & Filtrage par Date</div>
+                                <div style="font-size: 10.5px; color: var(--muted);">Sélectionnez une date pour n'afficher que les jalons correspondants</div>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                            <input type="date" id="calendar-filter-input" onchange="filterMilestonesByDate(this.value)" style="background: #FFF; border: 1.5px solid var(--brown-primary); border-radius: 8px; padding: 6px 12px; font-size: 12px; font-weight: 700; color: var(--ink); cursor: pointer;" title="Filtrer par date">
+                            <button type="button" onclick="resetDateFilter()" style="background: var(--brown-primary); color: #FFF; border: none; padding: 6px 14px; border-radius: 8px; font-size: 11.5px; font-weight: 800; cursor: pointer; box-shadow: 0 2px 6px rgba(92,59,36,0.2);">Voir Tout</button>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Tabs -->
+                    <div class="timeline-tabs">
+                        <button type="button" class="t-tab active" id="tab-sept" onclick="switchTab('sept')">
+                            Septembre 2026 (Stimulation - 15 étapes)
+                        </button>
+                        <button type="button" class="t-tab" id="tab-up" onclick="switchTab('up')">
+                            Octobre & Novembre (Grossesse & FET - 7 étapes)
+                        </button>
+                    </div>
+
+
+                    <!-- September Stimulation Steps (15 Steps) -->
+                    <div class="steps-container" id="september-steps">
+                        <!-- Step 1 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">🩸</div><span class="step-num-badge">01</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Prise de sang & Échographie basale</div><div class="step-pill-right"><span class="pill-done">✓ FAIT</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">04 sept. 2026</span><span class="chip-time">08 h 00</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Bilan hormonal complet (Estradiol, LH, Progestérone, FSH) et échographie pelvienne de comptage des follicules antraux (CFA). Feu vert officiel pour le protocole de stimulation ovarienne.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 2 -->
+                        <div class="step-item completed highlight">
+                            <div class="step-icon-col"><div class="step-icon">💉</div><span class="step-num-badge">02</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Démarrage Follistim 225 UI + Menopur 150 UI</div><div class="step-pill-right"><span class="pill-done">✓ FAIT</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">05 sept. 2026</span><span class="chip-time">20 h 00</span><span class="chip-loc">📍 Domicile</span></div>
+                                <p class="step-text">Début des injections sous-cutanées quotidiennes à heure fixe chaque soir dans l'abdomen pour stimuler la croissance harmonieuse d'une cohorte folliculaire optimale.</p>
+                                <span class="dosage-tag">💊 Follistim 225 UI + Menopur 150 UI (1er soir)</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 3 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">🩺</div><span class="step-num-badge">03</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Monitorage sanguin Estradiol & Échographie</div><div class="step-pill-right"><span class="pill-done">✓ FAIT</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">09 sept. 2026</span><span class="chip-time">07 h 15</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Premier contrôle de la réponse ovarienne après 4 jours de stimulation. Évaluation du pic d'œstradiol et mesure du diamètre des follicules en croissance active bilatérale.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 4 -->
+                        <div class="step-item completed highlight">
+                            <div class="step-icon-col"><div class="step-icon">🛡️</div><span class="step-num-badge">04</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Monitorage folliculaire & Ajout Ganirelix 250 mcg</div><div class="step-pill-right"><span class="pill-done">✓ FAIT</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">11 sept. 2026</span><span class="chip-time">07 h 30</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Contrôle folliculaire échographique et introduction de l'antagoniste GnRH Ganirelix pour bloquer tout pic prématuré de LH et protéger l'ovulation spontanée.</p>
+                                <span class="dosage-tag">💊 Ajout Ganirelix 250 mcg chaque matin</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 5 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">🔬</div><span class="step-num-badge">05</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Échographie folliculaire (> 14 mm)</div><div class="step-pill-right"><span class="pill-done">✓ FAIT</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">13 sept. 2026</span><span class="chip-time">08 h 00</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Nombreux follicules dominants mesurés entre 14 et 17 mm. Ajustement minutieux des doses par l'équipe médicale pour assurer une maturation synchrone et douce.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 6 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">🧪</div><span class="step-num-badge">06</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Contrôle final de maturation folliculaire</div><div class="step-pill-right"><span class="pill-done">✓ FAIT</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">15 sept. 2026</span><span class="chip-time">07 h 30</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Dernière échographie de contrôle avant déclenchement. Mesure de follicules matures prêts (18-22 mm) et contrôle de sécurité pour prévenir le syndrome d'hyperstimulation (OHSS).</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 7 -->
+                        <div class="step-item completed highlight">
+                            <div class="step-icon-col"><div class="step-icon">⭐</div><span class="step-num-badge">07</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Déclenchement ovocytaire (Double Trigger)</div><div class="step-pill-right"><span class="pill-done">✓ FAIT</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">16 sept. 2026</span><span class="chip-time">23 h 00 pile</span><span class="chip-loc">📍 Domicile</span></div>
+                                <p class="step-text">Injection exacte de Lupron 80 UI et Ovidrel 250 mcg 36 heures précises avant la ponction chirurgicale. Déclenchement de la méiose ovocytaire finale.</p>
+                                <span class="dosage-tag">⏰ 23h00 précise · Double Trigger Lupron + Ovidrel</span>
+                            </div>
+                        </div>
+
+                        <!-- Step 8 -->
+                        <div class="step-item completed highlight">
+                            <div class="step-icon-col"><div class="step-icon">🏥</div><span class="step-num-badge">08</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Ponction Ovocytaire OPU (Gramercy Center)</div><div class="step-pill-right"><span class="pill-done" style="background:#2B7853; color:#FFFFFF;">42 OVOCYTES !</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">18 sept. 2026</span><span class="chip-time">07 h 00</span><span class="chip-loc">📍 Gramercy Surgery Center (380 2nd Ave)</span></div>
+                                <p class="step-text">Intervention sous anesthésie douce réalisée par l'équipe chirurgicale. Prélèvement exceptionnel de 42 ovocytes. Récupération post-anesthésie exemplaire et retour au domicile le matin même.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 9 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">🧫</div><span class="step-num-badge">09</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Bilan Fécondation J+1 ICSI (Laboratoire)</div><div class="step-pill-right"><span class="pill-done">28 FÉCONDÉS</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">19 sept. 2026</span><span class="chip-time">10 h 00</span><span class="chip-loc">📍 RMA Embryology Lab</span></div>
+                                <p class="step-text">Appel du laboratoire d'embryologie : 34 ovocytes matures identifiés (MII, 81 %) et 28 embryons fécondés avec succès par micro-injection intra-cytoplasmique de spermatozoïdes (ICSI).</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 10 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">🌱</div><span class="step-num-badge">10</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Contrôle embryonnaire J+3 (Clivage)</div><div class="step-pill-right"><span class="pill-done">24 EMBRYONS</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">21 sept. 2026</span><span class="chip-time">11 h 00</span><span class="chip-loc">📍 RMA Embryology Lab</span></div>
+                                <p class="step-text">24 embryons en développement cellulaire actif régulier (6 à 8 cellules avec faible fragmentation). Poursuite de la culture prolongée vers le stade blastocyste.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 11 -->
+                        <div class="step-item completed highlight">
+                            <div class="step-icon-col"><div class="step-icon">❄️</div><span class="step-num-badge">11</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Biopsie J+5 & Congélation Blastocystes</div><div class="step-pill-right"><span class="pill-done">1ER LOT</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">23 sept. 2026</span><span class="chip-time">14 h 00</span><span class="chip-loc">📍 RMA Embryology Lab</span></div>
+                                <p class="step-text">Biopsie délicate de cellules du trophoectoderme (futur placenta) sans toucher à la masse cellulaire interne. Vitrification ultra-rapide des premiers blastocystes expansés.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 12 -->
+                        <div class="step-item completed highlight">
+                            <div class="step-icon-col"><div class="step-icon">🏆</div><span class="step-num-badge">12</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Rapport final J+6 (14 Blastocystes Vitrifiés)</div><div class="step-pill-right"><span class="pill-done" style="background:#2B7853; color:#FFFFFF;">14 BLASTOS !</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">24 sept. 2026</span><span class="chip-time">10 h 00</span><span class="chip-loc">📍 RMA Embryology Lab</span></div>
+                                <p class="step-text">Résultat final de la culture prolongée : 14 blastocystes de haute qualité vitrifiés et stockés en toute sécurité dans l'azote liquide à -196°C pour vos futurs transferts.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 13 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">📬</div><span class="step-num-badge">13</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Expédition échantillons pour analyse PGT-A</div><div class="step-pill-right"><span class="pill-done">✓ ENVOYÉ</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">25 sept. 2026</span><span class="chip-time">16 h 00</span><span class="chip-loc">📍 Laboratoire de Génétique</span></div>
+                                <p class="step-text">Envoi sécurisé sous chaîne du froid des biopsies embryonnaires pour le criblage chromosomique complet (détection des embryons euploïdes équilibrés).</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 14 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">🌸</div><span class="step-num-badge">14</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Consultation de récupération post-ponction</div><div class="step-pill-right"><span class="pill-done">✓ RÉCUPÉRÉ</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">28 sept. 2026</span><span class="chip-time">11 h 30</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Examen clinique de contrôle avec l'équipe médicale. Résorption normale de l'œdème ovarien, excellente récupération physique et hydratation optimale confirmée.</p>
+                            </div>
+                        </div>
+
+                        <!-- Step 15 -->
+                        <div class="step-item completed">
+                            <div class="step-icon-col"><div class="step-icon">🏁</div><span class="step-num-badge">15</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Clôture officielle de la phase de stimulation</div><div class="step-pill-right"><span class="pill-done">✓ VALIDÉ</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">30 sept. 2026</span><span class="chip-time">Bilan</span><span class="chip-loc">📍 RMA of New York</span></div>
+                                <p class="step-text">Validation du succès éclatant du protocole de stimulation : 42 ovocytes prélevés, 14 blastocystes sécurisés. Transition vers la phase de préparation endométriale et transfert.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Pregnancy Milestones (7 Steps) -->
+                    <div class="steps-container" id="upcoming-steps" style="display: none;">
+                        <!-- Up 1 -->
+                        <div class="step-item completed highlight" style="background:#FAF2EA; border-color:#C89B3C;">
+                            <div class="step-icon-col"><div class="step-icon">🧬</div><span class="step-num-badge">01</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Résultats PGT-A : 5 Embryons Normaux !</div><div class="step-pill-right"><span class="pill-done" style="background:#2B7853; color:#FFFFFF;">✓ 5 EUPLOÏDES</span></div></div>
+                                <div class="step-meta-row"><span class="chip-date">26 oct. 2026 · Reçu aujourd'hui !</span><span class="chip-time">10 h 00</span><span class="chip-loc">📍 RMA of New York</span></div>
+                                <p class="step-text">Magnifique nouvelle ! Sur les 8 blastocystes biopsiés, 5 sont revenus génétiquement normaux (euploïdes) et parfaits pour le transfert.</p>
+                            </div>
+                        </div>
+
+                        <!-- PGT-A Data Visualization Component (Recharts / Distribution Chart) -->
+                        <div class="panel-card" style="background:#FFFDFB; border:1.5px solid #E6CA8D; margin-top:8px; margin-bottom:12px; padding:16px;">
+                            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:6px;">
+                                <div style="font-family:Georgia, serif; font-size:14px; font-weight:800; color:#5C3B24;">📊 Répartition PGT-A (8 Blastocystes Analysés)</div>
+                                <span style="font-size:10.5px; font-weight:800; background:#EAF4ED; color:#2B7853; padding:3px 10px; border-radius:12px;">Taux de réussite : 62.5%</span>
+                            </div>
+                            <div style="background:#EFE9E0; border-radius:8px; height:26px; width:100%; display:flex; overflow:hidden; margin-bottom:10px; box-shadow:inset 0 1px 3px rgba(0,0,0,0.1);">
+                                <div style="background:#2B7853; width:62.5%; height:100%; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:11px; font-weight:bold;" title="Normaux: 5 (62.5%)">5 Normaux (62.5%)</div>
+                                <div style="background:#C85A3C; width:37.5%; height:100%; display:flex; align-items:center; justify-content:center; color:#FFF; font-size:11px; font-weight:bold;" title="Anormaux: 3 (37.5%)">3 Anormaux (37.5%)</div>
+                            </div>
+                            <div style="display:flex; justify-content:space-between; font-size:11px; color:#6E6058; font-weight:700; flex-wrap:wrap; gap:8px;">
+                                <div style="display:flex; align-items:center; gap:5px;"><span style="width:10px; height:10px; background:#2B7853; border-radius:3px; display:inline-block;"></span> 🟢 Normaux (Euploïdes) : 5 embryons</div>
+                                <div style="display:flex; align-items:center; gap:5px;"><span style="width:10px; height:10px; background:#C85A3C; border-radius:3px; display:inline-block;"></span> 🟠 Anormaux (Aneuploïdes) : 3 embryons</div>
+                            </div>
+                        </div>
+
+                        <!-- Up 2 -->
+                        <div class="step-item highlight">
+                            <div class="step-icon-col"><div class="step-icon">🔬</div><span class="step-num-badge">02</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Hystérosonographie SIS (Examen cavité)</div><div class="step-pill-right"><div class="pill-countdown"><div class="countdown-val">3</div><div class="countdown-lbl">JOURS</div></div></div></div>
+                                <div class="step-meta-row"><span class="chip-date">28 oct. 2026</span><span class="chip-time">08 h 00</span><span class="chip-loc">📍 RMA East Side (635 Madison Ave)</span></div>
+                                <p class="step-text">Échographie de haute précision avec instillation de sérum physiologique pour cartographier parfaitement la cavité utérine et mesurer la réceptivité endométriale.</p>
+                            </div>
+                        </div>
+
+                        <!-- Up 3 -->
+                        <div class="step-item">
+                            <div class="step-icon-col"><div class="step-icon">🏥</div><span class="step-num-badge">03</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Hystéroscopie opératoire diagnostique</div><div class="step-pill-right"><div class="pill-countdown"><div class="countdown-val">5</div><div class="countdown-lbl">JOURS</div></div></div></div>
+                                <div class="step-meta-row"><span class="chip-date">30 oct. 2026</span><span class="chip-time">09 h 00</span><span class="chip-loc">📍 Gramercy Surgery Center</span></div>
+                                <p class="step-text">Préparation de surface millimétrique de l'endomètre et vérification approfondie sous caméra pour garantir des conditions d'implantation optimales.</p>
+                            </div>
+                        </div>
+
+                        <!-- Up 4 -->
+                        <div class="step-item highlight">
+                            <div class="step-icon-col"><div class="step-icon">🌟</div><span class="step-num-badge">04</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Transfert d'Embryon Congelé (FET)</div><div class="step-pill-right"><div class="pill-countdown"><div class="countdown-val">6</div><div class="countdown-lbl">JOURS</div></div></div></div>
+                                <div class="step-meta-row"><span class="chip-date">31 oct. 2026</span><span class="chip-time">Midi</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Le grand moment tant attendu : décongélation et transfert délicat du meilleur blastocyste euploïde sous guidage échographique dans une cavité idéale.</p>
+                            </div>
+                        </div>
+
+                        <!-- Up 5 -->
+                        <div class="step-item highlight">
+                            <div class="step-icon-col"><div class="step-icon">🩸</div><span class="step-num-badge">05</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">Prise de sang Bêta-hCG (Test de Grossesse)</div><div class="step-pill-right"><div class="pill-countdown"><div class="countdown-val">14</div><div class="countdown-lbl">JOURS</div></div></div></div>
+                                <div class="step-meta-row"><span class="chip-date">08 nov. 2026</span><span class="chip-time">07 h 30</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Dosage plasmatique officiel de l'hormone de grossesse hCG confirmant l'implantation embryonnaire et le début officiel de la grossesse.</p>
+                            </div>
+                        </div>
+
+                        <!-- Up 6 -->
+                        <div class="step-item">
+                            <div class="step-icon-col"><div class="step-icon">📈</div><span class="step-num-badge">06</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">2ème Dosage Bêta-hCG (Cinétique)</div><div class="step-pill-right"><div class="pill-countdown"><div class="countdown-val">16</div><div class="countdown-lbl">JOURS</div></div></div></div>
+                                <div class="step-meta-row"><span class="chip-date">10 nov. 2026</span><span class="chip-time">08 h 00</span><span class="chip-loc">📍 RMA East Side</span></div>
+                                <p class="step-text">Contrôle de la cinétique hormonale : vérification du bon doublement du taux d'hCG en 48 heures, gage d'une évolution embryonnaire vigoureuse.</p>
+                            </div>
+                        </div>
+
+                        <!-- Up 7 -->
+                        <div class="step-item highlight">
+                            <div class="step-icon-col"><div class="step-icon">💓</div><span class="step-num-badge">07</span></div>
+                            <div class="step-main">
+                                <div class="step-head-row"><div class="step-heading">1ère Échographie (Battement de cœur)</div><div class="step-pill-right"><div class="pill-countdown"><div class="countdown-val">28</div><div class="countdown-lbl">JOURS</div></div></div></div>
+                                <div class="step-meta-row"><span class="chip-date">22 nov. 2026</span><span class="chip-time">09 h 30</span><span class="chip-loc">📍 RMA East Side (6-7 SA)</span></div>
+                                <p class="step-text">Échographie de viabilité fœtale : premier visuel du sac gestationnel et écoute émouvante du premier battement de cœur de votre futur bébé.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+
+                    <div class="gallery-grid">
+                        <!-- Item 1 -->
+                        <div class="gallery-card" onclick="openLightbox('pgta')">
+                            <div class="gallery-img-wrap">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iYmdHbG93IiBjeD0iNTAlIiBjeT0iNDUlIiByPSI2NSUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjM0QyMzE0IiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzI0MTMwQSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMTIwODA0IiAvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iZW1icnlvR2xvdyIgY3g9IjQ1JSIgY3k9IjQwJSIgcj0iNTUlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRjREMCIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIzMCUiIHN0b3AtY29sb3I9IiNGRkQxNjYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNzAlIiBzdG9wLWNvbG9yPSIjRDQ4QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4QzRCMTgiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJjZWxsR2xvdyIgY3g9IjQwJSIgY3k9IjQwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNGRkVBQTciIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0UxOUQzOCIgLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8ZmlsdGVyIGlkPSJzb2Z0R2xvdyIgeD0iLTMwJSIgeT0iLTMwJSIgd2lkdGg9IjE2MCUiIGhlaWdodD0iMTYwJSI+CiAgICAgIDxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjgiIHJlc3VsdD0iYmx1ciIgLz4KICAgICAgPGZlQ29tcG9zaXRlIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9ImJsdXIiIG9wZXJhdG9yPSJvdmVyIiAvPgogICAgPC9maWx0ZXI+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdvbGRCb3JkZXIiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRUFENTlBIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI0M4OUIzQyIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjN0I1NDFDIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDwhLS0gRm9uZCAtLT4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgcng9IjI0IiBmaWxsPSJ1cmwoI2JnR2xvdykiIC8+CiAgPHJlY3Qgd2lkdGg9IjM5NiIgaGVpZ2h0PSIzOTYiIHg9IjIiIHk9IjIiIHJ4PSIyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dvbGRCb3JkZXIpIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuNCIgLz4KCiAgPCEtLSBQYXJ0aWN1bGVzIGQnYW1iaWFuY2UgZsOpY29uZGUgLS0+CiAgPGNpcmNsZSBjeD0iOTAiIGN5PSIxMTAiIHI9IjIuNSIgZmlsbD0iI0ZGRThBMyIgb3BhY2l0eT0iMC40IiAvPgogIDxjaXJjbGUgY3g9IjMxMCIgY3k9IjkwIiByPSIzIiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjM1IiAvPgogIDxjaXJjbGUgY3g9IjgwIiBjeT0iMjkwIiByPSIyIiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjQiIC8+CiAgPGNpcmNsZSBjeD0iMzIwIiBjeT0iMjgwIiByPSIyLjUiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuMyIgLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSI3MCIgcj0iMS41IiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjUiIC8+CgogIDwhLS0gSGFsbyBsdW1pbmV1eCBleHRlcm5lIGR1IGJsYXN0b2N5c3RlIC0tPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5MCIgcj0iMTE1IiBmaWxsPSIjRkZDOTVDIiBvcGFjaXR5PSIwLjEyIiBmaWx0ZXI9InVybCgjc29mdEdsb3cpIiAvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5MCIgcj0iODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0U2QkU2OCIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1kYXNoYXJyYXk9IjYsNCIgb3BhY2l0eT0iMC41IiAvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5MCIgcj0iODIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRTQ5RSIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjciIC8+CgogIDwhLS0gWm9uZSBwZWxsdWNpZGUgZXQgdHJvcGhvZWN0b2Rlcm1lIChjZWxsdWxlcyBww6lyaXBow6lyaXF1ZXMpIC0tPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5MCIgcj0iNzYiIGZpbGw9InVybCgjZW1icnlvR2xvdykiIG9wYWNpdHk9IjAuOSIgLz4KCiAgPCEtLSBDZWxsdWxlcyBkdSB0cm9waG9ibGFzdGUgZGlzcG9zw6llcyBlbiBjb3Vyb25uZSAtLT4KICA8Y2lyY2xlIGN4PSIxNDUiIGN5PSIxNTUiIHI9IjE0IiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC43NSIgLz4KICA8Y2lyY2xlIGN4PSIxNzAiIGN5PSIxMzUiIHI9IjEzIiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC44IiAvPgogIDxjaXJjbGUgY3g9IjIwNSIgY3k9IjEzMCIgcj0iMTUiIGZpbGw9InVybCgjY2VsbEdsb3cpIiBvcGFjaXR5PSIwLjg1IiAvPgogIDxjaXJjbGUgY3g9IjI0MCIgY3k9IjE0MCIgcj0iMTQiIGZpbGw9InVybCgjY2VsbEdsb3cpIiBvcGFjaXR5PSIwLjgiIC8+CiAgPGNpcmNsZSBjeD0iMjYwIiBjeT0iMTY1IiByPSIxMyIgZmlsbD0idXJsKCNjZWxsR2xvdykiIG9wYWNpdHk9IjAuNzUiIC8+CiAgPGNpcmNsZSBjeD0iMjY1IiBjeT0iMTk4IiByPSIxNCIgZmlsbD0idXJsKCNjZWxsR2xvdykiIG9wYWNpdHk9IjAuOCIgLz4KICA8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyMzAiIHI9IjEzIiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC43NSIgLz4KICA8Y2lyY2xlIGN4PSIyMjAiIGN5PSIyNTAiIHI9IjE1IiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC44NSIgLz4KICA8Y2lyY2xlIGN4PSIxODAiIGN5PSIyNTIiIHI9IjE0IiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC44IiAvPgogIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjIzNSIgcj0iMTMiIGZpbGw9InVybCgjY2VsbEdsb3cpIiBvcGFjaXR5PSIwLjc1IiAvPgogIDxjaXJjbGUgY3g9IjEzOCIgY3k9IjIwMCIgcj0iMTQiIGZpbGw9InVybCgjY2VsbEdsb3cpIiBvcGFjaXR5PSIwLjgiIC8+CgogIDwhLS0gQ2F2aXTDqSBibGFzdG9jxZNsZSAtLT4KICA8ZWxsaXBzZSBjeD0iMjE1IiBjeT0iMTk1IiByeD0iMzYiIHJ5PSIzMiIgZmlsbD0iIzVBMkUxMiIgb3BhY2l0eT0iMC42NSIgLz4KCiAgPCEtLSBNYXNzZSBDZWxsdWxhaXJlIEludGVybmUgKE1DSSAvIEJvdXRvbiBlbWJyeW9ubmFpcmUgZG9yw6kgZXQgc2NpbnRpbGxhbnQpIC0tPgogIDxnIGZpbHRlcj0idXJsKCNzb2Z0R2xvdykiPgogICAgPGNpcmNsZSBjeD0iMTc1IiBjeT0iMTc4IiByPSIyMiIgZmlsbD0iI0ZGRkJFNiIgb3BhY2l0eT0iMC45NSIgLz4KICAgIDxjaXJjbGUgY3g9IjE3MCIgY3k9IjE3MiIgcj0iMTIiIGZpbGw9IiNGRkZGRkYiIG9wYWNpdHk9IjAuOSIgLz4KICAgIDxjaXJjbGUgY3g9IjE4NiIgY3k9IjE4NCIgcj0iMTAiIGZpbGw9IiNGRkU1OEYiIG9wYWNpdHk9IjAuODUiIC8+CiAgPC9nPgoKICA8IS0tIMOJY2xhdCDDqXRvaWxlIGF1IGPFk3VyIGR1IGJvdXRvbiBlbWJyeW9ubmFpcmUgLS0+CiAgPHBhdGggZD0iTTE3MiwxNjAgTDE3NCwxNzAgTDE4NCwxNzIgTDE3NCwxNzQgTDE3MiwxODQgTDE3MCwxNzQgTDE2MCwxNzIgTDE3MCwxNzAgWiIgZmlsbD0iI0ZGRkZGRiIgb3BhY2l0eT0iMC45IiAvPgoKICA8IS0tIENhcnRvdWNoZSAvIEJhZGdlIGR1IGJhcyAtLT4KICA8cmVjdCB4PSI1MCIgeT0iMzI1IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQ0IiByeD0iMTQiIGZpbGw9IiMyMDEwMDgiIHN0cm9rZT0iI0M4OUIzQyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1vcGFjaXR5PSIwLjYiIC8+CiAgPHRleHQgeD0iMjAwIiB5PSIzNDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNGRkU2QTMiIGxldHRlci1zcGFjaW5nPSIxIj5QR1QtQSDCtyA4IEJMQVNUT0NZU1RFUzwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5LjUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNEOEJFOUIiPkFuYWx5c2UgZ8OpbsOpdGlxdWUgJmFtcDsgVml0YWxpdMOpIGVtYnJ5b25uYWlyZTwvdGV4dD4KPC9zdmc+Cg==" alt="PGT-A Blastocyste">
+                            </div>
+                            <div class="gallery-body">
+                                <div class="gallery-date">27 Oct. 2026</div>
+                                <div class="gallery-name">PGT-A Blastocystes</div>
+                            </div>
+                        </div>
+
+                        <!-- Item 2 -->
+                        <div class="gallery-card" onclick="openLightbox('sis')">
+                            <div class="gallery-img-wrap">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ic2lzQmciIGN4PSI1MCUiIGN5PSI0NSUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzMDIwMTYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjMUUxMjBCIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwRTA3MDQiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJlbmRvR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGQ0U3RDYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNDAlIiBzdG9wLWNvbG9yPSIjRUFBNjhDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjgwJSIgc3RvcC1jb2xvcj0iI0MyNkE1NCIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjODQzQjJBIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2NhbkJlYW0iIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRUFBNyIgc3RvcC1vcGFjaXR5PSIwLjMiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0M4OUIzQyIgc3RvcC1vcGFjaXR5PSIwIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ29sZFN0cm9rZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQUQ1OUEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjQzg5QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3QjU0MUMiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPCEtLSBGb25kIC0tPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9InVybCgjc2lzQmcpIiAvPgogIDxyZWN0IHdpZHRoPSIzOTYiIGhlaWdodD0iMzk2IiB4PSIyIiB5PSIyIiByeD0iMjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnb2xkU3Ryb2tlKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSIwLjQiIC8+CgogIDwhLS0gR3JpbGxlIGQnw6ljaG9ncmFwaGllIG3DqWRpY2FsZSBzdWJ0aWxlIC0tPgogIDxnIHN0cm9rZT0iIzZBNDYyRiIgc3Ryb2tlLXdpZHRoPSIwLjYiIHN0cm9rZS1vcGFjaXR5PSIwLjMiPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMTAwIiB4Mj0iMzQwIiB5Mj0iMTAwIiAvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMTYwIiB4Mj0iMzQwIiB5Mj0iMTYwIiAvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMjIwIiB4Mj0iMzQwIiB5Mj0iMjIwIiAvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMjgwIiB4Mj0iMzQwIiB5Mj0iMjgwIiAvPgogICAgPGxpbmUgeDE9IjEyMCIgeTE9IjcwIiB4Mj0iMTIwIiB5Mj0iMzAwIiAvPgogICAgPGxpbmUgeDE9IjIwMCIgeTE9IjcwIiB4Mj0iMjAwIiB5Mj0iMzAwIiAvPgogICAgPGxpbmUgeDE9IjI4MCIgeTE9IjcwIiB4Mj0iMjgwIiB5Mj0iMzAwIiAvPgogIDwvZz4KCiAgPCEtLSBGYWlzY2VhdSBzZWN0b3JpZWwgw6ljaG9ncmFwaGlxdWUgLS0+CiAgPHBhdGggZD0iTTIwMCw2MCBMOTAsMjgwIEExNjAsMTYwIDAgMCwwIDMxMCwyODAgWiIgZmlsbD0idXJsKCNzY2FuQmVhbSkiIC8+CgogIDwhLS0gTCd1dMOpcnVzIGV0IGNhdml0w6kgZW5kb23DqXRyaWFsZSB0cmlsYW1pbmFpcmUgLS0+CiAgPHBhdGggZD0iTTE0MCwyNDAgQzEyMCwyMDAgMTMwLDE0MCAyMDAsMTIwIEMyNzAsMTQwIDI4MCwyMDAgMjYwLDI0MCBDMjQwLDI2NSAxNjAsMjY1IDE0MCwyNDAgWiIgCiAgICAgICAgZmlsbD0iIzRBMjYxNyIgc3Ryb2tlPSIjOUE1QTM5IiBzdHJva2Utd2lkdGg9IjIuNSIgb3BhY2l0eT0iMC44NSIgLz4KCiAgPCEtLSBBc3BlY3QgdHJpbGFtaW5haXJlIGRvcsOpIHBhcmZhaXQgKFRyaXBsZSBMaW5lIFBhdHRlcm4pIC0tPgogIDxwYXRoIGQ9Ik0xNzAsMTc1IFEyMDAsMTYwIDIzMCwxNzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRTdCQSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CiAgPHBhdGggZD0iTTE3MywxODQgUTIwMCwxNjkgMjI3LDE4NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQzg5QjNDIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgogIDxwYXRoIGQ9Ik0xNzYsMTkzIFEyMDAsMTc4IDIyNCwxOTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRTdCQSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CgogIDwhLS0gTWFycXVldXJzIGRlIGNhbGlicmF0aW9uIMOpY2hvZ3JhcGhpcXVlIC0tPgogIDxnIHN0cm9rZT0iI0ZGRDY2NiIgc3Ryb2tlLXdpZHRoPSIxLjIiPgogICAgPCEtLSBDcm9peCBtZXN1cmUgMSAtLT4KICAgIDxsaW5lIHgxPSIxNjYiIHkxPSIxODQiIHgyPSIxNzQiIHkyPSIxODQiIC8+CiAgICA8bGluZSB4MT0iMTcwIiB5MT0iMTgwIiB4Mj0iMTcwIiB5Mj0iMTg4IiAvPgogICAgPCEtLSBDcm9peCBtZXN1cmUgMiAtLT4KICAgIDxsaW5lIHgxPSIyMjYiIHkxPSIxODQiIHgyPSIyMzQiIHkyPSIxODQiIC8+CiAgICA8bGluZSB4MT0iMjMwIiB5MT0iMTgwIiB4Mj0iMjMwIiB5Mj0iMTg4IiAvPgogIDwvZz4KICA8dGV4dCB4PSIyMDAiIHk9IjIxNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRTU4RiI+OS4yIG1tIMK3IFRSSUxBTUlOQUlSRTwvdGV4dD4KCiAgPCEtLSBFbi10w6p0ZSBjbGluaXF1ZSAtLT4KICA8cmVjdCB4PSI3MCIgeT0iNzUiIHdpZHRoPSIyNjAiIGhlaWdodD0iMjYiIHJ4PSI4IiBmaWxsPSIjMUEwRDA3IiBvcGFjaXR5PSIwLjgiIC8+CiAgPHRleHQgeD0iODUiIHk9IjkyIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNENEFGMzciPlJNQSBPRiBORVcgWU9SSyDCtyBFQVNUIFNJREU8L3RleHQ+CiAgPHRleHQgeD0iMzE1IiB5PSI5MiIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNTJDNDFBIj7inJMgT1BUSU1BTDwvdGV4dD4KCiAgPCEtLSBDYXJ0b3VjaGUgLyBCYWRnZSBkdSBiYXMgLS0+CiAgPHJlY3QgeD0iNTAiIHk9IjMyNSIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0NCIgcng9IjE0IiBmaWxsPSIjMjAxMDA4IiBzdHJva2U9IiNDODlCM0MiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2Utb3BhY2l0eT0iMC42IiAvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMzQ0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjRkZFNkEzIiBsZXR0ZXItc3BhY2luZz0iMSI+U0lTICZhbXA7IMOJQ0hPR1JBUEhJRSAzRDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5LjUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNEOEJFOUIiPkVuZG9tw6h0cmUgcsOpY2VwdGlmICZhbXA7IENhdml0w6kgcHLDqnRlIGF1IG5pZDwvdGV4dD4KPC9zdmc+Cg==" alt="SIS Échographie 3D">
+                            </div>
+                            <div class="gallery-body">
+                                <div class="gallery-date">28 Oct. 2026</div>
+                                <div class="gallery-name">SIS Échographie 3D</div>
+                            </div>
+                        </div>
+
+                        <!-- Item 3 -->
+                        <div class="gallery-card" onclick="openLightbox('transfer')">
+                            <div class="gallery-img-wrap">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0idHJCZyIgY3g9IjUwJSIgY3k9IjQwJSIgcj0iNjUlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNBMjQxNyIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI2MCUiIHN0b3AtY29sb3I9IiMyMjEyMEEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBGMDYwMyIgLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNwYXJrbGUiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGRkZGRkYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNDAlIiBzdG9wLWNvbG9yPSIjRkZFNThGIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjgwJSIgc3RvcC1jb2xvcj0iI0ZBOEMxNiIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjODczODAwIiBzdG9wLW9wYWNpdHk9IjAiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkSGFuZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGQ0UxQzIiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjRDlBMDY2IiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4QzUzMkUiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkU3Ryb2tlMyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQUQ1OUEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjQzg5QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3QjU0MUMiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPCEtLSBGb25kIC0tPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9InVybCgjdHJCZykiIC8+CiAgPHJlY3Qgd2lkdGg9IjM5NiIgaGVpZ2h0PSIzOTYiIHg9IjIiIHk9IjIiIHJ4PSIyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dvbGRTdHJva2UzKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSIwLjQiIC8+CgogIDwhLS0gw4l0b2lsZXMgZXQgcG91c3Npw6hyZSBkJ29yIGRlIGwnZXNwb2lyIC0tPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjgwIiByPSIxLjUiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNiIgLz4KICA8Y2lyY2xlIGN4PSIyOTAiIGN5PSI5NSIgcj0iMiIgZmlsbD0iI0ZGRThBMyIgb3BhY2l0eT0iMC41IiAvPgogIDxjaXJjbGUgY3g9Ijc1IiBjeT0iMjIwIiByPSIxLjUiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNCIgLz4KICA8Y2lyY2xlIGN4PSIzMzAiIGN5PSIyMzAiIHI9IjIiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNiIgLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSI1MCIgcj0iMS41IiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjUiIC8+CgogIDwhLS0gTWFpbnMgcHJvdGVjdHJpY2VzIHN0eWxpc8OpZXMgYmVyw6dhbnQgbGEgdmllIC0tPgogIDwhLS0gTWFpbiBnYXVjaGUgLS0+CiAgPHBhdGggZD0iTTExMCwyNzAgQzEyNSwyMzAgMTUwLDIxNSAxNzUsMjE1IEMxODUsMjE1IDE5MCwyMjUgMTgwLDIzNSBDMTYwLDI0NSAxMzUsMjYwIDEyNSwyODUgWiIgZmlsbD0idXJsKCNnb2xkSGFuZCkiIG9wYWNpdHk9IjAuOCIgLz4KICA8IS0tIE1haW4gZHJvaXRlIC0tPgogIDxwYXRoIGQ9Ik0yOTAsMjcwIEMyNzUsMjMwIDI1MCwyMTUgMjI1LDIxNSBDMjE1LDIxNSAyMTAsMjI1IDIyMCwyMzUgQzI0MCwyNDUgMjY1LDI2MCAyNzUsMjg1IFoiIGZpbGw9InVybCgjZ29sZEhhbmQpIiBvcGFjaXR5PSIwLjgiIC8+CgogIDwhLS0gTmlkIGRlIGNoYWxldXIgZMOpbGljYXQgLS0+CiAgPGVsbGlwc2UgY3g9IjIwMCIgY3k9IjIyNSIgcng9IjU1IiByeT0iMTgiIGZpbGw9IiM1NDI5MTMiIG9wYWNpdHk9IjAuNiIgLz4KCiAgPCEtLSBIYWxvIGQnaW1wbGFudGF0aW9uIC0tPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE3MCIgcj0iNTAiIGZpbGw9IiNGRkJCMzMiIG9wYWNpdHk9IjAuMTgiIC8+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTcwIiByPSIzMCIgZmlsbD0iI0ZGQTk0MCIgb3BhY2l0eT0iMC4zIiAvPgoKICA8IS0tIEdvdXR0ZSBkZSB2aWUgZCdpbXBsYW50YXRpb24gLyDDiWNsYXQgZW1icnlvbiAtLT4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNzAiIHI9IjE4IiBmaWxsPSJ1cmwoI3NwYXJrbGUpIiAvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE3MCIgcj0iNyIgZmlsbD0iI0ZGRkZGRiIgLz4KCiAgPCEtLSBSYXlvbnMgZCdhbW91ciBldCBkJ2FjY3VlaWwgLS0+CiAgPGxpbmUgeDE9IjIwMCIgeTE9IjEzNSIgeDI9IjIwMCIgeTI9IjE0OCIgc3Ryb2tlPSIjRkZFN0JBIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz4KICA8bGluZSB4MT0iMjAwIiB5MT0iMTkyIiB4Mj0iMjAwIiB5Mj0iMjA1IiBzdHJva2U9IiNGRkU3QkEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgogIDxsaW5lIHgxPSIxNjUiIHkxPSIxNzAiIHgyPSIxNzgiIHkyPSIxNzAiIHN0cm9rZT0iI0ZGRTdCQSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CiAgPGxpbmUgeDE9IjIyMiIgeTE9IjE3MCIgeDI9IjIzNSIgeTI9IjE3MCIgc3Ryb2tlPSIjRkZFN0JBIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz4KICA8bGluZSB4MT0iMTc1IiB5MT0iMTQ1IiB4Mj0iMTg0IiB5Mj0iMTU0IiBzdHJva2U9IiNGRkU3QkEiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CiAgPGxpbmUgeDE9IjIyNSIgeTE9IjE0NSIgeDI9IjIxNiIgeTI9IjE1NCIgc3Ryb2tlPSIjRkZFN0JBIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgogIDxsaW5lIHgxPSIxNzUiIHkxPSIxOTUiIHgyPSIxODQiIHkyPSIxODYiIHN0cm9rZT0iI0ZGRTdCQSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz4KICA8bGluZSB4MT0iMjI1IiB5MT0iMTk1IiB4Mj0iMjE2IiB5Mj0iMTg2IiBzdHJva2U9IiNGRkU3QkEiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CgogIDwhLS0gQ8WTdXIgbWluaWF0dXJlIGTDqWxpY2F0IGZsb3R0YW50IGF1LWRlc3N1cyAtLT4KICA8cGF0aCBkPSJNMjAwLDEwNSBDMTk2LDk2IDE4NSw5NiAxODIsMTAzIEMxNzgsMTEyIDIwMCwxMjUgMjAwLDEyNSBDMjAwLDEyNSAyMjIsMTEyIDIxOCwxMDMgQzIxNSw5NiAyMDQsOTYgMjAwLDEwNSBaIiAKICAgICAgICBmaWxsPSIjRkY3ODc1IiBvcGFjaXR5PSIwLjkiIC8+CgogIDwhLS0gQ2FydG91Y2hlIC8gQmFkZ2UgZHUgYmFzIC0tPgogIDxyZWN0IHg9IjUwIiB5PSIzMjUiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDQiIHJ4PSIxNCIgZmlsbD0iIzIwMTAwOCIgc3Ryb2tlPSIjQzg5QjNDIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLW9wYWNpdHk9IjAuNiIgLz4KICA8dGV4dCB4PSIyMDAiIHk9IjM0NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRTZBMyIgbGV0dGVyLXNwYWNpbmc9IjEiPkpPVVIgRFUgVFJBTlNGRVJUIMK3IEZFVDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5LjUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNEOEJFOUIiPkwnw6l0aW5jZWxsZSBkZSB2aWUgdHJvdXZlIHNvbiBjb2NvbjwvdGV4dD4KPC9zdmc+Cg==" alt="Transfert FET">
+                            </div>
+                            <div class="gallery-body">
+                                <div class="gallery-date">31 Oct. 2026</div>
+                                <div class="gallery-name">Transfert FET Implantation</div>
+                            </div>
+                        </div>
+
+                        <!-- Item 4 -->
+                        <div class="gallery-card" onclick="openLightbox('betahcg')">
+                            <div class="gallery-img-wrap">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iaGNnQmciIGN4PSI1MCUiIGN5PSI0MCUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzNjFEMTUiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjMjAxMDBCIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwRTA2MDMiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzdGlja0dyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkRGOSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI3MCUiIHN0b3AtY29sb3I9IiNGMkVGRTkiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0RERDZDQyIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InBpbmtMaW5lIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGRjRENEYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjRkY3ODc1IiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNDRjEzMjIiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkU3Ryb2tlNCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQUQ1OUEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjQzg5QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3QjU0MUMiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPCEtLSBGb25kIC0tPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9InVybCgjaGNnQmcpIiAvPgogIDxyZWN0IHdpZHRoPSIzOTYiIGhlaWdodD0iMzk2IiB4PSIyIiB5PSIyIiByeD0iMjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnb2xkU3Ryb2tlNCkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0iMC40IiAvPgoKICA8IS0tIFDDqXRhbGVzIGV0IGNvbmZldHRpcyBkb3LDqXMgc3VidGlscyAtLT4KICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjgwIiByPSIyIiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjQiIC8+CiAgPGNpcmNsZSBjeD0iMzIwIiBjeT0iNzAiIHI9IjIuNSIgZmlsbD0iI0ZGRThBMyIgb3BhY2l0eT0iMC41IiAvPgogIDxjaXJjbGUgY3g9IjkwIiBjeT0iMjcwIiByPSIxLjUiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNCIgLz4KICA8Y2lyY2xlIGN4PSIzMTAiIGN5PSIyODAiIHI9IjIiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNSIgLz4KCiAgPCEtLSBDb3Vyb25uZSBmbG9yYWxlIGRlIGPDqWzDqWJyYXRpb24gZG91Y2UgLS0+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTgwIiByPSIxMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY4NDIyQSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZGFzaGFycmF5PSI4LDYiIG9wYWNpdHk9IjAuNCIgLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxODAiIHI9Ijk1IiBmaWxsPSIjRkZDOTVDIiBvcGFjaXR5PSIwLjA4IiAvPgoKICA8IS0tIFRlc3QgZGUgR3Jvc3Nlc3NlIHN0eWxpc8OpIChiw6J0b25uZXQgw6lwdXLDqSBldCBtb2Rlcm5lKSAtLT4KICA8ZyB0cmFuc2Zvcm09InJvdGF0ZSgtMTUgMjAwIDE4MCkiPgogICAgPCEtLSBPbWJyZSAtLT4KICAgIDxyZWN0IHg9Ijc1IiB5PSIxNjUiIHdpZHRoPSIyNTAiIGhlaWdodD0iNDQiIHJ4PSIyMiIgZmlsbD0iIzBBMDUwMyIgb3BhY2l0eT0iMC40IiBmaWx0ZXI9ImJsdXIoNHB4KSIgLz4KICAgIDwhLS0gQ29ycHMgZHUgdGVzdCAtLT4KICAgIDxyZWN0IHg9IjcwIiB5PSIxNjAiIHdpZHRoPSIyNjAiIGhlaWdodD0iNDAiIHJ4PSIyMCIgZmlsbD0idXJsKCNzdGlja0dyYWQpIiBzdHJva2U9IiNDODlCM0MiIHN0cm9rZS13aWR0aD0iMS41IiAvPgogICAgPCEtLSBFbWJvdXQgZ3JpcCBvciByb3PDqSAtLT4KICAgIDxwYXRoIGQ9Ik03MCwxODAgQTIwLDIwIDAgMCwxIDExMCwxNjAgTDExMCwyMDAgQTIwLDIwIDAgMCwxIDcwLDE4MCBaIiBmaWxsPSIjRDQ4QjdBIiBvcGFjaXR5PSIwLjg1IiAvPgogICAgPGNpcmNsZSBjeD0iOTAiIGN5PSIxODAiIHI9IjMiIGZpbGw9IiNGRkZGRkYiIG9wYWNpdHk9IjAuOCIgLz4KCiAgICA8IS0tIEZlbsOqdHJlIGRlIGxlY3R1cmUgLS0+CiAgICA8cmVjdCB4PSIxNDUiIHk9IjE2OCIgd2lkdGg9Ijg1IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRTBENkM4IiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICAKICAgIDwhLS0gREVVWCBMSUdORVMgUk9TRVMgVklWRVMgKFRlc3QgUG9zaXRpZikgLS0+CiAgICA8bGluZSB4MT0iMTcyIiB5MT0iMTcyIiB4Mj0iMTcyIiB5Mj0iMTg4IiBzdHJva2U9InVybCgjcGlua0xpbmUpIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgogICAgPGxpbmUgeDE9IjIwMiIgeTE9IjE3MiIgeDI9IjIwMiIgeTI9IjE4OCIgc3Ryb2tlPSJ1cmwoI3BpbmtMaW5lKSIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz4KICAgIAogICAgPCEtLSBDxZN1ciBzY2ludGlsbGFudCBlbnRyZSBsZXMgbGlnbmVzIC0tPgogICAgPGNpcmNsZSBjeD0iMTg3IiBjeT0iMTgwIiByPSIyIiBmaWxsPSIjRkY3ODc1IiAvPgoKICAgIDwhLS0gUGV0aXQgY2FwdWNob24gZmluIC0tPgogICAgPHJlY3QgeD0iMzA1IiB5PSIxNjYiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyOCIgcng9IjYiIGZpbGw9IiNDODlCM0MiIG9wYWNpdHk9IjAuNyIgLz4KICA8L2c+CgogIDwhLS0gSW5zY3JpcHRpb24gZGUgY29uZmlybWF0aW9uIELDqnRhLWhDRyAtLT4KICA8cmVjdCB4PSIxMjAiIHk9Ijg1IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjMwIiByeD0iMTUiIGZpbGw9IiMyMDEwMDgiIHN0cm9rZT0iIzUyQzQxQSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+CiAgPHRleHQgeD0iMjAwIiB5PSIxMDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiM3M0QxM0QiIGxldHRlci1zcGFjaW5nPSIxIj7inJMgQsOKVEEtaENHIFBPU0lUSUY8L3RleHQ+CgogIDwhLS0gQ2FydG91Y2hlIC8gQmFkZ2UgZHUgYmFzIC0tPgogIDxyZWN0IHg9IjUwIiB5PSIzMjUiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDQiIHJ4PSIxNCIgZmlsbD0iIzIwMTAwOCIgc3Ryb2tlPSIjQzg5QjNDIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLW9wYWNpdHk9IjAuNiIgLz4KICA8dGV4dCB4PSIyMDAiIHk9IjM0NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRTZBMyIgbGV0dGVyLXNwYWNpbmc9IjEiPkNPTkZJUk1BVElPTiBHUk9TU0VTU0U8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIzNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOS41IiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjRDhCRTlCIj5MZXMgZGV1eCBsaWduZXMgdGFudCBhdHRlbmR1ZXMgYnJpbGxlbnQ8L3RleHQ+Cjwvc3ZnPgo=" alt="Test Bêta-hCG">
+                            </div>
+                            <div class="gallery-body">
+                                <div class="gallery-date">08 Nov. 2026</div>
+                                <div class="gallery-name">Bêta-hCG Positif</div>
+                            </div>
+                        </div>
+
+                        <!-- Item 5 -->
+                        <div class="gallery-card" onclick="openLightbox('ultrasound')">
+                            <div class="gallery-img-wrap">
+                                <img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iZWNob0JnIiBjeD0iNTAlIiBjeT0iNDAlIiByPSI2NSUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMkQxQzEzIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzFBMEQwNyIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMEIwNDAyIiAvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iaGVhcnRQdWxzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiNGRjc4NzUiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iODAlIiBzdG9wLWNvbG9yPSIjQ0YxMzIyIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM0OTBFMDgiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkU3Ryb2tlNSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQUQ1OUEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjQzg5QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3QjU0MUMiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPCEtLSBGb25kIC0tPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9InVybCgjZWNob0JnKSIgLz4KICA8cmVjdCB3aWR0aD0iMzk2IiBoZWlnaHQ9IjM5NiIgeD0iMiIgeT0iMiIgcng9IjIyIiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjZ29sZFN0cm9rZTUpIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuNCIgLz4KCiAgPCEtLSBPbmRlcyBkZSBiYXR0ZW1lbnRzIGNhcmRpYXF1ZXMgKERvcHBsZXIpIC0tPgogIDxwYXRoIGQ9Ik03MCwyNjAgTDE0MCwyNjAgTDE1MCwyNDAgTDE2MCwyODUgTDE3NSwyMTUgTDE5MCwyOTUgTDIwMCwyNDUgTDIxMCwyNjAgTDMzMCwyNjAiIAogICAgICAgIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGQTk0MCIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgb3BhY2l0eT0iMC44IiAvPgoKICA8IS0tIFNhYyBnZXN0YXRpb25uZWwgJiBlbWJyeW9uIC0tPgogIDxlbGxpcHNlIGN4PSIyMDAiIGN5PSIxNTUiIHJ4PSI3NSIgcnk9IjYwIiBmaWxsPSIjMTQwODA0IiBzdHJva2U9IiM3QTRCMkUiIHN0cm9rZS13aWR0aD0iMiIgLz4KICA8IS0tIFbDqXNpY3VsZSB2aXRlbGxpbmUgLS0+CiAgPGNpcmNsZSBjeD0iMTc1IiBjeT0iMTYwIiByPSIxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZFN0JBIiBzdHJva2Utd2lkdGg9IjEuOCIgb3BhY2l0eT0iMC44NSIgLz4KICAKICA8IS0tIFBldGl0IGVtYnJ5b24gLS0+CiAgPHBhdGggZD0iTTE5NSwxNDAgQzIxNSwxNDAgMjI1LDE2MCAyMTUsMTc1IEMyMDUsMTg1IDE5MCwxNzUgMTk1LDE2NSBaIiBmaWxsPSIjRkZFNThGIiBvcGFjaXR5PSIwLjkiIC8+CgogIDwhLS0gQ8WTdXIgY2xpZ25vdGFudCAvIGJhdHRhbnQgZW4gcHVsc2F0aW9uIC0tPgogIDxjaXJjbGUgY3g9IjIwMiIgY3k9IjE1NSIgcj0iOSIgZmlsbD0idXJsKCNoZWFydFB1bHNlKSIgLz4KICA8Y2lyY2xlIGN4PSIyMDIiIGN5PSIxNTUiIHI9IjE4IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRjRENEYiIHN0cm9rZS13aWR0aD0iMS41IiBvcGFjaXR5PSIwLjYiIHN0cm9rZS1kYXNoYXJyYXk9IjMsMyIgLz4KCiAgPCEtLSBSeXRobWUgY2FyZGlhcXVlIC8gQlBNIGJhZGdlIC0tPgogIDxyZWN0IHg9IjEzNSIgeT0iNzAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iIzIwMTAwOCIgc3Ryb2tlPSIjRkZBOTQwIiBzdHJva2Utd2lkdGg9IjEuMiIgLz4KICA8dGV4dCB4PSIyMDAiIHk9Ijg3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjRkZFNThGIiBsZXR0ZXItc3BhY2luZz0iMSI+4pmlIDE0NSBCUE0gwrcgQUNUSUY8L3RleHQ+CgogIDwhLS0gQ2FydG91Y2hlIC8gQmFkZ2UgZHUgYmFzIC0tPgogIDxyZWN0IHg9IjUwIiB5PSIzMjUiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDQiIHJ4PSIxNCIgZmlsbD0iIzIwMTAwOCIgc3Ryb2tlPSIjQzg5QjNDIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLW9wYWNpdHk9IjAuNiIgLz4KICA8dGV4dCB4PSIyMDAiIHk9IjM0NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRTZBMyIgbGV0dGVyLXNwYWNpbmc9IjEiPjHDiFJFIMOJQ0hPR1JBUEhJRSBEVSBDxZJVUjwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5LjUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNEOEJFOUIiPkwnw6ltb3Rpb24gcHVyZSBkZXMgcHJlbWllcnMgYmF0dGVtZW50czwvdGV4dD4KPC9zdmc+Cg==" alt="Battement de cœur">
+                            </div>
+                            <div class="gallery-body">
+                                <div class="gallery-date">22 Nov. 2026</div>
+                                <div class="gallery-name">1er Battement de Cœur</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Right Column: Notes, Priorities Checklist, Clinic Contacts -->
+            <div class="right-column">
+                <!-- Notes Personnelles -->
+                <section class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <span>📝</span>
+                            <span id="notes-card-title">Notes personnelles de Fatou</span>
+                        </div>
+                        <span class="badge-pill" style="background:#FAF2EA; color:#7A4F31;">ESPACE PRIVÉ</span>
+                    </div>
+
+                    <p class="step-text" style="margin-bottom: 10px;" id="notes-card-desc">
+                        Notez vos ressentis quotidiens, questions pour le médecin ou pensées du jour. Vos notes sont sauvegardées automatiquement.
+                    </p>
+
+                    <!-- Mood Selector -->
+                    <div class="mood-chips" id="mood-box">
+                        <button type="button" class="mood-pill active" onclick="setMood(this, '✨ Pleine d\'espoir')">✨ Pleine d'espoir</button>
+                        <button type="button" class="mood-pill" onclick="setMood(this, '🌸 Sereine')">🌸 Sereine</button>
+                        <button type="button" class="mood-pill" onclick="setMood(this, '💪 Confiante')">💪 Confiante</button>
+                        <button type="button" class="mood-pill" onclick="setMood(this, '🙏 Reconnaissante')">🙏 Reconnaissante</button>
+                        <button type="button" class="mood-pill" onclick="setMood(this, '🧘‍♀️ En repos')">🧘‍♀️ En repos</button>
+                    </div>
+
+                    <textarea id="notes-area" class="notes-textarea" placeholder="Chère Fatou, écrivez vos pensées du jour ici..."></textarea>
+
+                    <div class="notes-toolbar">
+                        <span class="save-status" id="notes-status">✓ Sauvegardé automatiquement</span>
+                        <div class="notes-btns">
+                            <button type="button" class="btn-note" onclick="insertDate()">📅 Date</button>
+                            <button type="button" class="btn-note" onclick="clearDraft()">Effacer</button>
+                            <button type="button" class="btn-note primary" onclick="saveToJournal()">Ajouter au journal</button>
+                        </div>
+                    </div>
+
+                    <!-- Saved Notes History -->
+                    <div class="saved-notes-feed" id="saved-notes-list"></div>
+                </section>
+
+                <!-- Priorités & Préparatifs Checklist -->
+                <section class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <span>☑</span>
+                            <span id="chk-card-title">Priorités & Préparatifs</span>
+                        </div>
+                        <span class="status-badge">6 ACTIONS</span>
+                    </div>
+
+                    <div class="checklist-group">
+                        <div class="check-item" onclick="toggleCheck(this, 'chk_1')">
+                            <div class="check-box">✓</div>
+                            <div>
+                                <div class="check-title">Dossier PGT-A & Consentements signés</div>
+                                <div class="check-sub">27 oct. · Validation génétique des 8 blastocystes</div>
+                            </div>
+                        </div>
+
+                        <div class="check-item" onclick="toggleCheck(this, 'chk_2')">
+                            <div class="check-box">✓</div>
+                            <div>
+                                <div class="check-title">Rendez-vous SIS confirmé (RMA East Side)</div>
+                                <div class="check-sub">28 oct. · 08 h 00 · Cavité utérine & endomètre</div>
+                            </div>
+                        </div>
+
+                        <div class="check-item" onclick="toggleCheck(this, 'chk_3')">
+                            <div class="check-box">✓</div>
+                            <div>
+                                <div class="check-title">Consultation pré-op Hystéroscopie</div>
+                                <div class="check-sub">30 oct. · Gramercy Surgery Center</div>
+                            </div>
+                        </div>
+
+                        <div class="check-item checked" onclick="toggleCheck(this, 'chk_4')">
+                            <div class="check-box">✓</div>
+                            <div>
+                                <div class="check-title">Protocoles médicamenteux & Progestérone</div>
+                                <div class="check-sub">En cours · Support lutéal et œstrogènes</div>
+                            </div>
+                        </div>
+
+                        <div class="check-item" onclick="toggleCheck(this, 'chk_5')">
+                            <div class="check-box">✓</div>
+                            <div>
+                                <div class="check-title">Préparer le jour du transfert FET</div>
+                                <div class="check-sub">31 oct. · Vessie pleine, tenue confortable</div>
+                            </div>
+                        </div>
+
+                        <div class="check-item" onclick="toggleCheck(this, 'chk_6')">
+                            <div class="check-box">✓</div>
+                            <div>
+                                <div class="check-title">Test Bêta-hCG & suivi RMA</div>
+                                <div class="check-sub">08 nov. · Prise de sang officielle de confirmation</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Medical Center & Contacts -->
+                <section class="panel-card">
+                    <div class="panel-header">
+                        <div class="panel-title">
+                            <span>🏥</span>
+                            <span>Centres Médicaux & Contacts</span>
+                        </div>
+                        <span class="badge-pill">COORDONNÉES</span>
+                    </div>
+
+                    <div class="clinic-info-list">
+                        <div class="clinic-item">
+                            <div class="clinic-icon">📍</div>
+                            <div>
+                                <div class="clinic-name">RMA of New York (East Side)</div>
+                                <div class="step-text">635 Madison Ave, 10th Floor, New York, NY 10022<br>Tél : (212) 756-5777 · Fax : (212) 756-5770</div>
+                            </div>
+                        </div>
+                        <div class="clinic-item">
+                            <div class="clinic-icon">🏥</div>
+                            <div>
+                                <div class="clinic-name">Gramercy Surgery Center</div>
+                                <div class="step-text">380 2nd Avenue, 10th Floor, New York, NY 10010<br>Tél : (212) 254-2585 · Intervention OPU & Hystéroscopie</div>
+                            </div>
+                        </div>
+                        <div class="clinic-item">
+                            <div class="clinic-icon">🩺</div>
+                            <div>
+                                <div class="clinic-name">Équipe Clinique Référente</div>
+                                <div class="step-text">Équipe médicale dédiée · Infirmière coordinatrice FIV · Ligne d'urgence 24h/24 RMA</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="desktop-footer" id="footer-note">
+            Mon Parcours FIV · Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center · Document confidentiel de suivi médical personnel · Édition Bureau / Desktop Brown
+        </footer>
+    </div>
+
+    <!-- Lightbox Modal -->
+    <div class="modal-overlay" id="lightbox-modal" onclick="closeLightbox(event)">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <div class="modal-img-wrap">
+                <img id="modal-img" src="" alt="Agrandissement">
+                <button type="button" class="modal-close-btn" onclick="closeLightbox(event)">✕</button>
+            </div>
+            <div class="modal-content">
+                <div class="modal-stage" id="modal-stage"></div>
+                <h3 class="modal-title" id="modal-title"></h3>
+                <p class="modal-desc" id="modal-desc"></p>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Script Layer -->
+    <script>
+        // SafeStorage: In-memory fallback if third-party cookies or sandboxed iframes block localStorage
+        const SafeStorage = {
+            _mem: {},
+            getItem: function(key) {
+                try {
+                    return window.localStorage.getItem(key);
+                } catch (e) {
+                    return this._mem[key] !== undefined ? this._mem[key] : null;
+                }
+            },
+            setItem: function(key, val) {
+                try {
+                    window.localStorage.setItem(key, String(val));
+                } catch (e) {
+                    this._mem[key] = String(val);
+                }
+            },
+            removeItem: function(key) {
+                try {
+                    window.localStorage.removeItem(key);
+                } catch (e) {
+                    delete this._mem[key];
+                }
+            }
+        };
+
+        let currentLang = 'fr';
+        let currentMood = "✨ Pleine d'espoir";
+
+        // Bilingual Translations
+        const i18n = {
+            fr: {
+                title: "Mon Parcours FIV",
+                subtitle: "Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center",
+                pin: "🔒 Espace Protégé",
+                dr: "🩺 Équipe Médicale",
+                pdf: "Imprimer / PDF",
+                apk: "APK Android",
+                oocytes: "Ovocytes Prélevés",
+                mature: "Ovocytes Matures (MII)",
+                fertilized: "Fécondés par ICSI",
+                blastocysts: "Blastocystes Vitrifiés",
+                protoTitle: "Protocole Médical FIV",
+                badgeSept: "15 ÉTAPES TERMINÉES",
+                badgeUp: "7 ÉTAPES GROSSESSE",
+                tabSept: "Septembre 2026 (Stimulation - 15 étapes)",
+                tabUp: "Octobre & Novembre (Grossesse & FET - 7 étapes)",
+                galleryTitle: "Journal Clinique Illustré",
+                gallerySub: "Sélectionnez une vignette pour visualiser les détails échographiques et embryonnaires.",
+                notesTitle: "Notes personnelles de Fatou",
+                notesDesc: "Notez vos ressentis quotidiens, questions pour le médecin ou pensées du jour. Vos notes sont sauvegardées automatiquement.",
+                placeholder: "Chère Fatou, écrivez vos pensées du jour ici...",
+                saved: "✓ Sauvegardé automatiquement",
+                chkTitle: "Priorités & Préparatifs",
+                footer: "Mon Parcours FIV · Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center · Document confidentiel de suivi médical personnel · Édition Bureau / Desktop Brown"
+            },
+            en: {
+                title: "My IVF Journey",
+                subtitle: "Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center",
+                pin: "🔒 Secure Area",
+                dr: "🩺 Medical Team",
+                pdf: "Print / PDF",
+                apk: "Android APK",
+                oocytes: "Oocytes Retrieved",
+                mature: "Mature Oocytes (MII)",
+                fertilized: "Fertilized by ICSI",
+                blastocysts: "Vitrified Blastocysts",
+                protoTitle: "IVF Medical Protocol",
+                badgeSept: "15 STEPS COMPLETED",
+                badgeUp: "7 PREGNANCY STEPS",
+                tabSept: "September 2026 (Stimulation - 15 steps)",
+                tabUp: "October & November (Pregnancy & FET - 7 steps)",
+                galleryTitle: "Illustrated Clinical Journal",
+                gallerySub: "Select a thumbnail to view ultrasound and embryology clinical insights.",
+                notesTitle: "Fatou's Personal Notes",
+                notesDesc: "Write down your daily feelings, doctor questions, or personal thoughts. Notes are automatically saved.",
+                placeholder: "Dear Fatou, write your thoughts of the day here...",
+                saved: "✓ Auto-saved",
+                chkTitle: "Priorities & Preparations",
+                footer: "My IVF Journey · Fatou ♥ · RMA of New York (East Side) & Gramercy Surgery Center · Confidential Medical Roadmap · Desktop Brown Edition"
+            }
+        };
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            document.getElementById('btn-fr').classList.toggle('active', lang === 'fr');
+            document.getElementById('btn-en').classList.toggle('active', lang === 'en');
+            const t = i18n[lang];
+
+            document.getElementById('header-title').textContent = t.title;
+            document.getElementById('header-subtitle').textContent = t.subtitle;
+            document.getElementById('badge-pin').textContent = t.pin;
+            document.getElementById('badge-dr').textContent = t.dr;
+            document.getElementById('btn-pdf-text').textContent = t.pdf;
+            document.getElementById('btn-apk-text').textContent = t.apk;
+            document.getElementById('lbl-oocytes').textContent = t.oocytes;
+            document.getElementById('lbl-mature').textContent = t.mature;
+            document.getElementById('lbl-fertilized').textContent = t.fertilized;
+            document.getElementById('lbl-blastocysts').textContent = t.blastocysts;
+            document.getElementById('proto-panel-title').textContent = t.protoTitle;
+            document.getElementById('tab-sept').textContent = t.tabSept;
+            document.getElementById('tab-up').textContent = t.tabUp;
+            document.getElementById('gallery-title').textContent = t.galleryTitle;
+            document.getElementById('gallery-sub').textContent = t.gallerySub;
+            document.getElementById('notes-card-title').textContent = t.notesTitle;
+            document.getElementById('notes-card-desc').textContent = t.notesDesc;
+            document.getElementById('notes-area').placeholder = t.placeholder;
+            document.getElementById('chk-card-title').textContent = t.chkTitle;
+            document.getElementById('footer-note').textContent = t.footer;
+
+            const isSept = document.getElementById('tab-sept').classList.contains('active');
+            document.getElementById('proto-badge').textContent = isSept ? t.badgeSept : t.badgeUp;
+        }
+
+        // Timeline Tab Switch
+        function switchTab(tab) {
+            const septTab = document.getElementById('tab-sept');
+            const upTab = document.getElementById('tab-up');
+            const septSteps = document.getElementById('september-steps');
+            const upSteps = document.getElementById('upcoming-steps');
+            const badge = document.getElementById('proto-badge');
+            const t = i18n[currentLang];
+
+            if (tab === 'sept') {
+                septTab.classList.add('active');
+                upTab.classList.remove('active');
+                septSteps.style.display = 'flex';
+                upSteps.style.display = 'none';
+                badge.textContent = t.badgeSept;
+            } else {
+                septTab.classList.remove('active');
+                upTab.classList.add('active');
+                septSteps.style.display = 'none';
+                upSteps.style.display = 'flex';
+                badge.textContent = t.badgeUp;
+            }
+        }
+
+        // Checklist Checkmarks
+        function toggleCheck(el, key) {
+            el.classList.toggle('checked');
+            SafeStorage.setItem('brown_chk_' + key, el.classList.contains('checked') ? '1' : '0');
+        }
+
+        // Notes and Moods
+        function setMood(el, mood) {
+            currentMood = mood;
+            document.querySelectorAll('#mood-box .mood-pill').forEach(b => b.classList.remove('active'));
+            if (el) el.classList.add('active');
+            SafeStorage.setItem('brown_mood', mood);
+        }
+
+        const notesArea = document.getElementById('notes-area');
+        if (notesArea) {
+            notesArea.addEventListener('input', () => {
+                SafeStorage.setItem('brown_draft', notesArea.value);
+                const status = document.getElementById('notes-status');
+                if (status) {
+                    const now = new Date();
+                    const timeStr = now.toLocaleTimeString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+                    status.textContent = currentLang === 'fr' ? `✓ Sauvegardé (${timeStr})` : `✓ Saved (${timeStr})`;
+                }
+            });
+        }
+
+        function insertDate() {
+            if (!notesArea) return;
+            const now = new Date();
+            const dateStr = now.toLocaleDateString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+            const stamp = `[${dateStr} · ${currentMood}] `;
+            if (!notesArea.value.includes(stamp)) {
+                notesArea.value = stamp + notesArea.value;
+                SafeStorage.setItem('brown_draft', notesArea.value);
+                notesArea.focus();
+            }
+        }
+
+        function clearDraft() {
+            if (!notesArea) return;
+            if (notesArea.value.trim().length > 0) {
+                if (!confirm(currentLang === 'fr' ? 'Effacer le brouillon en cours ?' : 'Clear current draft?')) return;
+            }
+            notesArea.value = '';
+            SafeStorage.removeItem('brown_draft');
+            document.getElementById('notes-status').textContent = currentLang === 'fr' ? 'Brouillon effacé' : 'Draft cleared';
+        }
+
+        function getNotesFeed() {
+            try {
+                const raw = SafeStorage.getItem('brown_feed');
+                if (raw) return JSON.parse(raw);
+            } catch (e) {}
+            return [
+                {
+                    id: 'n1',
+                    date: '26 octobre 2026 · 14 h 30',
+                    mood: "✨ Pleine d'espoir",
+                    text: 'En attente douce des résultats PGT-A. Chaque jour nous rapproche de notre futur bébé. Rester sereine, respirer profondément, et faire confiance au travail remarquable du laboratoire RMA.'
+                },
+                {
+                    id: 'n2',
+                    date: '24 octobre 2026 · 09 h 15',
+                    mood: '🌸 Sereine',
+                    text: 'Rendez-vous confirmé à 08h00 à RMA East Side pour l\'hystérosonographie SIS du 28 octobre. Penser à prendre une bouteille d\'eau.'
+                }
+            ];
+        }
+
+        async function saveToJournal() {
+            if (!notesArea) return;
+            const text = notesArea.value.trim();
+            if (!text) {
+                alert(currentLang === 'fr' ? 'Veuillez écrire quelques mots avant d\'ajouter au journal.' : 'Please write a few words before adding to journal.');
+                notesArea.focus();
+                return;
+            }
+            const now = new Date();
+            const dateStr = now.toLocaleDateString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { day: 'numeric', month: 'long', year: 'numeric' });
+            const timeStr = now.toLocaleTimeString(currentLang === 'fr' ? 'fr-FR' : 'en-US', { hour: '2-digit', minute: '2-digit' });
+
+            const newEntry = {
+                date: `${dateStr} · ${timeStr}`,
+                mood: currentMood,
+                text: text,
+                timestamp: Date.now()
+            };
+
+            try {
+                if (window.db && window.firestoreAddDoc && window.firestoreCollection) {
+                    await window.firestoreAddDoc(window.firestoreCollection(window.db, "journal"), newEntry);
+                } else {
+                    throw new Error("Firestore not ready");
+                }
+            } catch (e) {
+                const feed = getNotesFeed();
+                feed.unshift({ id: 'n_' + Date.now(), ...newEntry });
+                SafeStorage.setItem('brown_feed', JSON.stringify(feed));
+            }
+
+            notesArea.value = '';
+            SafeStorage.removeItem('brown_draft');
+            renderNotesFeed();
+            document.getElementById('notes-status').textContent = currentLang === 'fr' ? '✓ Ajouté au journal (Firebase) !' : '✓ Added to journal (Firebase)!';
+        }
+
+        async function deleteNote(idOrDocId) {
+            if (!confirm(currentLang === 'fr' ? 'Supprimer cette pensée ?' : 'Delete this note?')) return;
+            try {
+                if (window.db && window.firestoreDeleteDoc && window.firestoreDoc && !idOrDocId.startsWith('n_')) {
+                    await window.firestoreDeleteDoc(window.firestoreDoc(window.db, "journal", idOrDocId));
+                }
+            } catch (e) {}
+            let feed = getNotesFeed();
+            feed = feed.filter(n => n.id !== idOrDocId && n.docId !== idOrDocId);
+            SafeStorage.setItem('brown_feed', JSON.stringify(feed));
+            renderNotesFeed();
+        }
+
+        function startEditNote(docId, encodedText) {
+            const text = decodeURIComponent(encodedText);
+            const bubbleTextEl = document.getElementById(`text-${docId}`);
+            if (!bubbleTextEl) return;
+            bubbleTextEl.innerHTML = `
+                <textarea id="edit-area-${docId}" style="width:100%; min-height:85px; border:1.5px solid var(--brown-primary); border-radius:8px; padding:8px; font-family:inherit; font-size:12px; margin-top:4px;">${text}</textarea>
+                <div style="display:flex; gap:6px; margin-top:6px; justify-content:flex-end;">
+                    <button type="button" onclick="renderNotesFeed()" style="background:#eee; border:none; padding:5px 12px; border-radius:6px; font-size:11.5px; cursor:pointer; font-weight:700;">Annuler</button>
+                    <button type="button" onclick="saveEditNote('${docId}')" style="background:var(--brown-primary); color:#fff; border:none; padding:5px 12px; border-radius:6px; font-size:11.5px; cursor:pointer; font-weight:700;">Enregistrer</button>
+                </div>
+            `;
+        }
+
+        async function saveEditNote(docId) {
+            const textArea = document.getElementById(`edit-area-${docId}`);
+            if (!textArea) return;
+            const newText = textArea.value.trim();
+            if (!newText) {
+                alert("Le texte ne peut pas être vide.");
+                return;
+            }
+            try {
+                // Calls Firebase Firestore's updateDoc function using the correct unique Firebase document ID (doc.id)
+                if (window.db && window.firestoreUpdateDoc && window.firestoreDoc) {
+                    const noteRef = window.firestoreDoc(window.db, "journal", docId);
+                    await window.firestoreUpdateDoc(noteRef, {
+                        text: newText,
+                        updatedAt: Date.now()
+                    });
+                    document.getElementById('notes-status').textContent = "✓ Modifié & enregistré en Firebase !";
+                } else {
+                    throw new Error("Firestore updateDoc unavailable");
+                }
+            } catch (e) {
+                console.warn("Firestore update fallback:", e);
+                let feed = getNotesFeed();
+                feed = feed.map(n => (n.id === docId || n.docId === docId) ? { ...n, text: newText } : n);
+                SafeStorage.setItem('brown_feed', JSON.stringify(feed));
+                renderNotesFeed();
+            }
+        }
+
+        function renderNotesFeed() {
+            const container = document.getElementById('saved-notes-list');
+            if (!container) return;
+            const feed = (window.journalEntriesFromFirebase && window.journalEntriesFromFirebase.length > 0) ? window.journalEntriesFromFirebase : getNotesFeed();
+            if (feed.length === 0) {
+                container.innerHTML = `<div style="font-size:11px; color:#8C7B72; font-style:italic; padding:6px 0;">${currentLang === 'fr' ? 'Aucune pensée enregistrée.' : 'No saved notes yet.'}</div>`;
+                return;
+            }
+            container.innerHTML = feed.map(item => {
+                const uid = item.docId || item.id;
+                return `
+                <div class="saved-note-bubble" id="note-${uid}">
+                    <div class="bubble-head">
+                        <span>📅 ${item.date} · <strong>${item.mood || ''}</strong></span>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <button type="button" onclick="startEditNote('${uid}', \`${encodeURIComponent(item.text)}\`)" title="Éditer" style="background:none; border:none; cursor:pointer; color:var(--brown-primary); font-size:12px;">✏️ Éditer</button>
+                            <button type="button" class="bubble-del" onclick="deleteNote('${uid}')" title="Supprimer">✕</button>
+                        </div>
+                    </div>
+                    <div class="bubble-text" id="text-${uid}">${escapeHtml(item.text)}</div>
+                </div>
+            `;
+            }).join('');
+        }
+
+        function escapeHtml(s) {
+            return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+        }
+
+        // Lightbox Details
+        const galleryData = {
+            pgta: {
+                src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iYmdHbG93IiBjeD0iNTAlIiBjeT0iNDUlIiByPSI2NSUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjM0QyMzE0IiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzI0MTMwQSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMTIwODA0IiAvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iZW1icnlvR2xvdyIgY3g9IjQ1JSIgY3k9IjQwJSIgcj0iNTUlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRjREMCIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIzMCUiIHN0b3AtY29sb3I9IiNGRkQxNjYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNzAlIiBzdG9wLWNvbG9yPSIjRDQ4QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4QzRCMTgiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPHJhZGlhbEdyYWRpZW50IGlkPSJjZWxsR2xvdyIgY3g9IjQwJSIgY3k9IjQwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI1MCUiIHN0b3AtY29sb3I9IiNGRkVBQTciIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0UxOUQzOCIgLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8ZmlsdGVyIGlkPSJzb2Z0R2xvdyIgeD0iLTMwJSIgeT0iLTMwJSIgd2lkdGg9IjE2MCUiIGhlaWdodD0iMTYwJSI+CiAgICAgIDxmZUdhdXNzaWFuQmx1ciBzdGREZXZpYXRpb249IjgiIHJlc3VsdD0iYmx1ciIgLz4KICAgICAgPGZlQ29tcG9zaXRlIGluPSJTb3VyY2VHcmFwaGljIiBpbjI9ImJsdXIiIG9wZXJhdG9yPSJvdmVyIiAvPgogICAgPC9maWx0ZXI+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9ImdvbGRCb3JkZXIiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjRUFENTlBIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjUwJSIgc3RvcC1jb2xvcj0iI0M4OUIzQyIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjN0I1NDFDIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CgogIDwhLS0gRm9uZCAtLT4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgcng9IjI0IiBmaWxsPSJ1cmwoI2JnR2xvdykiIC8+CiAgPHJlY3Qgd2lkdGg9IjM5NiIgaGVpZ2h0PSIzOTYiIHg9IjIiIHk9IjIiIHJ4PSIyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dvbGRCb3JkZXIpIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuNCIgLz4KCiAgPCEtLSBQYXJ0aWN1bGVzIGQnYW1iaWFuY2UgZsOpY29uZGUgLS0+CiAgPGNpcmNsZSBjeD0iOTAiIGN5PSIxMTAiIHI9IjIuNSIgZmlsbD0iI0ZGRThBMyIgb3BhY2l0eT0iMC40IiAvPgogIDxjaXJjbGUgY3g9IjMxMCIgY3k9IjkwIiByPSIzIiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjM1IiAvPgogIDxjaXJjbGUgY3g9IjgwIiBjeT0iMjkwIiByPSIyIiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjQiIC8+CiAgPGNpcmNsZSBjeD0iMzIwIiBjeT0iMjgwIiByPSIyLjUiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuMyIgLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSI3MCIgcj0iMS41IiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjUiIC8+CgogIDwhLS0gSGFsbyBsdW1pbmV1eCBleHRlcm5lIGR1IGJsYXN0b2N5c3RlIC0tPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5MCIgcj0iMTE1IiBmaWxsPSIjRkZDOTVDIiBvcGFjaXR5PSIwLjEyIiBmaWx0ZXI9InVybCgjc29mdEdsb3cpIiAvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5MCIgcj0iODgiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0U2QkU2OCIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1kYXNoYXJyYXk9IjYsNCIgb3BhY2l0eT0iMC41IiAvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5MCIgcj0iODIiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRTQ5RSIgc3Ryb2tlLXdpZHRoPSIxIiBvcGFjaXR5PSIwLjciIC8+CgogIDwhLS0gWm9uZSBwZWxsdWNpZGUgZXQgdHJvcGhvZWN0b2Rlcm1lIChjZWxsdWxlcyBww6lyaXBow6lyaXF1ZXMpIC0tPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE5MCIgcj0iNzYiIGZpbGw9InVybCgjZW1icnlvR2xvdykiIG9wYWNpdHk9IjAuOSIgLz4KCiAgPCEtLSBDZWxsdWxlcyBkdSB0cm9waG9ibGFzdGUgZGlzcG9zw6llcyBlbiBjb3Vyb25uZSAtLT4KICA8Y2lyY2xlIGN4PSIxNDUiIGN5PSIxNTUiIHI9IjE0IiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC43NSIgLz4KICA8Y2lyY2xlIGN4PSIxNzAiIGN5PSIxMzUiIHI9IjEzIiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC44IiAvPgogIDxjaXJjbGUgY3g9IjIwNSIgY3k9IjEzMCIgcj0iMTUiIGZpbGw9InVybCgjY2VsbEdsb3cpIiBvcGFjaXR5PSIwLjg1IiAvPgogIDxjaXJjbGUgY3g9IjI0MCIgY3k9IjE0MCIgcj0iMTQiIGZpbGw9InVybCgjY2VsbEdsb3cpIiBvcGFjaXR5PSIwLjgiIC8+CiAgPGNpcmNsZSBjeD0iMjYwIiBjeT0iMTY1IiByPSIxMyIgZmlsbD0idXJsKCNjZWxsR2xvdykiIG9wYWNpdHk9IjAuNzUiIC8+CiAgPGNpcmNsZSBjeD0iMjY1IiBjeT0iMTk4IiByPSIxNCIgZmlsbD0idXJsKCNjZWxsR2xvdykiIG9wYWNpdHk9IjAuOCIgLz4KICA8Y2lyY2xlIGN4PSIyNTAiIGN5PSIyMzAiIHI9IjEzIiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC43NSIgLz4KICA8Y2lyY2xlIGN4PSIyMjAiIGN5PSIyNTAiIHI9IjE1IiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC44NSIgLz4KICA8Y2lyY2xlIGN4PSIxODAiIGN5PSIyNTIiIHI9IjE0IiBmaWxsPSJ1cmwoI2NlbGxHbG93KSIgb3BhY2l0eT0iMC44IiAvPgogIDxjaXJjbGUgY3g9IjE1MCIgY3k9IjIzNSIgcj0iMTMiIGZpbGw9InVybCgjY2VsbEdsb3cpIiBvcGFjaXR5PSIwLjc1IiAvPgogIDxjaXJjbGUgY3g9IjEzOCIgY3k9IjIwMCIgcj0iMTQiIGZpbGw9InVybCgjY2VsbEdsb3cpIiBvcGFjaXR5PSIwLjgiIC8+CgogIDwhLS0gQ2F2aXTDqSBibGFzdG9jxZNsZSAtLT4KICA8ZWxsaXBzZSBjeD0iMjE1IiBjeT0iMTk1IiByeD0iMzYiIHJ5PSIzMiIgZmlsbD0iIzVBMkUxMiIgb3BhY2l0eT0iMC42NSIgLz4KCiAgPCEtLSBNYXNzZSBDZWxsdWxhaXJlIEludGVybmUgKE1DSSAvIEJvdXRvbiBlbWJyeW9ubmFpcmUgZG9yw6kgZXQgc2NpbnRpbGxhbnQpIC0tPgogIDxnIGZpbHRlcj0idXJsKCNzb2Z0R2xvdykiPgogICAgPGNpcmNsZSBjeD0iMTc1IiBjeT0iMTc4IiByPSIyMiIgZmlsbD0iI0ZGRkJFNiIgb3BhY2l0eT0iMC45NSIgLz4KICAgIDxjaXJjbGUgY3g9IjE3MCIgY3k9IjE3MiIgcj0iMTIiIGZpbGw9IiNGRkZGRkYiIG9wYWNpdHk9IjAuOSIgLz4KICAgIDxjaXJjbGUgY3g9IjE4NiIgY3k9IjE4NCIgcj0iMTAiIGZpbGw9IiNGRkU1OEYiIG9wYWNpdHk9IjAuODUiIC8+CiAgPC9nPgoKICA8IS0tIMOJY2xhdCDDqXRvaWxlIGF1IGPFk3VyIGR1IGJvdXRvbiBlbWJyeW9ubmFpcmUgLS0+CiAgPHBhdGggZD0iTTE3MiwxNjAgTDE3NCwxNzAgTDE4NCwxNzIgTDE3NCwxNzQgTDE3MiwxODQgTDE3MCwxNzQgTDE2MCwxNzIgTDE3MCwxNzAgWiIgZmlsbD0iI0ZGRkZGRiIgb3BhY2l0eT0iMC45IiAvPgoKICA8IS0tIENhcnRvdWNoZSAvIEJhZGdlIGR1IGJhcyAtLT4KICA8cmVjdCB4PSI1MCIgeT0iMzI1IiB3aWR0aD0iMzAwIiBoZWlnaHQ9IjQ0IiByeD0iMTQiIGZpbGw9IiMyMDEwMDgiIHN0cm9rZT0iI0M4OUIzQyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1vcGFjaXR5PSIwLjYiIC8+CiAgPHRleHQgeD0iMjAwIiB5PSIzNDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTIiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNGRkU2QTMiIGxldHRlci1zcGFjaW5nPSIxIj5QR1QtQSDCtyA4IEJMQVNUT0NZU1RFUzwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5LjUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNEOEJFOUIiPkFuYWx5c2UgZ8OpbsOpdGlxdWUgJmFtcDsgVml0YWxpdMOpIGVtYnJ5b25uYWlyZTwvdGV4dD4KPC9zdmc+Cg==",
+                stageFr: "Étape 1 · 27 Octobre 2026",
+                stageEn: "Step 1 · October 27, 2026",
+                titleFr: "Résultats PGT-A · 8 Blastocystes",
+                titleEn: "PGT-A Screening Results · 8 Blastocysts",
+                descFr: "Illustration clinique au microscope révélant le trophoectoderme régulier et la masse cellulaire interne d'un blastocyste à vitalité optimale avant transfert.",
+                descEn: "Clinical microscopy illustration showing regular trophectoderm and inner cell mass of an optimal viability blastocyst prior to transfer."
+            },
+            sis: {
+                src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0ic2lzQmciIGN4PSI1MCUiIGN5PSI0NSUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzMDIwMTYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjMUUxMjBCIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwRTA3MDQiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJlbmRvR3JhZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGQ0U3RDYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNDAlIiBzdG9wLWNvbG9yPSIjRUFBNjhDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjgwJSIgc3RvcC1jb2xvcj0iI0MyNkE1NCIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjODQzQjJBIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0ic2NhbkJlYW0iIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRUFBNyIgc3RvcC1vcGFjaXR5PSIwLjMiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0M4OUIzQyIgc3RvcC1vcGFjaXR5PSIwIiAvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ29sZFN0cm9rZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQUQ1OUEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjQzg5QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3QjU0MUMiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPCEtLSBGb25kIC0tPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9InVybCgjc2lzQmcpIiAvPgogIDxyZWN0IHdpZHRoPSIzOTYiIGhlaWdodD0iMzk2IiB4PSIyIiB5PSIyIiByeD0iMjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnb2xkU3Ryb2tlKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSIwLjQiIC8+CgogIDwhLS0gR3JpbGxlIGQnw6ljaG9ncmFwaGllIG3DqWRpY2FsZSBzdWJ0aWxlIC0tPgogIDxnIHN0cm9rZT0iIzZBNDYyRiIgc3Ryb2tlLXdpZHRoPSIwLjYiIHN0cm9rZS1vcGFjaXR5PSIwLjMiPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMTAwIiB4Mj0iMzQwIiB5Mj0iMTAwIiAvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMTYwIiB4Mj0iMzQwIiB5Mj0iMTYwIiAvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMjIwIiB4Mj0iMzQwIiB5Mj0iMjIwIiAvPgogICAgPGxpbmUgeDE9IjYwIiB5MT0iMjgwIiB4Mj0iMzQwIiB5Mj0iMjgwIiAvPgogICAgPGxpbmUgeDE9IjEyMCIgeTE9IjcwIiB4Mj0iMTIwIiB5Mj0iMzAwIiAvPgogICAgPGxpbmUgeDE9IjIwMCIgeTE9IjcwIiB4Mj0iMjAwIiB5Mj0iMzAwIiAvPgogICAgPGxpbmUgeDE9IjI4MCIgeTE9IjcwIiB4Mj0iMjgwIiB5Mj0iMzAwIiAvPgogIDwvZz4KCiAgPCEtLSBGYWlzY2VhdSBzZWN0b3JpZWwgw6ljaG9ncmFwaGlxdWUgLS0+CiAgPHBhdGggZD0iTTIwMCw2MCBMOTAsMjgwIEExNjAsMTYwIDAgMCwwIDMxMCwyODAgWiIgZmlsbD0idXJsKCNzY2FuQmVhbSkiIC8+CgogIDwhLS0gTCd1dMOpcnVzIGV0IGNhdml0w6kgZW5kb23DqXRyaWFsZSB0cmlsYW1pbmFpcmUgLS0+CiAgPHBhdGggZD0iTTE0MCwyNDAgQzEyMCwyMDAgMTMwLDE0MCAyMDAsMTIwIEMyNzAsMTQwIDI4MCwyMDAgMjYwLDI0MCBDMjQwLDI2NSAxNjAsMjY1IDE0MCwyNDAgWiIgCiAgICAgICAgZmlsbD0iIzRBMjYxNyIgc3Ryb2tlPSIjOUE1QTM5IiBzdHJva2Utd2lkdGg9IjIuNSIgb3BhY2l0eT0iMC44NSIgLz4KCiAgPCEtLSBBc3BlY3QgdHJpbGFtaW5haXJlIGRvcsOpIHBhcmZhaXQgKFRyaXBsZSBMaW5lIFBhdHRlcm4pIC0tPgogIDxwYXRoIGQ9Ik0xNzAsMTc1IFEyMDAsMTYwIDIzMCwxNzUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRTdCQSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CiAgPHBhdGggZD0iTTE3MywxODQgUTIwMCwxNjkgMjI3LDE4NCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjQzg5QjNDIiBzdHJva2Utd2lkdGg9IjIuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgogIDxwYXRoIGQ9Ik0xNzYsMTkzIFEyMDAsMTc4IDIyNCwxOTMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRTdCQSIgc3Ryb2tlLXdpZHRoPSIzIiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CgogIDwhLS0gTWFycXVldXJzIGRlIGNhbGlicmF0aW9uIMOpY2hvZ3JhcGhpcXVlIC0tPgogIDxnIHN0cm9rZT0iI0ZGRDY2NiIgc3Ryb2tlLXdpZHRoPSIxLjIiPgogICAgPCEtLSBDcm9peCBtZXN1cmUgMSAtLT4KICAgIDxsaW5lIHgxPSIxNjYiIHkxPSIxODQiIHgyPSIxNzQiIHkyPSIxODQiIC8+CiAgICA8bGluZSB4MT0iMTcwIiB5MT0iMTgwIiB4Mj0iMTcwIiB5Mj0iMTg4IiAvPgogICAgPCEtLSBDcm9peCBtZXN1cmUgMiAtLT4KICAgIDxsaW5lIHgxPSIyMjYiIHkxPSIxODQiIHgyPSIyMzQiIHkyPSIxODQiIC8+CiAgICA8bGluZSB4MT0iMjMwIiB5MT0iMTgwIiB4Mj0iMjMwIiB5Mj0iMTg4IiAvPgogIDwvZz4KICA8dGV4dCB4PSIyMDAiIHk9IjIxNSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMCIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRTU4RiI+OS4yIG1tIMK3IFRSSUxBTUlOQUlSRTwvdGV4dD4KCiAgPCEtLSBFbi10w6p0ZSBjbGluaXF1ZSAtLT4KICA8cmVjdCB4PSI3MCIgeT0iNzUiIHdpZHRoPSIyNjAiIGhlaWdodD0iMjYiIHJ4PSI4IiBmaWxsPSIjMUEwRDA3IiBvcGFjaXR5PSIwLjgiIC8+CiAgPHRleHQgeD0iODUiIHk9IjkyIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjkiIGZvbnQtd2VpZ2h0PSI2MDAiIGZpbGw9IiNENEFGMzciPlJNQSBPRiBORVcgWU9SSyDCtyBFQVNUIFNJREU8L3RleHQ+CiAgPHRleHQgeD0iMzE1IiB5PSI5MiIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjNTJDNDFBIj7inJMgT1BUSU1BTDwvdGV4dD4KCiAgPCEtLSBDYXJ0b3VjaGUgLyBCYWRnZSBkdSBiYXMgLS0+CiAgPHJlY3QgeD0iNTAiIHk9IjMyNSIgd2lkdGg9IjMwMCIgaGVpZ2h0PSI0NCIgcng9IjE0IiBmaWxsPSIjMjAxMDA4IiBzdHJva2U9IiNDODlCM0MiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2Utb3BhY2l0eT0iMC42IiAvPgogIDx0ZXh0IHg9IjIwMCIgeT0iMzQ0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEyIiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjRkZFNkEzIiBsZXR0ZXItc3BhY2luZz0iMSI+U0lTICZhbXA7IMOJQ0hPR1JBUEhJRSAzRDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5LjUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNEOEJFOUIiPkVuZG9tw6h0cmUgcsOpY2VwdGlmICZhbXA7IENhdml0w6kgcHLDqnRlIGF1IG5pZDwvdGV4dD4KPC9zdmc+Cg==",
+                stageFr: "Étape 2 · 28 Octobre 2026 (08h00)",
+                stageEn: "Step 2 · October 28, 2026 (08:00 AM)",
+                titleFr: "Hystérosonographie SIS 3D · RMA East Side",
+                titleEn: "3D Saline Infusion Sonogram (SIS) · RMA East Side",
+                descFr: "Reconstitution échographique haute résolution de la cavité utérine montrant un endomètre trilaminaire réceptif et parfaitement lisse.",
+                descEn: "High-resolution ultrasound reconstruction of the uterine cavity showing a receptive, perfectly smooth trilaminar endometrium."
+            },
+            transfer: {
+                src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0idHJCZyIgY3g9IjUwJSIgY3k9IjQwJSIgcj0iNjUlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzNBMjQxNyIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI2MCUiIHN0b3AtY29sb3I9IiMyMjEyMEEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzBGMDYwMyIgLz4KICAgIDwvcmFkaWFsR3JhZGllbnQ+CiAgICA8cmFkaWFsR3JhZGllbnQgaWQ9InNwYXJrbGUiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGRkZGRkYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNDAlIiBzdG9wLWNvbG9yPSIjRkZFNThGIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjgwJSIgc3RvcC1jb2xvcj0iI0ZBOEMxNiIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjODczODAwIiBzdG9wLW9wYWNpdHk9IjAiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkSGFuZCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGQ0UxQzIiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjRDlBMDY2IiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM4QzUzMkUiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkU3Ryb2tlMyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQUQ1OUEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjQzg5QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3QjU0MUMiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPCEtLSBGb25kIC0tPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9InVybCgjdHJCZykiIC8+CiAgPHJlY3Qgd2lkdGg9IjM5NiIgaGVpZ2h0PSIzOTYiIHg9IjIiIHk9IjIiIHJ4PSIyMiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ1cmwoI2dvbGRTdHJva2UzKSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1vcGFjaXR5PSIwLjQiIC8+CgogIDwhLS0gw4l0b2lsZXMgZXQgcG91c3Npw6hyZSBkJ29yIGRlIGwnZXNwb2lyIC0tPgogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjgwIiByPSIxLjUiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNiIgLz4KICA8Y2lyY2xlIGN4PSIyOTAiIGN5PSI5NSIgcj0iMiIgZmlsbD0iI0ZGRThBMyIgb3BhY2l0eT0iMC41IiAvPgogIDxjaXJjbGUgY3g9Ijc1IiBjeT0iMjIwIiByPSIxLjUiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNCIgLz4KICA8Y2lyY2xlIGN4PSIzMzAiIGN5PSIyMzAiIHI9IjIiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNiIgLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSI1MCIgcj0iMS41IiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjUiIC8+CgogIDwhLS0gTWFpbnMgcHJvdGVjdHJpY2VzIHN0eWxpc8OpZXMgYmVyw6dhbnQgbGEgdmllIC0tPgogIDwhLS0gTWFpbiBnYXVjaGUgLS0+CiAgPHBhdGggZD0iTTExMCwyNzAgQzEyNSwyMzAgMTUwLDIxNSAxNzUsMjE1IEMxODUsMjE1IDE5MCwyMjUgMTgwLDIzNSBDMTYwLDI0NSAxMzUsMjYwIDEyNSwyODUgWiIgZmlsbD0idXJsKCNnb2xkSGFuZCkiIG9wYWNpdHk9IjAuOCIgLz4KICA8IS0tIE1haW4gZHJvaXRlIC0tPgogIDxwYXRoIGQ9Ik0yOTAsMjcwIEMyNzUsMjMwIDI1MCwyMTUgMjI1LDIxNSBDMjE1LDIxNSAyMTAsMjI1IDIyMCwyMzUgQzI0MCwyNDUgMjY1LDI2MCAyNzUsMjg1IFoiIGZpbGw9InVybCgjZ29sZEhhbmQpIiBvcGFjaXR5PSIwLjgiIC8+CgogIDwhLS0gTmlkIGRlIGNoYWxldXIgZMOpbGljYXQgLS0+CiAgPGVsbGlwc2UgY3g9IjIwMCIgY3k9IjIyNSIgcng9IjU1IiByeT0iMTgiIGZpbGw9IiM1NDI5MTMiIG9wYWNpdHk9IjAuNiIgLz4KCiAgPCEtLSBIYWxvIGQnaW1wbGFudGF0aW9uIC0tPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE3MCIgcj0iNTAiIGZpbGw9IiNGRkJCMzMiIG9wYWNpdHk9IjAuMTgiIC8+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTcwIiByPSIzMCIgZmlsbD0iI0ZGQTk0MCIgb3BhY2l0eT0iMC4zIiAvPgoKICA8IS0tIEdvdXR0ZSBkZSB2aWUgZCdpbXBsYW50YXRpb24gLyDDiWNsYXQgZW1icnlvbiAtLT4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxNzAiIHI9IjE4IiBmaWxsPSJ1cmwoI3NwYXJrbGUpIiAvPgogIDxjaXJjbGUgY3g9IjIwMCIgY3k9IjE3MCIgcj0iNyIgZmlsbD0iI0ZGRkZGRiIgLz4KCiAgPCEtLSBSYXlvbnMgZCdhbW91ciBldCBkJ2FjY3VlaWwgLS0+CiAgPGxpbmUgeDE9IjIwMCIgeTE9IjEzNSIgeDI9IjIwMCIgeTI9IjE0OCIgc3Ryb2tlPSIjRkZFN0JBIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz4KICA8bGluZSB4MT0iMjAwIiB5MT0iMTkyIiB4Mj0iMjAwIiB5Mj0iMjA1IiBzdHJva2U9IiNGRkU3QkEiIHN0cm9rZS13aWR0aD0iMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgogIDxsaW5lIHgxPSIxNjUiIHkxPSIxNzAiIHgyPSIxNzgiIHkyPSIxNzAiIHN0cm9rZT0iI0ZGRTdCQSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CiAgPGxpbmUgeDE9IjIyMiIgeTE9IjE3MCIgeDI9IjIzNSIgeTI9IjE3MCIgc3Ryb2tlPSIjRkZFN0JBIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz4KICA8bGluZSB4MT0iMTc1IiB5MT0iMTQ1IiB4Mj0iMTg0IiB5Mj0iMTU0IiBzdHJva2U9IiNGRkU3QkEiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CiAgPGxpbmUgeDE9IjIyNSIgeTE9IjE0NSIgeDI9IjIxNiIgeTI9IjE1NCIgc3Ryb2tlPSIjRkZFN0JBIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgogIDxsaW5lIHgxPSIxNzUiIHkxPSIxOTUiIHgyPSIxODQiIHkyPSIxODYiIHN0cm9rZT0iI0ZGRTdCQSIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz4KICA8bGluZSB4MT0iMjI1IiB5MT0iMTk1IiB4Mj0iMjE2IiB5Mj0iMTg2IiBzdHJva2U9IiNGRkU3QkEiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiIC8+CgogIDwhLS0gQ8WTdXIgbWluaWF0dXJlIGTDqWxpY2F0IGZsb3R0YW50IGF1LWRlc3N1cyAtLT4KICA8cGF0aCBkPSJNMjAwLDEwNSBDMTk2LDk2IDE4NSw5NiAxODIsMTAzIEMxNzgsMTEyIDIwMCwxMjUgMjAwLDEyNSBDMjAwLDEyNSAyMjIsMTEyIDIxOCwxMDMgQzIxNSw5NiAyMDQsOTYgMjAwLDEwNSBaIiAKICAgICAgICBmaWxsPSIjRkY3ODc1IiBvcGFjaXR5PSIwLjkiIC8+CgogIDwhLS0gQ2FydG91Y2hlIC8gQmFkZ2UgZHUgYmFzIC0tPgogIDxyZWN0IHg9IjUwIiB5PSIzMjUiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDQiIHJ4PSIxNCIgZmlsbD0iIzIwMTAwOCIgc3Ryb2tlPSIjQzg5QjNDIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLW9wYWNpdHk9IjAuNiIgLz4KICA8dGV4dCB4PSIyMDAiIHk9IjM0NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRTZBMyIgbGV0dGVyLXNwYWNpbmc9IjEiPkpPVVIgRFUgVFJBTlNGRVJUIMK3IEZFVDwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5LjUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNEOEJFOUIiPkwnw6l0aW5jZWxsZSBkZSB2aWUgdHJvdXZlIHNvbiBjb2NvbjwvdGV4dD4KPC9zdmc+Cg==",
+                stageFr: "Étape 4 · 31 Octobre 2026 (Midi)",
+                stageEn: "Step 4 · October 31, 2026 (Noon)",
+                titleFr: "Transfert FET · Implantation Guidée",
+                titleEn: "FET Transfer · Ultrasound-Guided Implantation",
+                descFr: "Guidage échographique abdominal révélant le dépôt précis du cathéter souple au centre du tiers supérieur de la cavité utérine.",
+                descEn: "Abdominal ultrasound guidance showing delicate placement of the soft catheter in the upper third of the uterine cavity."
+            },
+            betahcg: {
+                src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iaGNnQmciIGN4PSI1MCUiIGN5PSI0MCUiIHI9IjY1JSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiMzNjFEMTUiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNjAlIiBzdG9wLWNvbG9yPSIjMjAxMDBCIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwRTA2MDMiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJzdGlja0dyYWQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkRGOSIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI3MCUiIHN0b3AtY29sb3I9IiNGMkVGRTkiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI0RERDZDQyIgLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8bGluZWFyR3JhZGllbnQgaWQ9InBpbmtMaW5lIiB4MT0iMCUiIHkxPSIwJSIgeDI9IjAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNGRjRENEYiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjRkY3ODc1IiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNDRjEzMjIiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkU3Ryb2tlNCIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQUQ1OUEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjQzg5QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3QjU0MUMiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPCEtLSBGb25kIC0tPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9InVybCgjaGNnQmcpIiAvPgogIDxyZWN0IHdpZHRoPSIzOTYiIGhlaWdodD0iMzk2IiB4PSIyIiB5PSIyIiByeD0iMjIiIGZpbGw9Im5vbmUiIHN0cm9rZT0idXJsKCNnb2xkU3Ryb2tlNCkiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2Utb3BhY2l0eT0iMC40IiAvPgoKICA8IS0tIFDDqXRhbGVzIGV0IGNvbmZldHRpcyBkb3LDqXMgc3VidGlscyAtLT4KICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjgwIiByPSIyIiBmaWxsPSIjRkZFOEEzIiBvcGFjaXR5PSIwLjQiIC8+CiAgPGNpcmNsZSBjeD0iMzIwIiBjeT0iNzAiIHI9IjIuNSIgZmlsbD0iI0ZGRThBMyIgb3BhY2l0eT0iMC41IiAvPgogIDxjaXJjbGUgY3g9IjkwIiBjeT0iMjcwIiByPSIxLjUiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNCIgLz4KICA8Y2lyY2xlIGN4PSIzMTAiIGN5PSIyODAiIHI9IjIiIGZpbGw9IiNGRkU4QTMiIG9wYWNpdHk9IjAuNSIgLz4KCiAgPCEtLSBDb3Vyb25uZSBmbG9yYWxlIGRlIGPDqWzDqWJyYXRpb24gZG91Y2UgLS0+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTgwIiByPSIxMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzY4NDIyQSIgc3Ryb2tlLXdpZHRoPSIxIiBzdHJva2UtZGFzaGFycmF5PSI4LDYiIG9wYWNpdHk9IjAuNCIgLz4KICA8Y2lyY2xlIGN4PSIyMDAiIGN5PSIxODAiIHI9Ijk1IiBmaWxsPSIjRkZDOTVDIiBvcGFjaXR5PSIwLjA4IiAvPgoKICA8IS0tIFRlc3QgZGUgR3Jvc3Nlc3NlIHN0eWxpc8OpIChiw6J0b25uZXQgw6lwdXLDqSBldCBtb2Rlcm5lKSAtLT4KICA8ZyB0cmFuc2Zvcm09InJvdGF0ZSgtMTUgMjAwIDE4MCkiPgogICAgPCEtLSBPbWJyZSAtLT4KICAgIDxyZWN0IHg9Ijc1IiB5PSIxNjUiIHdpZHRoPSIyNTAiIGhlaWdodD0iNDQiIHJ4PSIyMiIgZmlsbD0iIzBBMDUwMyIgb3BhY2l0eT0iMC40IiBmaWx0ZXI9ImJsdXIoNHB4KSIgLz4KICAgIDwhLS0gQ29ycHMgZHUgdGVzdCAtLT4KICAgIDxyZWN0IHg9IjcwIiB5PSIxNjAiIHdpZHRoPSIyNjAiIGhlaWdodD0iNDAiIHJ4PSIyMCIgZmlsbD0idXJsKCNzdGlja0dyYWQpIiBzdHJva2U9IiNDODlCM0MiIHN0cm9rZS13aWR0aD0iMS41IiAvPgogICAgPCEtLSBFbWJvdXQgZ3JpcCBvciByb3PDqSAtLT4KICAgIDxwYXRoIGQ9Ik03MCwxODAgQTIwLDIwIDAgMCwxIDExMCwxNjAgTDExMCwyMDAgQTIwLDIwIDAgMCwxIDcwLDE4MCBaIiBmaWxsPSIjRDQ4QjdBIiBvcGFjaXR5PSIwLjg1IiAvPgogICAgPGNpcmNsZSBjeD0iOTAiIGN5PSIxODAiIHI9IjMiIGZpbGw9IiNGRkZGRkYiIG9wYWNpdHk9IjAuOCIgLz4KCiAgICA8IS0tIEZlbsOqdHJlIGRlIGxlY3R1cmUgLS0+CiAgICA8cmVjdCB4PSIxNDUiIHk9IjE2OCIgd2lkdGg9Ijg1IiBoZWlnaHQ9IjI0IiByeD0iNiIgZmlsbD0iI0ZGRkZGRiIgc3Ryb2tlPSIjRTBENkM4IiBzdHJva2Utd2lkdGg9IjEiIC8+CiAgICAKICAgIDwhLS0gREVVWCBMSUdORVMgUk9TRVMgVklWRVMgKFRlc3QgUG9zaXRpZikgLS0+CiAgICA8bGluZSB4MT0iMTcyIiB5MT0iMTcyIiB4Mj0iMTcyIiB5Mj0iMTg4IiBzdHJva2U9InVybCgjcGlua0xpbmUpIiBzdHJva2Utd2lkdGg9IjMuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiAvPgogICAgPGxpbmUgeDE9IjIwMiIgeTE9IjE3MiIgeDI9IjIwMiIgeTI9IjE4OCIgc3Ryb2tlPSJ1cmwoI3BpbmtMaW5lKSIgc3Ryb2tlLXdpZHRoPSIzLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgLz4KICAgIAogICAgPCEtLSBDxZN1ciBzY2ludGlsbGFudCBlbnRyZSBsZXMgbGlnbmVzIC0tPgogICAgPGNpcmNsZSBjeD0iMTg3IiBjeT0iMTgwIiByPSIyIiBmaWxsPSIjRkY3ODc1IiAvPgoKICAgIDwhLS0gUGV0aXQgY2FwdWNob24gZmluIC0tPgogICAgPHJlY3QgeD0iMzA1IiB5PSIxNjYiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyOCIgcng9IjYiIGZpbGw9IiNDODlCM0MiIG9wYWNpdHk9IjAuNyIgLz4KICA8L2c+CgogIDwhLS0gSW5zY3JpcHRpb24gZGUgY29uZmlybWF0aW9uIELDqnRhLWhDRyAtLT4KICA8cmVjdCB4PSIxMjAiIHk9Ijg1IiB3aWR0aD0iMTYwIiBoZWlnaHQ9IjMwIiByeD0iMTUiIGZpbGw9IiMyMDEwMDgiIHN0cm9rZT0iIzUyQzQxQSIgc3Ryb2tlLXdpZHRoPSIxLjIiIC8+CiAgPHRleHQgeD0iMjAwIiB5PSIxMDQiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iMTEiIGZvbnQtd2VpZ2h0PSI4MDAiIGZpbGw9IiM3M0QxM0QiIGxldHRlci1zcGFjaW5nPSIxIj7inJMgQsOKVEEtaENHIFBPU0lUSUY8L3RleHQ+CgogIDwhLS0gQ2FydG91Y2hlIC8gQmFkZ2UgZHUgYmFzIC0tPgogIDxyZWN0IHg9IjUwIiB5PSIzMjUiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDQiIHJ4PSIxNCIgZmlsbD0iIzIwMTAwOCIgc3Ryb2tlPSIjQzg5QjNDIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLW9wYWNpdHk9IjAuNiIgLz4KICA8dGV4dCB4PSIyMDAiIHk9IjM0NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRTZBMyIgbGV0dGVyLXNwYWNpbmc9IjEiPkNPTkZJUk1BVElPTiBHUk9TU0VTU0U8L3RleHQ+CiAgPHRleHQgeD0iMjAwIiB5PSIzNTgiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSItYXBwbGUtc3lzdGVtLCBCbGlua01hY1N5c3RlbUZvbnQsIHNhbnMtc2VyaWYiIGZvbnQtc2l6ZT0iOS41IiBmb250LXdlaWdodD0iNTAwIiBmaWxsPSIjRDhCRTlCIj5MZXMgZGV1eCBsaWduZXMgdGFudCBhdHRlbmR1ZXMgYnJpbGxlbnQ8L3RleHQ+Cjwvc3ZnPgo=",
+                stageFr: "Étape 5 · 08 Novembre 2026 (07h30)",
+                stageEn: "Step 5 · November 8, 2026 (07:30 AM)",
+                titleFr: "Prise de Sang Bêta-hCG · Confirmation Grossesse",
+                titleEn: "Beta-hCG Blood Test · Pregnancy Confirmation",
+                descFr: "Dosage sérique officiel révélant la présence de l'hormone chorionique gonadotrope humaine (hCG), attestant d'une nidation active.",
+                descEn: "Official serum test confirming human chorionic gonadotropin (hCG), confirming active implantation and early pregnancy."
+            },
+            ultrasound: {
+                src: "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0MDAgNDAwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIj4KICA8ZGVmcz4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iZWNob0JnIiBjeD0iNTAlIiBjeT0iNDAlIiByPSI2NSUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMkQxQzEzIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjYwJSIgc3RvcC1jb2xvcj0iIzFBMEQwNyIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjMEIwNDAyIiAvPgogICAgPC9yYWRpYWxHcmFkaWVudD4KICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iaGVhcnRQdWxzZSIgY3g9IjUwJSIgY3k9IjUwJSIgcj0iNTAlIj4KICAgICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI0ZGRkZGRiIgLz4KICAgICAgPHN0b3Agb2Zmc2V0PSI0MCUiIHN0b3AtY29sb3I9IiNGRjc4NzUiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iODAlIiBzdG9wLWNvbG9yPSIjQ0YxMzIyIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM0OTBFMDgiIC8+CiAgICA8L3JhZGlhbEdyYWRpZW50PgogICAgPGxpbmVhckdyYWRpZW50IGlkPSJnb2xkU3Ryb2tlNSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+CiAgICAgIDxzdG9wIG9mZnNldD0iMCUiIHN0b3AtY29sb3I9IiNFQUQ1OUEiIC8+CiAgICAgIDxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjQzg5QjNDIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiM3QjU0MUMiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KCiAgPCEtLSBGb25kIC0tPgogIDxyZWN0IHdpZHRoPSI0MDAiIGhlaWdodD0iNDAwIiByeD0iMjQiIGZpbGw9InVybCgjZWNob0JnKSIgLz4KICA8cmVjdCB3aWR0aD0iMzk2IiBoZWlnaHQ9IjM5NiIgeD0iMiIgeT0iMiIgcng9IjIyIiBmaWxsPSJub25lIiBzdHJva2U9InVybCgjZ29sZFN0cm9rZTUpIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLW9wYWNpdHk9IjAuNCIgLz4KCiAgPCEtLSBPbmRlcyBkZSBiYXR0ZW1lbnRzIGNhcmRpYXF1ZXMgKERvcHBsZXIpIC0tPgogIDxwYXRoIGQ9Ik03MCwyNjAgTDE0MCwyNjAgTDE1MCwyNDAgTDE2MCwyODUgTDE3NSwyMTUgTDE5MCwyOTUgTDIwMCwyNDUgTDIxMCwyNjAgTDMzMCwyNjAiIAogICAgICAgIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGQTk0MCIgc3Ryb2tlLXdpZHRoPSIyLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgb3BhY2l0eT0iMC44IiAvPgoKICA8IS0tIFNhYyBnZXN0YXRpb25uZWwgJiBlbWJyeW9uIC0tPgogIDxlbGxpcHNlIGN4PSIyMDAiIGN5PSIxNTUiIHJ4PSI3NSIgcnk9IjYwIiBmaWxsPSIjMTQwODA0IiBzdHJva2U9IiM3QTRCMkUiIHN0cm9rZS13aWR0aD0iMiIgLz4KICA8IS0tIFbDqXNpY3VsZSB2aXRlbGxpbmUgLS0+CiAgPGNpcmNsZSBjeD0iMTc1IiBjeT0iMTYwIiByPSIxNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjRkZFN0JBIiBzdHJva2Utd2lkdGg9IjEuOCIgb3BhY2l0eT0iMC44NSIgLz4KICAKICA8IS0tIFBldGl0IGVtYnJ5b24gLS0+CiAgPHBhdGggZD0iTTE5NSwxNDAgQzIxNSwxNDAgMjI1LDE2MCAyMTUsMTc1IEMyMDUsMTg1IDE5MCwxNzUgMTk1LDE2NSBaIiBmaWxsPSIjRkZFNThGIiBvcGFjaXR5PSIwLjkiIC8+CgogIDwhLS0gQ8WTdXIgY2xpZ25vdGFudCAvIGJhdHRhbnQgZW4gcHVsc2F0aW9uIC0tPgogIDxjaXJjbGUgY3g9IjIwMiIgY3k9IjE1NSIgcj0iOSIgZmlsbD0idXJsKCNoZWFydFB1bHNlKSIgLz4KICA8Y2lyY2xlIGN4PSIyMDIiIGN5PSIxNTUiIHI9IjE4IiBmaWxsPSJub25lIiBzdHJva2U9IiNGRjRENEYiIHN0cm9rZS13aWR0aD0iMS41IiBvcGFjaXR5PSIwLjYiIHN0cm9rZS1kYXNoYXJyYXk9IjMsMyIgLz4KCiAgPCEtLSBSeXRobWUgY2FyZGlhcXVlIC8gQlBNIGJhZGdlIC0tPgogIDxyZWN0IHg9IjEzNSIgeT0iNzAiIHdpZHRoPSIxMzAiIGhlaWdodD0iMjYiIHJ4PSIxMyIgZmlsbD0iIzIwMTAwOCIgc3Ryb2tlPSIjRkZBOTQwIiBzdHJva2Utd2lkdGg9IjEuMiIgLz4KICA8dGV4dCB4PSIyMDAiIHk9Ijg3IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmb250LWZhbWlseT0iLWFwcGxlLXN5c3RlbSwgQmxpbmtNYWNTeXN0ZW1Gb250LCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjEwIiBmb250LXdlaWdodD0iODAwIiBmaWxsPSIjRkZFNThGIiBsZXR0ZXItc3BhY2luZz0iMSI+4pmlIDE0NSBCUE0gwrcgQUNUSUY8L3RleHQ+CgogIDwhLS0gQ2FydG91Y2hlIC8gQmFkZ2UgZHUgYmFzIC0tPgogIDxyZWN0IHg9IjUwIiB5PSIzMjUiIHdpZHRoPSIzMDAiIGhlaWdodD0iNDQiIHJ4PSIxNCIgZmlsbD0iIzIwMTAwOCIgc3Ryb2tlPSIjQzg5QjNDIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLW9wYWNpdHk9IjAuNiIgLz4KICA8dGV4dCB4PSIyMDAiIHk9IjM0NCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSIxMiIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI0ZGRTZBMyIgbGV0dGVyLXNwYWNpbmc9IjEiPjHDiFJFIMOJQ0hPR1JBUEhJRSBEVSBDxZJVUjwvdGV4dD4KICA8dGV4dCB4PSIyMDAiIHk9IjM1OCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9Ii1hcHBsZS1zeXN0ZW0sIEJsaW5rTWFjU3lzdGVtRm9udCwgc2Fucy1zZXJpZiIgZm9udC1zaXplPSI5LjUiIGZvbnQtd2VpZ2h0PSI1MDAiIGZpbGw9IiNEOEJFOUIiPkwnw6ltb3Rpb24gcHVyZSBkZXMgcHJlbWllcnMgYmF0dGVtZW50czwvdGV4dD4KPC9zdmc+Cg==",
+                stageFr: "Étape 7 · 22 Novembre 2026 (09h30)",
+                stageEn: "Step 7 · November 22, 2026 (09:30 AM)",
+                titleFr: "1ère Échographie · 6-7 SA · Battement Cardiaque",
+                titleEn: "1st Ultrasound · 6-7 Weeks · Fetal Heartbeat",
+                descFr: "Visuel échographique obstétrical révélant le sac gestationnel intra-utérin avec l'écho embryonnaire et son activité cardiaque rythmée.",
+                descEn: "Obstetric ultrasound revealing the intrauterine gestational sac with embryonic pole and rhythmic fetal cardiac activity."
+            }
+        };
+
+        function openLightbox(key) {
+            const item = galleryData[key];
+            if (!item) return;
+            document.getElementById('modal-img').src = item.src;
+            document.getElementById('modal-stage').textContent = currentLang === 'fr' ? item.stageFr : item.stageEn;
+            document.getElementById('modal-title').textContent = currentLang === 'fr' ? item.titleFr : item.titleEn;
+            document.getElementById('modal-desc').textContent = currentLang === 'fr' ? item.descFr : item.descEn;
+            document.getElementById('lightbox-modal').classList.add('open');
+        }
+
+        function closeLightbox(e) {
+            document.getElementById('lightbox-modal').classList.remove('open');
+        }
+
+        // Initialize state on load
+        const videoChapters = [
+            { time: "00:00:01", emoji: "🥚", title: "Fécondation & Blastocyste", desc: "Après la fécondation, le blastocyste subit une grande division, se séparant en deux masses de cellules." },
+            { time: "00:00:13", emoji: "🌱", title: "Masse Interne & Placenta", desc: "La masse interne deviendra votre bébé, tandis que la masse externe s'enfoncera profondément dans la paroi utérine pour devenir le placenta." },
+            { time: "00:00:19", emoji: "🦐", title: "Forme de Têtard & Organogenèse", desc: "Votre bébé s'allonge, passant d'une boule de cellules à une forme semblable à un têtard. Tous les systèmes majeurs se forment à partir de zéro." },
+            { time: "00:00:28", emoji: "💓", title: "Cœur Primitif", desc: "Dès cette semaine, un cœur primitif commence à se former." },
+            { time: "00:00:40", emoji: "🧬", title: "Tube Digestif & Organes", desc: "Un tube s'étendant de la bouche à la queue se transformera en estomac, foie, pancréas, œsophage et intestins." },
+            { time: "00:00:53", emoji: "😊", title: "Visage & Traits", desc: "La tête développe la mâchoire, les joues et le menton. De petits points formeront les yeux et le petit nez." },
+            { time: "00:01:12", emoji: "🫁", title: "Reins, Foie, Poumons & Cœur", desc: "Les reins, le foie et les poumons ainsi que le petit cœur prennent forme cette semaine." },
+            { time: "00:01:30", emoji: "🖐️", title: "Bourgeons des Membres", desc: "Les bourgeons s'allongent en épaules, bras, jambes et genoux avec de minuscules doigts et orteils." },
+            { time: "00:02:08", emoji: "🛡️", title: "Cordon Ombilical & Nutrition", desc: "Le placenta continue de fournir les nutriments et l'oxygène nécessaires via le cordon ombilical." },
+            { time: "00:03:07", emoji: "❤️", title: "Cœur à 4 Chambres", desc: "Le cœur est désormais pleinement fonctionnel avec quatre chambres (deux ventricules, deux oreillettes)." },
+            { time: "00:04:20", emoji: "🍊", title: "Semaine 14 · Taille d'une Orange Sanguine", desc: "Mesurant entre 9 et 10 cm et pesant environ 57 g (taille d'une orange sanguine)." },
+            { time: "00:05:08", emoji: "👶", title: "Semaine 16 · Expressions & Graisse", desc: "La graisse corporelle se forme sous une peau translucide. Réflexes de succion et cœur à 140-150 BPM." },
+            { time: "00:05:38", emoji: "🧠", title: "Semaine 18 · Système Nerveux", desc: "Les neurones se développent pour le toucher, le goût, l'odorat, la vue et l'ouïe." },
+            { time: "00:06:28", emoji: "💧", title: "Semaine 21 · Liquide Amniotique", desc: "Votre bébé avale du liquide amniotique chaque jour pour s'hydrater et s'entraîner." },
+            { time: "00:08:03", emoji: "🌙", title: "Semaine 24 · Cycles Veille/Sommeil", desc: "Le bébé développe ses propres cycles de veille et de sommeil avec cils, sourcils et cheveux." },
+            { time: "00:09:44", emoji: "💤", title: "Semaine 28 · Sommeil Paradoxal (REM)", desc: "Activité cérébrale montrant différents cycles de sommeil, y compris la phase REM où surviennent les rêves." },
+            { time: "00:13:00", emoji: "🐣", title: "Semaine 37 · Répétition de Naissance", desc: "Le bébé répète sa grande entrée en simulant la respiration, la succion et les mouvements." },
+            { time: "00:14:04", emoji: "🎉", title: "Semaine 40 · Terme & Naissance", desc: "Le voyage de la grossesse s'achève. Le bébé est totalement prêt. Félicitations, vous êtes maman !" }
+        ];
+
+        let currentChapterIdx = 0;
+        let isPlaying = false;
+        let playTimer = null;
+
+        function renderChapters() {
+            const list = document.getElementById('video-chapters-list');
+            if (!list) return;
+            list.innerHTML = videoChapters.map((ch, idx) => `
+                <div onclick="jumpToChapter(${idx})" style="display: flex; align-items: center; gap: 10px; background: ${idx === currentChapterIdx ? '#FAF0E6' : '#FFFFFF'}; border: 1.5px solid ${idx === currentChapterIdx ? 'var(--brown-primary)' : 'var(--line-subtle)'}; border-radius: 10px; padding: 8px 12px; cursor: pointer; transition: all 0.2s;">
+                    <span style="font-size: 18px;">${ch.emoji}</span>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 12px; font-weight: 800; color: var(--brown-dark);">${ch.title}</span>
+                            <span style="font-size: 10.5px; font-weight: 800; color: var(--brown-primary); background: var(--brown-soft); padding: 1px 6px; border-radius: 6px;">⏱️ ${ch.time}</span>
+                        </div>
+                        <div style="font-size: 11px; color: var(--muted); margin-top: 1px; line-height: 1.3;">${ch.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function jumpToChapter(idx) {
+            currentChapterIdx = idx;
+            const ch = videoChapters[idx];
+            document.getElementById('vid-time-display').textContent = `⏱️ ${ch.time} · ${ch.title}`;
+            document.getElementById('vid-center-emoji').textContent = ch.emoji + " ✨";
+            document.getElementById('vid-current-title').textContent = ch.title;
+            document.getElementById('vid-current-text').textContent = ch.desc;
+            const progress = ((idx + 1) / videoChapters.length) * 100;
+            document.getElementById('video-progress-bar').style.width = progress + '%';
+            renderChapters();
+        }
+
+        function togglePlayVideo() {
+            isPlaying = !isPlaying;
+            const btn = document.getElementById('play-pause-btn');
+            const status = document.getElementById('player-status-text');
+            if (isPlaying) {
+                btn.textContent = '⏸';
+                status.textContent = currentLang === 'fr' ? 'Lecture en cours (3D HD)' : 'Playing (3D HD)';
+                playTimer = setInterval(() => {
+                    currentChapterIdx = (currentChapterIdx + 1) % videoChapters.length;
+                    jumpToChapter(currentChapterIdx);
+                }, 4000);
+            } else {
+                btn.textContent = '▶';
+                status.textContent = currentLang === 'fr' ? 'Pause' : 'Paused';
+                clearInterval(playTimer);
+            }
+        }
+
+        function seekVideo(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            const idx = Math.floor(pos * videoChapters.length);
+            jumpToChapter(Math.max(0, Math.min(idx, videoChapters.length - 1)));
+        }
+
+        // Share Cycle Summary Function (SMS or E-mail or Web Share)
+        function shareCycleSummary() {
+            const summaryText = currentLang === 'fr' 
+                ? "Mon Parcours FIV · Fatou ♥ (RMA New York)\n- Cycles entamés : 1\n- Cycles réussis / en cours : 1\n- Total blastocystes : 8\n- Embryons sains (PGT-A) : 5 (62.5%)\n- Embryons anormaux : 3 (37.5%)\n- Statut actuel : En route vers la grossesse & transfert FET !"
+                : "My IVF Journey · Fatou ♥ (RMA New York)\n- Cycles started: 1\n- Successful cycles: 1\n- Total blastocysts: 8\n- Normal embryos (PGT-A): 5 (62.5%)\n- Abnormal embryos: 3 (37.5%)\n- Current status: En route to pregnancy & FET!";
+            
+            if (navigator.share) {
+                navigator.share({
+                    title: 'Résumé du Parcours FIV · Fatou',
+                    text: summaryText,
+                    url: window.location.href
+                }).catch(() => {});
+            } else {
+                const choice = prompt(currentLang === 'fr' ? "Partager par :\n1. E-mail\n2. SMS\nTapez 1 ou 2 :" : "Share via:\n1. Email\n2. SMS\nType 1 or 2:", "1");
+                if (choice === "1") {
+                    window.location.href = `mailto:?subject=${encodeURIComponent("Résumé de mon Parcours FIV")}&body=${encodeURIComponent(summaryText)}`;
+                } else if (choice === "2") {
+                    window.location.href = `sms:?body=${encodeURIComponent(summaryText)}`;
+                }
+            }
+        }
+
+        // 3D Video Modal Controller
+        function open3DVideoModal() {
+            document.getElementById('vid-modal-overlay').classList.add('open');
+            renderModalChapters();
+        }
+
+        function close3DVideoModal(e) {
+            document.getElementById('vid-modal-overlay').classList.remove('open');
+            isPlayingModal = false;
+            clearInterval(modalPlayTimer);
+        }
+
+        let isPlayingModal = false;
+        let modalPlayTimer = null;
+        let modalChapterIdx = 0;
+
+        function renderModalChapters() {
+            const list = document.getElementById('modal-video-chapters-list');
+            if (!list) return;
+            list.innerHTML = videoChapters.map((ch, idx) => `
+                <div onclick="jumpModalChapter(${idx})" style="display: flex; align-items: center; gap: 10px; background: ${idx === modalChapterIdx ? '#2C1D14' : '#18100C'}; border: 1px solid ${idx === modalChapterIdx ? '#C89B3C' : 'rgba(255,255,255,0.1)'}; border-radius: 8px; padding: 8px 12px; cursor: pointer;">
+                    <span style="font-size: 18px;">${ch.emoji}</span>
+                    <div style="flex: 1;">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 11.5px; font-weight: 800; color: #FFF;">${ch.title}</span>
+                            <span style="font-size: 10px; font-weight: 800; color: #FFDF7D; background: rgba(205,155,60,0.2); padding: 1px 6px; border-radius: 6px;">⏱️ ${ch.time}</span>
+                        </div>
+                        <div style="font-size: 10.5px; color: #A99B93; margin-top: 1px;">${ch.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function jumpModalChapter(idx) {
+            modalChapterIdx = idx;
+            const ch = videoChapters[idx];
+            document.getElementById('modal-vid-time-display').textContent = `⏱️ ${ch.time} · ${ch.title}`;
+            document.getElementById('modal-vid-center-emoji').textContent = ch.emoji + " ✨";
+            document.getElementById('modal-vid-current-title').textContent = ch.title;
+            document.getElementById('modal-vid-current-text').textContent = ch.desc;
+            const progress = ((idx + 1) / videoChapters.length) * 100;
+            document.getElementById('modal-video-progress').style.width = progress + '%';
+            renderModalChapters();
+        }
+
+        function toggleModalPlayVideo() {
+            isPlayingModal = !isPlayingModal;
+            const btn = document.getElementById('modal-play-btn');
+            if (isPlayingModal) {
+                btn.textContent = '⏸';
+                modalPlayTimer = setInterval(() => {
+                    modalChapterIdx = (modalChapterIdx + 1) % videoChapters.length;
+                    jumpModalChapter(modalChapterIdx);
+                }, 4000);
+            } else {
+                btn.textContent = '▶';
+                clearInterval(modalPlayTimer);
+            }
+        }
+
+        function seekModalVideo(e) {
+            const rect = e.currentTarget.getBoundingClientRect();
+            const pos = (e.clientX - rect.left) / rect.width;
+            const idx = Math.floor(pos * videoChapters.length);
+            jumpModalChapter(Math.max(0, Math.min(idx, videoChapters.length - 1)));
+        }
+
+        function initApp() {
+            renderChapters();
+            // Restore checklist items
+            ['chk_1', 'chk_2', 'chk_3', 'chk_4', 'chk_5', 'chk_6'].forEach(id => {
+                const s = SafeStorage.getItem('brown_chk_' + id);
+                if (s !== null) {
+                    const row = document.querySelector(`.check-item[onclick*="${id}"]`);
+                    if (row) {
+                        if (s === '1') row.classList.add('checked');
+                        else row.classList.remove('checked');
+                    }
+                }
+            });
+
+            // Restore draft and mood
+            const draft = SafeStorage.getItem('brown_draft');
+            if (draft && notesArea) notesArea.value = draft;
+
+            const savedMood = SafeStorage.getItem('brown_mood');
+            if (savedMood) {
+                currentMood = savedMood;
+                document.querySelectorAll('#mood-box .mood-pill').forEach(b => {
+                    if (b.textContent.trim() === savedMood) b.classList.add('active');
+                    else b.classList.remove('active');
+                });
+            }
+
+            renderNotesFeed();
+            updateDayCounter();
+        }
+
+        function updateDayCounter() {
+            const startDate = new Date('2026-09-21T00:00:00');
+            const today = new Date();
+            const diffTime = today - startDate;
+            const diffDays = Math.max(0, Math.floor(diffTime / (1000 * 60 * 60 * 24)));
+            const counterEl = document.getElementById('dynamic-day-counter');
+            if (counterEl) {
+                counterEl.textContent = diffDays;
+            }
+        }
+
+
+        // Interactive Calendar Date Filter Functions
+        function filterMilestonesByDate(dateVal) {
+            if (!dateVal) return;
+            const allSteps = document.querySelectorAll('.step-item');
+            let matchCount = 0;
+            const [y, m, d] = dateVal.split('-');
+            const monthsFr = ["", "janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."];
+            const monthName = monthsFr[parseInt(m, 10)];
+            const dayNum = parseInt(d, 10);
+
+            allSteps.forEach(step => {
+                const dateChip = step.querySelector('.chip-date');
+                if (dateChip) {
+                    const txt = dateChip.textContent.toLowerCase();
+                    if (txt.includes(dayNum) && txt.includes(monthName)) {
+                        step.style.display = 'flex';
+                        matchCount++;
+                    } else {
+                        step.style.display = 'none';
+                    }
+                }
+            });
+            const badge = document.getElementById('proto-badge');
+            if (badge) badge.textContent = `${matchCount} Jalon(s) filtré(s)`;
+        }
+
+        function resetDateFilter() {
+            const allSteps = document.querySelectorAll('.step-item');
+            allSteps.forEach(step => {
+                step.style.display = 'flex';
+            });
+            const picker = document.getElementById('calendar-filter-input');
+            if (picker) picker.value = '';
+            const t = i18n[currentLang];
+            const isSept = document.getElementById('tab-sept').classList.contains('active');
+            const badge = document.getElementById('proto-badge');
+            if (badge) badge.textContent = isSept ? t.badgeSept : t.badgeUp;
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initApp);
+        } else {
+            initApp();
+        }
+    </script>
+
+    <!-- Firebase Firestore Real-Time Sync & updateDoc Module -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            projectId: "ai-studio-android-monparco-954f7141-72d8-4b7f-80af-71d7d1a63a2e",
+            databaseId: "ai-studio-android-monparco-954f7141-72d8-4b7f-80af-71d7d1a63a2e"
+        };
+
+        try {
+            const app = initializeApp(firebaseConfig);
+            const db = getFirestore(app);
+
+            window.db = db;
+            window.firestoreCollection = collection;
+            window.firestoreAddDoc = addDoc;
+            window.firestoreUpdateDoc = updateDoc;
+            window.firestoreDeleteDoc = deleteDoc;
+            window.firestoreDoc = doc;
+
+            const q = query(collection(db, "journal"), orderBy("timestamp", "desc"));
+            onSnapshot(q, (snapshot) => {
+                window.journalEntriesFromFirebase = [];
+                snapshot.forEach((document) => {
+                    window.journalEntriesFromFirebase.push({
+                        docId: document.id, // unique Firebase document ID (doc.id)
+                        ...document.data()
+                    });
+                });
+                if (typeof renderNotesFeed === 'function') {
+                    renderNotesFeed();
+                }
+            }, (error) => {
+                console.warn("Firestore onSnapshot notice:", error);
+            });
+        } catch (e) {
+            console.warn("Firebase module init notice:", e);
+        }
+    </script>
+
+    <!-- Recharts Circular Chart Render Script -->
+    <script type="text/babel">
+        const { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } = Recharts;
+        const embryoData = [
+            { name: 'Sains (Euploïdes)', value: 5, color: '#2B7853' },
+            { name: 'Anormaux / Autres', value: 3, color: '#C08A3E' }
+        ];
+
+        function EmbryoRechartsPie() {
+            return (
+                <div style={{ width: '100%', height: '100%' }}>
+                    <ResponsiveContainer>
+                        <PieChart>
+                            <Pie
+                                data={embryoData}
+                                cx="50%"
+                                cy="50%"
+                                innerRadius={45}
+                                outerRadius={70}
+                                paddingAngle={5}
+                                dataKey="value"
+                            >
+                                {embryoData.map((entry, index) => (
+                                    <Cell key={`cell-${index}`} fill={entry.color} />
+                                ))}
+                            </Pie>
+                            <Tooltip />
+                        </PieChart>
+                    </ResponsiveContainer>
+                </div>
+            );
+        }
+
+        const rootEl = document.getElementById('recharts-embryo-pie');
+        if (rootEl) {
+            ReactDOM.createRoot(rootEl).render(<EmbryoRechartsPie />);
+        }
+    </script>
+</body>
+</html>

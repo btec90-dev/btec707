@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Build
 import android.webkit.CookieManager
 import android.webkit.JavascriptInterface
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
 import android.webkit.WebSettings
 import android.webkit.WebView
 import android.webkit.WebViewClient
@@ -24,12 +26,12 @@ class AndroidBridge(private val onDataReceived: (String) -> Unit) {
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun WebViewScreen(url: String = "https://ais-dev-aotcacp2lpsk4r5vjbwdxk-462628439757.us-east1.run.app") {
+fun WebViewScreen(url: String = "https://btec707-git-main-suivi-protocole.vercel.app/") {
     var webViewRef by remember { mutableStateOf<WebView?>(null) }
     var lastReceivedMessage by remember { mutableStateOf<String?>(null) }
 
     Column(modifier = Modifier.fillMaxSize()) {
-        // Control bar for evaluateJavascript demonstration
+        // Control bar for evaluateJavascript demonstration & status
         Surface(
             modifier = Modifier.fillMaxWidth(),
             color = MaterialTheme.colorScheme.surfaceVariant,
@@ -43,7 +45,7 @@ fun WebViewScreen(url: String = "https://ais-dev-aotcacp2lpsk4r5vjbwdxk-46262843
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = if (lastReceivedMessage != null) "Bridge: $lastReceivedMessage" else "WebView Synchronisée",
+                    text = if (lastReceivedMessage != null) "Bridge: $lastReceivedMessage" else "WebView · Mon Parcours Vercel",
                     style = MaterialTheme.typography.bodySmall
                 )
                 Button(
@@ -70,6 +72,8 @@ fun WebViewScreen(url: String = "https://ais-dev-aotcacp2lpsk4r5vjbwdxk-46262843
                     settings.useWideViewPort = true
                     settings.loadsImagesAutomatically = true
                     settings.databaseEnabled = true
+                    settings.allowFileAccess = true
+                    settings.allowContentAccess = true
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                     }
@@ -85,6 +89,17 @@ fun WebViewScreen(url: String = "https://ais-dev-aotcacp2lpsk4r5vjbwdxk-46262843
                         override fun shouldOverrideUrlLoading(view: WebView?, url: String?): Boolean {
                             url?.let { view?.loadUrl(it) }
                             return true
+                        }
+
+                        override fun onReceivedError(
+                            view: WebView?,
+                            request: WebResourceRequest?,
+                            error: WebResourceError?
+                        ) {
+                            super.onReceivedError(view, request, error)
+                            if (request?.isForMainFrame == true) {
+                                view?.loadUrl("file:///android_asset/index.html")
+                            }
                         }
                     }
 
