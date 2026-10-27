@@ -122,6 +122,7 @@ tailwind.config = {
       <!-- CALQUE 1 : MORPHOLOGIE 3D MULTI-STADES S1-S40 CROSSFADE FLUIDE -->
       <div class="absolute inset-0 w-full h-full flex items-center justify-center z-5 opacity-100 transition-opacity duration-500" id="morphologyLayer">
         <div class="relative w-full h-full flex items-center justify-center overflow-hidden">
+          <canvas id="realWombCanvas" class="absolute inset-0 w-full h-full z-25 object-cover pointer-events-none"></canvas>
           <img alt="Évolution fœtale stade 3D A" class="fetal-screen-img absolute inset-0 w-full h-full object-cover object-center animate-fetal-breath filter brightness-105 contrast-105 select-none pointer-events-none opacity-100 scale-100" id="fetalImageA" src="https://lh3.googleusercontent.com/aida/AEtjO1VSjIOhjSZupuzDXEayV9oxt6ej4BnzRSzsyPSQ8KQp4oomNJOSAA_MW25pv5xYu1Gi2JFdlO3tn9jgglIKxZ2NMQu3WiXMHwIdJcjCyMKyahIptjnVIxBkXE0x015KuiqE6b0rI17ppmMdPcY3HEVsWIce-0hR5Jk2Y62IrzstC7MnKXO8foOA4WzZ99QVXcB6PdyEBhfMWtU4vKuZbU3LT6e_bL0C6RS5tHGTJ_HVRA">
           <img alt="Évolution fœtale stade 3D B" class="fetal-screen-img absolute inset-0 w-full h-full object-cover object-center animate-fetal-breath filter brightness-105 contrast-105 select-none pointer-events-none opacity-0 scale-95" id="fetalImageB" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBNvkb4qjNOZbtbLnBMOlGbIC9sc9BBAFrc186byo8wJgLYeRrZKfQuq3wU_7pCiYT6Vt1hf5XxNjZJdzjPHjr787g4Lt2T0aNUf93u8P8t9FBBSVilWhcf2ZFipFphVCxt10jeSSYnDo1w9Jx7sLUyVbfdht-TKdyUQMLnGSzeVn9_yIlknjDwnxYey0mK3oKRHpo3QHjbEvTBpFYPLH-DP89Ph-xcWzwO-ZP989E1">
           <!-- Effet de liquide amniotique et de lueur utérine -->
@@ -1427,9 +1428,155 @@ document.addEventListener("DOMContentLoaded", () => {
     pollVoicesForAndroid();
     updateSpeechButtonUI();
     updateSoundButtonUI();
+    initRealWombCanvas();
 });
+
+let currentFetalWeek = 1;
+window.setFetalWeek = function(w) {
+    currentFetalWeek = Math.max(1, Math.min(40, w));
+};
+
+function initRealWombCanvas() {
+    const canvas = document.getElementById("realWombCanvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    let animId;
+    let particles = [];
+    for (let i = 0; i < 40; i++) {
+        particles.push({
+            x: Math.random() * window.innerWidth,
+            y: Math.random() * window.innerHeight,
+            r: Math.random() * 3 + 1,
+            speedY: (Math.random() * 0.5 + 0.2) * -1,
+            alpha: Math.random() * 0.5 + 0.2
+        });
+    }
+
+    function resize() {
+        canvas.width = canvas.parentElement.clientWidth || 800;
+        canvas.height = canvas.parentElement.clientHeight || 500;
+    }
+    resize();
+    window.addEventListener("resize", resize);
+
+    let angle = 0;
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        angle += 0.02;
+
+        // Uterine amniotic glow background
+        const cx = canvas.width / 2;
+        const cy = canvas.height / 2;
+        const bgGrad = ctx.createRadialGradient(cx, cy, 20, cx, cy, Math.max(cx, cy));
+        bgGrad.addColorStop(0, 'rgba(92, 59, 36, 0.45)');
+        bgGrad.addColorStop(0.6, 'rgba(45, 27, 14, 0.75)');
+        bgGrad.addColorStop(1, 'rgba(18, 9, 4, 0.95)');
+        ctx.fillStyle = bgGrad;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        // Floating amniotic bubbles
+        ctx.fillStyle = 'rgba(255, 230, 200, 0.35)';
+        particles.forEach(p => {
+            p.y += p.speedY;
+            if (p.y < 0) p.y = canvas.height + 10;
+            ctx.beginPath();
+            ctx.arc(p.x + Math.sin(angle + p.y * 0.01) * 5, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255, 235, 210, ${p.alpha})`;
+            ctx.fill();
+        });
+
+        // Realistic 3D Fetus Rendering based on gestational week (1 to 40)
+        ctx.save();
+        ctx.translate(cx, cy + Math.sin(angle * 0.8) * 8);
+
+        const breathScale = 1 + Math.sin(angle * 1.5) * 0.015;
+        ctx.scale(breathScale, breathScale);
+
+        if (currentFetalWeek <= 4) {
+            // Blastocyst / Zygote stage
+            ctx.beginPath();
+            ctx.arc(0, 0, 30 + currentFetalWeek * 4, 0, Math.PI * 2);
+            const zGrad = ctx.createRadialGradient(-10, -10, 5, 0, 0, 50);
+            zGrad.addColorStop(0, 'rgba(255, 220, 180, 0.9)');
+            zGrad.addColorStop(0.7, 'rgba(212, 163, 96, 0.6)');
+            zGrad.addColorStop(1, 'rgba(92, 59, 36, 0.2)');
+            ctx.fillStyle = zGrad;
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+            ctx.stroke();
+        } else if (currentFetalWeek <= 12) {
+            // Embryonic stage (C-shape curved fetus)
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 45, 65, Math.PI / 6, 0, Math.PI * 2);
+            const eGrad = ctx.createRadialGradient(-15, -20, 10, 0, 0, 75);
+            eGrad.addColorStop(0, 'rgba(245, 205, 175, 0.95)');
+            eGrad.addColorStop(0.6, 'rgba(212, 150, 96, 0.75)');
+            eGrad.addColorStop(1, 'rgba(120, 70, 40, 0.3)');
+            ctx.fillStyle = eGrad;
+            ctx.fill();
+
+            // Head
+            ctx.beginPath();
+            ctx.arc(-20, -35, 25, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(250, 215, 185, 0.95)';
+            ctx.fill();
+
+            // Beating heart glow
+            ctx.beginPath();
+            ctx.arc(5, 5, 8 + Math.sin(angle * 6) * 3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(239, 68, 68, 0.9)';
+            ctx.fill();
+        } else {
+            // Advanced fetal stage (Real baby in womb profile with head, body, limbs, and heart)
+            // Amniotic sac wrapper
+            ctx.beginPath();
+            ctx.ellipse(0, 0, 110 + currentFetalWeek * 0.8, 140 + currentFetalWeek * 1.0, 0, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(255, 220, 180, 0.25)';
+            ctx.lineWidth = 3;
+            ctx.stroke();
+
+            // Fetal Body (C-curved fetal position)
+            ctx.beginPath();
+            ctx.ellipse(10, 20, 55 + currentFetalWeek * 0.5, 75 + currentFetalWeek * 0.6, Math.PI / 12, 0, Math.PI * 2);
+            const fGrad = ctx.createRadialGradient(-20, -30, 20, 0, 0, 120);
+            fGrad.addColorStop(0, 'rgba(255, 222, 196, 0.96)');
+            fGrad.addColorStop(0.65, 'rgba(224, 168, 118, 0.82)');
+            fGrad.addColorStop(1, 'rgba(110, 65, 35, 0.4)');
+            ctx.fillStyle = fGrad;
+            ctx.fill();
+
+            // Fetal Head
+            ctx.beginPath();
+            ctx.arc(-35, -55, 38 + currentFetalWeek * 0.3, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255, 228, 205, 0.98)';
+            ctx.fill();
+
+            // Glowing Pulsing Heart
+            const heartPulse = Math.sin(angle * 8) * 4;
+            ctx.beginPath();
+            ctx.arc(12, 10, 12 + heartPulse, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(244, 63, 94, 0.92)';
+            ctx.shadowColor = 'rgba(244, 63, 94, 0.8)';
+            ctx.shadowBlur = 18;
+            ctx.fill();
+            ctx.shadowBlur = 0; // reset
+
+            // Umbilical Cord
+            ctx.beginPath();
+            ctx.moveTo(12, 10);
+            ctx.bezierCurveTo(45, 50, 70, 90, 95, 120);
+            ctx.strokeStyle = 'rgba(215, 130, 130, 0.7)';
+            ctx.lineWidth = 5;
+            ctx.stroke();
+        }
+
+        ctx.restore();
+
+        animId = requestAnimationFrame(render);
+    }
+    render();
+}
 </script>
-
-
 
 </body></html>
