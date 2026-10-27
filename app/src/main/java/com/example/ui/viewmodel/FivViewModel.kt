@@ -27,7 +27,17 @@ class FivViewModel : ViewModel() {
                 badgeText = "✓ Validé",
                 badgeType = "past",
                 title = "Plan de décongélation terminé",
-                description = "Formulaire indiquant une préférence pour un garçon (« Male »). Sous réserve des résultats PGT-A.",
+                description = "Formulaire soumis via le portail avec préférence pour un garçon (« Male »). Le laboratoire sélectionnera le blastocyste euploïde masculin optimal.",
+                isCompleted = true
+            ),
+            ChecklistItem(
+                id = "chk-pgta",
+                symbol = "🧬",
+                dateText = "25 octobre · Reçu ✓",
+                badgeText = "✓ 5 Normaux",
+                badgeType = "past",
+                title = "Résultats PGT-A reçus (5 euploïdes / 8)",
+                description = "Analyse génétique reçue le 25 oct. : 5 embryons normaux (euploïdes) sur les 8 blastocystes biopsiés.",
                 isCompleted = true
             ),
             ChecklistItem(
@@ -47,27 +57,17 @@ class FivViewModel : ViewModel() {
                 badgeText = "⏳ AUJOURD'HUI",
                 badgeType = "today",
                 title = "Hystérosonographie par perfusion de sérum physiologique (SIS)",
-                description = "RMA East Side. Examen pour évaluer la cavité utérine et l'endomètre.",
+                description = "RMA East Side (635 Madison Ave). Examen pour évaluer la cavité utérine et l'endomètre.",
                 isCompleted = false
             ),
             ChecklistItem(
                 id = "chk-hystero",
                 symbol = "🔬",
-                dateText = "30 octobre · Intervention chirurgicale",
+                dateText = "30 octobre · Intervention",
                 badgeText = "⏳ J-2 jours",
                 badgeType = "imminent",
                 title = "Hystéroscopie opératoire (retrait de débris)",
-                description = "Gramercy Surgery Center. Intervention pour préparer une cavité utérine optimale avant le FET.",
-                isCompleted = false
-            ),
-            ChecklistItem(
-                id = "chk-pgta",
-                symbol = "🧬",
-                dateText = "23–28 octobre · fenêtre estimée",
-                badgeText = "⏳ En cours",
-                badgeType = "today",
-                title = "Surveiller les résultats PGT-A",
-                description = "Vérifier les messages du portail patient ; contacter RMA dès notification.",
+                description = "Gramercy Surgery Center (380 2nd Ave, 10th Fl). Intervention pour préparer une cavité utérine optimale avant le FET.",
                 isCompleted = false
             ),
             ChecklistItem(
@@ -77,7 +77,7 @@ class FivViewModel : ViewModel() {
                 badgeText = "⏳ Prochainement",
                 badgeType = "future",
                 title = "Planifier l’appel de protocole FET",
-                description = "Confirmer la date définitive du transfert d’embryon avec l'équipe médicale.",
+                description = "Confirmer la date définitive du transfert d’embryon congelé avec l'équipe médicale (Dr Brauer).",
                 isCompleted = false
             )
         )
@@ -102,11 +102,18 @@ class FivViewModel : ViewModel() {
     private val _journalNotes = MutableStateFlow(
         listOf(
             JournalNote(
+                id = "memo-4",
+                title = "Résultats PGT-A reçus : 5 embryons normaux !",
+                date = "2026-10-25",
+                category = "Jalon important ✓",
+                content = "[Immense joie ✨] Reçu les résultats PGT-A aujourd'hui : 5 embryons normaux (euploïdes) sur les 8 blastocystes biopsiés. Prêt pour la suite avec notre petit garçon !"
+            ),
+            JournalNote(
                 id = "memo-3",
                 title = "En attente douce des résultats PGT-A",
                 date = "2026-10-26",
                 category = "Émotion & Pensée",
-                content = "[Pleine d'espoir ✨] Chaque jour nous rapproche. Rester sereine, respirer profondément, et faire confiance au travail remarquable du laboratoire."
+                content = "[Pleine d'espoir ✨] Chaque jour nous rapproche. Rester sereine, respirer profondément, et faire confiance au travail remarquable du laboratoire RMA."
             ),
             JournalNote(
                 id = "memo-2",

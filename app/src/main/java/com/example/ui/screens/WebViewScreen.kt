@@ -26,7 +26,7 @@ class AndroidBridge(private val onDataReceived: (String) -> Unit) {
 
 @SuppressLint("SetJavaScriptEnabled")
 @Composable
-fun WebViewScreen(url: String = "https://btec707-git-main-suivi-protocole.vercel.app/") {
+fun WebViewScreen(url: String = "file:///android_asset/index.html") {
     var webViewRef by remember { mutableStateOf<WebView?>(null) }
     var lastReceivedMessage by remember { mutableStateOf<String?>(null) }
 
@@ -45,7 +45,7 @@ fun WebViewScreen(url: String = "https://btec707-git-main-suivi-protocole.vercel
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = if (lastReceivedMessage != null) "Bridge: $lastReceivedMessage" else "WebView · Mon Parcours Vercel",
+                    text = if (lastReceivedMessage != null) "Bridge: $lastReceivedMessage" else "WebView · Mon Parcours (Local App)",
                     style = MaterialTheme.typography.bodySmall
                 )
                 Button(
@@ -59,7 +59,7 @@ fun WebViewScreen(url: String = "https://btec707-git-main-suivi-protocole.vercel
             }
         }
 
-        // AndroidView wrapping WebView
+        // AndroidView wrapping WebView with local asset
         AndroidView(
             modifier = Modifier
                 .fillMaxWidth()
@@ -74,6 +74,8 @@ fun WebViewScreen(url: String = "https://btec707-git-main-suivi-protocole.vercel
                     settings.databaseEnabled = true
                     settings.allowFileAccess = true
                     settings.allowContentAccess = true
+                    settings.allowFileAccessFromFileURLs = true
+                    settings.allowUniversalAccessFromFileURLs = true
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                         settings.mixedContentMode = WebSettings.MIXED_CONTENT_ALWAYS_ALLOW
                     }
@@ -97,9 +99,7 @@ fun WebViewScreen(url: String = "https://btec707-git-main-suivi-protocole.vercel
                             error: WebResourceError?
                         ) {
                             super.onReceivedError(view, request, error)
-                            if (request?.isForMainFrame == true) {
-                                view?.loadUrl("file:///android_asset/index.html")
-                            }
+                            // Fallback if needed
                         }
                     }
 

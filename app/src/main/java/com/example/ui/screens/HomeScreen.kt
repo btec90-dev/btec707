@@ -374,6 +374,48 @@ fun HomeScreen(
             }
         }
 
+        // Next Step Countdown Widget (Prochaine Étape / Next Step) with hours/days remaining
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(containerColor = Color(0xFFF4EBD8)),
+            border = BorderStroke(1.dp, GoldPrimary)
+        ) {
+            Column(modifier = Modifier.padding(14.dp), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Text(text = "⏰", fontSize = 18.sp)
+                        Column {
+                            Text(text = "PROCHAINE ÉTAPE · NEXT STEP", fontSize = 10.sp, fontWeight = FontWeight.ExtraBold, color = GoldPrimary)
+                            Text(text = "Résultats PGT-A · PGT-A Results", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = InkText)
+                        }
+                    }
+                    Surface(
+                        shape = RoundedCornerShape(12.dp),
+                        color = GoldPrimary
+                    ) {
+                        Text(
+                            text = "2 Jours & 14 Heures\n2 Days & 14 Hours",
+                            modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White,
+                            textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        )
+                    }
+                }
+                Text(
+                    text = "27 oct. 2026 · Portail RMA / Igenomix",
+                    fontSize = 11.sp,
+                    color = MutedText
+                )
+            }
+        }
+
         // Protocol & Pregnancy Dynamic Days Counter Widget
         val startDate = java.time.LocalDate.of(2026, 9, 21)
         val today = java.time.LocalDate.now()

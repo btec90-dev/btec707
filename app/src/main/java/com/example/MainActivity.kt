@@ -138,13 +138,12 @@ class MainActivity : ComponentActivity() {
                             tonalElevation = 8.dp
                         ) {
                             val items = listOf(
-                                Triple("home", "Accueil", "⌂"),
-                                Triple("calendar", "Agenda", "▦"),
-                                Triple("lab", "Labo", "🧪"),
+                                Triple("home", "Accueil · Home", "⌂"),
+                                Triple("calendar", "Agenda · Cal", "▦"),
+                                Triple("lab", "Labo · Lab", "🧪"),
                                 Triple("checklist", "Actions", "☑"),
                                 Triple("journal", "Notes", "✍"),
-                                Triple("obstetric", "Bébé", "👶"),
-                                Triple("webview", "Web", "🌐")
+                                Triple("obstetric", "Bébé · Baby", "👶")
                             )
 
                             items.forEach { (tabId, label, symbol) ->
