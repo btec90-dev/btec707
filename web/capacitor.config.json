@@ -1,0 +1,8 @@
+{
+  "appId": "com.aistudio.fivcompanion.web",
+  "appName": "MonParcoursFIV",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}
